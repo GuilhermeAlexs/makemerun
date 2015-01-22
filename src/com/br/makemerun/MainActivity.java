@@ -1,5 +1,7 @@
 package com.br.makemerun;
 
+import com.br.makemerun.model.Timer;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,16 +14,24 @@ public class MainActivity extends Activity {
 
 	private Button startPauseButton;
 	private TextView timerValue;
+	public Boolean isStart = true;
+	Timer timer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		(Button) findViewById(R.id.startButton);
+		startPauseButton = (Button) findViewById(R.id.startButton);
+		timer = new Timer(this.getApplicationContext(), 3, 6);
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				
+				if(isStart){
+					timer.start();
+				}
+				else{
+					timer.pause();
+				}
 			}
 		});
 	}
@@ -33,15 +43,4 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class Timer{
 
-	private TextView timerValue;
+	private String timerValue;
 	private long startTime = 0L;
 	private Handler customHandler = new Handler();
 	
@@ -57,9 +57,9 @@ public class Timer{
 			int mins = secs / 60;
 			secs = secs % 60;
 			int milliseconds = (int) (timeInMilliseconds % 1000);
-			timerValue.setText("" + mins + ":"
+			timerValue = "" + mins + ":"
 					+ String.format("%02d", secs) + ":"
-					+ String.format("%03d", milliseconds));
+					+ String.format("%03d", milliseconds);
 			customHandler.postDelayed(this, 0);
 			
 		}
@@ -91,6 +91,14 @@ public class Timer{
 
 	public void setWalkingTime(Integer walkingTime) {
 		this.walkingTime = walkingTime;
+	}
+
+	public String getTimerValue() {
+		return timerValue;
+	}
+
+	public void setTimerValue(String timerValue) {
+		this.timerValue = timerValue;
 	}
 	
 }
