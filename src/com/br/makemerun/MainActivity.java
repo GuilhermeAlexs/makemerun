@@ -15,22 +15,19 @@ public class MainActivity extends Activity {
 	private Button startPauseButton;
 	private TextView timerValue;
 	public Boolean isStart = true;
-	Timer timer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		startPauseButton = (Button) findViewById(R.id.startButton);
-		timer = new Timer(this.getApplicationContext(), 3, 6);
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(isStart){
-					timer.start();
+					
 				}
 				else{
-					timer.pause();
+					
 				}
 			}
 		});

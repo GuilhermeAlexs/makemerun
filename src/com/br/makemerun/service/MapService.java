@@ -2,6 +2,7 @@ package com.br.makemerun.service;
 
 
 import com.br.makemerun.model.Map;
+import com.br.makemerun.model.Timer;
 
 import android.app.Service;
 import android.content.Intent;
@@ -23,6 +24,7 @@ public class MapService extends Service implements LocationListener {
     private boolean locationHasChanged = false;
     private boolean isMapping = false;
     private Map map;
+    private Timer timer;
 
     public MapService(){
     }
@@ -30,6 +32,7 @@ public class MapService extends Service implements LocationListener {
     @Override
     public void onCreate() {
     	map = new Map();
+    	timer = new Timer(this.getApplicationContext(), 3, 3);
     	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     	startGPS();
     }    
@@ -110,10 +113,12 @@ public class MapService extends Service implements LocationListener {
 
     public void startMapping(){
     	isMapping = true;
+    	timer.start();
     }
     
-    public void stopMapping(){
+    public void pauseMapping(){
     	isMapping = false;
+    	timer.pause();
     }
     
     public boolean isMapping(){
