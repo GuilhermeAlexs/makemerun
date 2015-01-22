@@ -1,17 +1,18 @@
 package com.br.makemerun.model;
 
+import com.br.makemerun.service.ChangeLocationListener;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
-import android.widget.TextView;
 
 public class Timer{
 
 	private String timerValue;
 	private long startTime = 0L;
 	private Handler customHandler = new Handler();
-	
+	private ChangeTimeListener timeListener;
 	long timeInMilliseconds = 0L;
 	long timeBuffer = 0L;
 	
@@ -57,10 +58,9 @@ public class Timer{
 			int mins = secs / 60;
 			secs = secs % 60;
 			int milliseconds = (int) (timeInMilliseconds % 1000);
-			timerValue = "" + mins + ":"
-					+ String.format("%02d", secs) + ":"
-					+ String.format("%03d", milliseconds);
-			customHandler.postDelayed(this, 0);
+			timeListener.onChangeTime(milliseconds);
+
+			customHandler.postDelayed(this, 1000);
 			
 		}
 
@@ -68,7 +68,7 @@ public class Timer{
 	
 	public void start(){
 		startTime = SystemClock.uptimeMillis();
-		customHandler.postDelayed(updateTimerThread, 0);
+		customHandler.postDelayed(updateTimerThread, 1000);
 	}
 	
 	public void pause(){
@@ -99,6 +99,10 @@ public class Timer{
 
 	public void setTimerValue(String timerValue) {
 		this.timerValue = timerValue;
+	}
+	
+	public void setChangeTimeListener(ChangeTimeListener listener){
+		this.timeListener = listener;
 	}
 	
 }
