@@ -58,4 +58,16 @@
         android:layout_marginTop="26dp"
         android:layout_toLeftOf="@+id/startButton" />
 
+    <TextView
+        android:id="@+id/txSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txDistance"
+        android:layout_alignBottom="@+id/txDistance"
+        android:layout_toLeftOf="@+id/txDistance"
+        android:layout_marginRight="20dp"
+        android:text="0km/h"
+        android:textColor="#ffffff"
+        android:textSize="30sp" />
+
 </RelativeLayout>

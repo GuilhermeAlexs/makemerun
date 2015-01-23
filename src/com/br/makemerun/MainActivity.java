@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 	private Button startPauseButton;
 	private TextView timerValue;
+	private TextView speedText;
 	private TextView distanceValue;
 	private TextView stateText;
 	private ImageView stateIcon;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		distanceValue = (TextView) findViewById(R.id.txDistance);
 		stateText = (TextView) findViewById(R.id.txState);
 		stateIcon = (ImageView) findViewById(R.id.icState);
+		speedText = (TextView) findViewById(R.id.txSpeed);
 
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -107,6 +109,7 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	@Override
 	public void onChangeLocation(List<Location> path) {
 		double distance = 0;
+		DecimalFormat df = new DecimalFormat("0.00"); 
 		Location oldLoc = path.get(0);
 
 		for(Location loc: path){
@@ -114,8 +117,20 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 			oldLoc = loc;
 		}
 
+		if(path.size() >= 2){
+			Location x0 = path.get(path.size() - 2);
+			Location x1 = path.get(path.size() - 1);
+			
+			double dist = x0.distanceTo(x1)/1000;
+			double deltat = x1.getElapsedRealtimeNanos() - x0.getElapsedRealtimeNanos();
+			deltat = ((deltat/1000000000)/60)/60;
+
+			if(deltat > 0)
+				speedText.setText("" + df.format(dist/deltat) + "km/h");
+		}
+
 		distance = distance / 1000;
-		DecimalFormat df = new DecimalFormat("0.00"); 
+		
 		distanceValue.setText(df.format(distance) + "km");
 	}
 
@@ -139,5 +154,4 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 			stateText.setText("Walking");
 		}
 	}
-
 }

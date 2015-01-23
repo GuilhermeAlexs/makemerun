@@ -19,8 +19,8 @@ public class MapService extends Service implements LocationListener {
     private final IBinder mBinder = new LocalBinder();
     private Location location = null;
     private ChangeLocationListener locListener;
-    private static final long MIN_DISTANCE = 10;
-    private static final long MIN_TIME = 2000;
+    private static final long MIN_DISTANCE = 0;
+    private static final long MIN_TIME = 1000;
     private LocationManager locationManager;
     private String currentProvider = null;
     private boolean locationHasChanged = false;
