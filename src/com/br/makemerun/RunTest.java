@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.ChangeTimeListener;
+import com.br.makemerun.model.Goal;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
@@ -33,6 +35,8 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	public Boolean isStart = true;
 	private boolean mBound = false;
 	private MapService mapService;
+	private int secondsElapsed;
+	static Goal goal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,13 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 				}
 				else{
 					mapService.stopTestMapping();
-					startPauseButton.setBackgroundResource(R.drawable.play);
+					int km = getIntent().getIntExtra("goal", 0);
+					goal = new Goal(km, secondsElapsed, 0);
+					goal.setCurrent(true);
+					GoalDB db = new GoalDB(view.getContext());
+					db.insertGoal(goal);
+					Intent intent = new Intent(view.getContext(), SubgoalsList.class);
+					startActivity(intent);
 				}
 				isStart = !isStart;
 			}
@@ -158,6 +168,7 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	@Override
 	public void onChangeTime(long mili) {
 		int secs = (int) (mili/1000);
+		secondsElapsed = secs;
 		int mins = secs/60;
 		secs = secs % 60;
 		int hours = mins/60;

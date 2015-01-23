@@ -11,8 +11,7 @@ public class Goal {
 		
 	}
 
-	public Goal(int id, int goal, int timeBase, int progress) {
-		this.id = id;
+	public Goal(int goal, int timeBase, int progress) {
 		this.goal = goal;
 		this.timeBase = timeBase;
 		this.progress = progress;

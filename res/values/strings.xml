@@ -12,5 +12,6 @@
     <string name="title_activity_run_test">RunTest</string>
     <string name="choose_goal">Choose Your Goal</string>
     <string name="title_activity_choose_goal">ChooseGoal</string>
+    <string name="title_activity_subgoals">SubgoalsList</string>
 
 </resources>

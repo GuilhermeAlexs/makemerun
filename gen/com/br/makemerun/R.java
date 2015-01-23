@@ -31,12 +31,13 @@ public final class R {
         public static final int walkicon=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f080008;
+        public static final int action_settings=0x7f080009;
         public static final int btNext=0x7f080002;
         public static final int icState=0x7f080006;
         public static final int npGoal=0x7f080001;
         public static final int startButton=0x7f080003;
         public static final int txDistance=0x7f080004;
+        public static final int txGoal=0x7f080008;
         public static final int txSpeed=0x7f080007;
         public static final int txState=0x7f080005;
         public static final int txTimerValue=0x7f080000;
@@ -45,6 +46,7 @@ public final class R {
         public static final int activity_choose_goal=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_run_test=0x7f030002;
+        public static final int activity_subgoals_list=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f070000;
@@ -62,6 +64,7 @@ public final class R {
         public static final int timerVal=0x7f050003;
         public static final int title_activity_choose_goal=0x7f05000a;
         public static final int title_activity_run_test=0x7f050008;
+        public static final int title_activity_subgoals=0x7f05000b;
     }
     public static final class style {
         /** 

@@ -59,14 +59,16 @@ public class GoalDB extends SQLiteOpenHelper{
 	public Goal getCurrentGoal(){
 		SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_GOAL + " WHERE " + IS_CURRENT + " == " + true, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_GOAL + " WHERE " + IS_CURRENT + " == " + 1, null);
+
+        cursor.moveToNext();
 
     	Goal goal = new Goal();
     	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
     	goal.setGoal(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
     	goal.setTimeBase(cursor.getInt(cursor.getColumnIndex(RUNNING_TIME_BASE)));
     	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
-    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)));
+    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
         cursor.close();
  
         db.close();
@@ -85,7 +87,7 @@ public class GoalDB extends SQLiteOpenHelper{
 	    	goal.setGoal(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
 	    	goal.setTimeBase(cursor.getInt(cursor.getColumnIndex(RUNNING_TIME_BASE)));
 	    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
-	    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)));
+	    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
 	    	goalList.add(goal);
         }
  
@@ -102,7 +104,10 @@ public class GoalDB extends SQLiteOpenHelper{
 		values.put(KM_GOAL, goal.getGoal());
 		values.put(RUNNING_TIME_BASE, goal.getTimeBase());
 		values.put(GOAL_PROGRESS, goal.getProgress());
-		values.put(IS_CURRENT, goal.isCurrent());
+		if(goal.isCurrent())
+			values.put(IS_CURRENT, 1);
+		else
+			values.put(IS_CURRENT, 0);
 		db.insert(TABLE_GOAL, null, values);
 
 		db.close();
@@ -115,7 +120,10 @@ public class GoalDB extends SQLiteOpenHelper{
 		values.put(KM_GOAL, goal.getGoal());
 		values.put(RUNNING_TIME_BASE, goal.getTimeBase());
 		values.put(GOAL_PROGRESS, goal.getProgress());
-		values.put(IS_CURRENT, goal.isCurrent());
+		if(goal.isCurrent())
+			values.put(IS_CURRENT, 1);
+		else
+			values.put(IS_CURRENT, 0);
 		db.update(TABLE_GOAL, values, ID + " == " + goal.getId(), null);
 		db.close();
 	}

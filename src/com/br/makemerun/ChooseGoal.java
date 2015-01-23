@@ -10,8 +10,8 @@ import android.widget.NumberPicker;
 
 public class ChooseGoal extends Activity{
 	
-	Button btNext;
-	NumberPicker npGoal;
+	private Button btNext;
+	private NumberPicker npGoal;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

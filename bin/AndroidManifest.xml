@@ -32,6 +32,10 @@
             android:name="com.br.makemerun.MainActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.br.makemerun.SubgoalsList"
+            android:label="@string/title_activity_subgoals" >
+        </activity>
 
         <service
             android:name=".service.MapService"
