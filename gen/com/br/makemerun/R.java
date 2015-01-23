@@ -42,6 +42,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int distance=0x7f050006;
         public static final int hello_world=0x7f050001;
+        public static final int mappingService=0x7f050007;
         public static final int pauseButtonLabel=0x7f050004;
         public static final int startButtonLabel=0x7f050005;
         public static final int timerVal=0x7f050003;

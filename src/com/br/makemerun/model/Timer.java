@@ -27,7 +27,6 @@ public class Timer{
 		context = ctx;
 		this.runningTime = runningTime;
 		this.walkingTime = walkingTime;
-		start();
 	}
 	
 	private Runnable updateTimerThread = new Runnable() {
@@ -54,11 +53,8 @@ public class Timer{
 				wasPaused = false;
 			}
 
-			int secs = (int) (timeInMilliseconds / 1000);
-			int mins = secs / 60;
-			secs = secs % 60;
-			int milliseconds = (int) (timeInMilliseconds % 1000);
-			timeListener.onChangeTime(milliseconds);
+			if(timeListener != null)
+				timeListener.onChangeTime(timeInMilliseconds);
 
 			customHandler.postDelayed(this, 1000);
 			

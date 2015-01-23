@@ -8,5 +8,6 @@
     <string name="pauseButtonLabel">Pause</string>
     <string name="startButtonLabel">Start</string>
     <string name="distance">0km</string>
+    <string name="mappingService">Mapping Service</string>
 
 </resources>

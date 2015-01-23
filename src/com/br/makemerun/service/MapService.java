@@ -18,7 +18,6 @@ public class MapService extends Service implements LocationListener {
     private final IBinder mBinder = new LocalBinder();
     private Location location = null;
     private ChangeLocationListener locListener;
-    private ChangeTimeListener timeListener;
     private static final long MIN_DISTANCE = 10;
     private static final long MIN_TIME = 2000;
     private LocationManager locationManager;
@@ -34,7 +33,7 @@ public class MapService extends Service implements LocationListener {
     @Override
     public void onCreate() {
     	map = new Map();
-    	timer = new Timer(this.getApplicationContext(), 3, 3);
+    	timer = new Timer(this.getApplicationContext(), 10, 10);
     	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     	startGPS();
     }    
@@ -173,7 +172,8 @@ public class MapService extends Service implements LocationListener {
     }
     
     public void setChangeTimeListener(ChangeTimeListener listener){
-    	this.timeListener = listener;
+
+    	timer.setChangeTimeListener(listener);
     }
  
 	@Override
