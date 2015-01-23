@@ -17,13 +17,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
 
-public class MainActivity extends Activity implements ChangeLocationListener, ChangeTimeListener, ChangeExerciseListener{
+public class RunTest extends Activity implements ChangeLocationListener, ChangeTimeListener{
 
 	private Button startPauseButton;
 	private TextView timerValue;
@@ -38,23 +37,26 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_run_test);
 		
 		startPauseButton = (Button) findViewById(R.id.startButton);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
+		speedText = (TextView) findViewById(R.id.txSpeed);
 		stateText = (TextView) findViewById(R.id.txState);
 		stateIcon = (ImageView) findViewById(R.id.icState);
-		speedText = (TextView) findViewById(R.id.txSpeed);
 
+		
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(isStart){
-					mapService.startMapping();
-					startPauseButton.setBackgroundResource(R.drawable.pause);
+					stateText.setText("Running");
+					stateIcon.setBackgroundResource(R.drawable.runicon);
+					mapService.startTestMapping();
+					startPauseButton.setBackgroundResource(R.drawable.stop);
 				}
 				else{
-					mapService.pauseMapping();
+					mapService.stopTestMapping();
 					startPauseButton.setBackgroundResource(R.drawable.play);
 				}
 				isStart = !isStart;
@@ -95,9 +97,8 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 			LocalBinder binder = (LocalBinder) service;
 			mapService = binder.getService();
 			mBound = true;
-			mapService.setChangeLocationListener(MainActivity.this);
-			mapService.setChangeTimeListener(MainActivity.this);
-			mapService.setChangeExerciseListener(MainActivity.this);
+			mapService.setChangeLocationListener(RunTest.this);
+			mapService.setChangeTimeListener(RunTest.this);
 		}
 
 		@Override
@@ -164,14 +165,4 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 				+ String.format("%02d", secs));		
 	}
 
-	@Override
-	public void onChangeExercise(boolean isRunning) {
-		if(isRunning){
-			stateIcon.setImageResource(R.drawable.runicon);
-			stateText.setText("Running");
-		}else{
-			stateIcon.setImageResource(R.drawable.walkicon);
-			stateText.setText("Walking");
-		}
-	}
 }

@@ -29,7 +29,7 @@ public class Timer{
 		this.walkingTime = walkingTime;
 	}
 	
-	private Runnable updateTimerThread = new Runnable() {
+	private Runnable updateCountdownTimerThread = new Runnable() {
 
 		public void run() {
 			
@@ -60,21 +60,49 @@ public class Timer{
 				timeListener.onChangeTime(timeInMilliseconds);
 
 			customHandler.postDelayed(this, 900);
-			
 		}
+	};
 
+	private Runnable updateTimerThread = new Runnable() {
+		
+		public void run() {
+			
+			if(isRunning){
+				timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+			}
+			else{
+				timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+			}
+			
+			if(timeListener != null)
+				timeListener.onChangeTime(timeInMilliseconds);
+			
+			customHandler.postDelayed(this, 900);
+		}
+		
 	};
 	
-	public void start(){
+	public void startCountdown(){
+		if(exerciseListener != null)
+			exerciseListener.onChangeExercise(isRunning);
+		startTime = SystemClock.uptimeMillis();
+		customHandler.postDelayed(updateCountdownTimerThread, 900);
+	}
+	
+	public void pauseCountdown(){
+		wasPaused = true;
+		timeBuffer = timeInMilliseconds;
+		customHandler.removeCallbacks(updateCountdownTimerThread);
+	}
+	
+	public void startTimer(){
 		if(exerciseListener != null)
 			exerciseListener.onChangeExercise(isRunning);
 		startTime = SystemClock.uptimeMillis();
 		customHandler.postDelayed(updateTimerThread, 900);
 	}
 	
-	public void pause(){
-		wasPaused = true;
-		timeBuffer = timeInMilliseconds;
+	public void stopTimer(){
 		customHandler.removeCallbacks(updateTimerThread);
 	}
 
