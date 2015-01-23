@@ -14,18 +14,22 @@ import android.os.IBinder;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
 
-public class MainActivity extends Activity implements ChangeLocationListener, ChangeTimeListener{
+public class MainActivity extends Activity implements ChangeLocationListener, ChangeTimeListener, ChangeExerciseListener{
 
 	private Button startPauseButton;
 	private TextView timerValue;
 	private TextView distanceValue;
+	private TextView stateText;
+	private ImageView stateIcon;
 	public Boolean isStart = true;
 	private boolean mBound = false;
 	private MapService mapService;
@@ -38,6 +42,9 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		startPauseButton = (Button) findViewById(R.id.startButton);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
+		stateText = (TextView) findViewById(R.id.txState);
+		stateIcon = (ImageView) findViewById(R.id.icState);
+
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(isStart){
@@ -55,7 +62,6 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -89,6 +95,7 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 			mBound = true;
 			mapService.setChangeLocationListener(MainActivity.this);
 			mapService.setChangeTimeListener(MainActivity.this);
+			mapService.setChangeExerciseListener(MainActivity.this);
 		}
 
 		@Override
@@ -99,10 +106,14 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 	@Override
 	public void onChangeLocation(List<Location> path) {
-		Float distance = 0f;
-		for(int i = 0; i < path.size() - 1; i++){
-			distance = path.get(i).distanceTo(path.get(i+1)) ;
+		double distance = 0;
+		Location oldLoc = path.get(0);
+
+		for(Location loc: path){
+			distance = loc.distanceTo(oldLoc) + distance;
+			oldLoc = loc;
 		}
+
 		distance = distance / 1000;
 		DecimalFormat df = new DecimalFormat("0.00"); 
 		distanceValue.setText(df.format(distance) + "km");
@@ -114,8 +125,19 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		int mins = secs/60;
 		secs = secs % 60;
 		int hours = mins/60;
-		timerValue.setText("" + hours + ":" + mins + ":"
+		timerValue.setText("" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
 				+ String.format("%02d", secs));		
+	}
+
+	@Override
+	public void onChangeExercise(boolean isRunning) {
+		if(isRunning){
+			stateIcon.setImageResource(R.drawable.runicon);
+			stateText.setText("Running");
+		}else{
+			stateIcon.setImageResource(R.drawable.walkicon);
+			stateText.setText("Walking");
+		}
 	}
 
 }

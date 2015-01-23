@@ -1,6 +1,7 @@
 package com.br.makemerun.service;
 
 
+import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.model.Map;
 import com.br.makemerun.model.Timer;
@@ -172,8 +173,11 @@ public class MapService extends Service implements LocationListener {
     }
     
     public void setChangeTimeListener(ChangeTimeListener listener){
-
     	timer.setChangeTimeListener(listener);
+    }
+    
+    public void setChangeExerciseListener(ChangeExerciseListener listener){
+    	timer.setChangeExerciseListener(listener);
     }
  
 	@Override

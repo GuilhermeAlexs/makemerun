@@ -1,6 +1,5 @@
 package com.br.makemerun.model;
 
-import com.br.makemerun.service.ChangeLocationListener;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,20 +7,21 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 
 public class Timer{
-
 	private String timerValue;
 	private long startTime = 0L;
 	private Handler customHandler = new Handler();
-	private ChangeTimeListener timeListener;
-	long timeInMilliseconds = 0L;
-	long timeBuffer = 0L;
+	private long timeInMilliseconds = 0L;
+	private long timeBuffer = 0L;
 	
 	private Integer runningTime = 3;
 	private Integer walkingTime = 6;
-	private Boolean isRunning = true;
+	private Boolean isRunning = false;
 	private Boolean wasPaused = false;
-	
+
 	private Context context;
+	
+	private ChangeTimeListener timeListener;
+	private ChangeExerciseListener exerciseListener;
 	
 	public Timer(Context ctx, Integer runningTime, Integer walkingTime){
 		context = ctx;
@@ -51,20 +51,25 @@ public class Timer{
 				Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 				v.vibrate(500);
 				wasPaused = false;
+
+				if(exerciseListener != null)
+					exerciseListener.onChangeExercise(isRunning);
 			}
 
 			if(timeListener != null)
 				timeListener.onChangeTime(timeInMilliseconds);
 
-			customHandler.postDelayed(this, 1000);
+			customHandler.postDelayed(this, 900);
 			
 		}
 
 	};
 	
 	public void start(){
+		if(exerciseListener != null)
+			exerciseListener.onChangeExercise(isRunning);
 		startTime = SystemClock.uptimeMillis();
-		customHandler.postDelayed(updateTimerThread, 1000);
+		customHandler.postDelayed(updateTimerThread, 900);
 	}
 	
 	public void pause(){
@@ -101,4 +106,7 @@ public class Timer{
 		this.timeListener = listener;
 	}
 	
+	public void setChangeExerciseListener(ChangeExerciseListener listener){
+		this.exerciseListener = listener;
+	}
 }

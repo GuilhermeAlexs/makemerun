@@ -20,7 +20,7 @@ public class Map {
 		return this.path;
 	}
 	
-	public void getDistance(){
+	public double getLength(){
 		double distance = 0;
 		Location oldLoc = path.get(0);
 
@@ -28,5 +28,7 @@ public class Map {
 			distance = loc.distanceTo(oldLoc) + distance;
 			oldLoc = loc;
 		}
+		
+		return distance;
 	}
 }
