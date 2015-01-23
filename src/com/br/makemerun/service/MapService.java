@@ -20,7 +20,7 @@ public class MapService extends Service implements LocationListener {
     private Location location = null;
     private ChangeLocationListener locListener;
     private static final long MIN_DISTANCE = 0;
-    private static final long MIN_TIME = 1000;
+    private static final long MIN_TIME = 500;
     private LocationManager locationManager;
     private String currentProvider = null;
     private boolean locationHasChanged = false;
@@ -112,15 +112,25 @@ public class MapService extends Service implements LocationListener {
 
         return provider1.equals(provider2);
     }
+    
+    public void startTestMapping(){
+    	isMapping = true;
+    	timer.startTimer();
+    }
+    
+    public void stopTestMapping(){
+    	isMapping = false;
+    	timer.stopTimer();
+    }
 
     public void startMapping(){
     	isMapping = true;
-    	timer.start();
+    	timer.startCountdown();
     }
     
     public void pauseMapping(){
     	isMapping = false;
-    	timer.pause();
+    	timer.pauseCountdown();
     }
     
     public boolean isMapping(){
