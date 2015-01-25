@@ -7,7 +7,54 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.br.makemerun.ChooseGoal" >
+    tools:context="com.br.makemerun.view.ChooseGoal" >
+
+    <ImageView
+        android:id="@+id/btnUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txTimerValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/up" />
+
+    <TextView
+        android:id="@+id/txGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#111111"
+        android:text="10km"
+        android:textColor="#ff9900"
+        android:textSize="60sp" />
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/txTimerValue"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/ok" />
+
+    <ImageView
+        android:id="@+id/btnDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnUp"
+        android:layout_below="@+id/txGoal"
+        android:src="@drawable/down" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txTimerValue"
+        android:layout_alignTop="@+id/btnOk"
+        android:src="@drawable/cancel" />
 
     <TextView
         android:id="@+id/txTimerValue"
@@ -15,28 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="30dp"
         android:text="@string/choose_goal"
         android:textColor="#ffffff"
         android:textSize="35sp" />
-
-    <NumberPicker
-        android:id="@+id/npGoal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txTimerValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-         />
-    
-    <Button
-        android:id="@+id/btNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="61dp"
-        android:background="@drawable/next" />
-    
 
 </RelativeLayout>

@@ -65,7 +65,7 @@ public class GoalDB extends SQLiteOpenHelper{
 
     	Goal goal = new Goal();
     	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-    	goal.setGoal(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
+    	goal.setKm(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
     	goal.setTimeBase(cursor.getInt(cursor.getColumnIndex(RUNNING_TIME_BASE)));
     	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
     	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
@@ -84,7 +84,7 @@ public class GoalDB extends SQLiteOpenHelper{
         while(cursor.moveToNext()){
         	Goal goal = new Goal();
 	    	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-	    	goal.setGoal(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
+	    	goal.setKm(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
 	    	goal.setTimeBase(cursor.getInt(cursor.getColumnIndex(RUNNING_TIME_BASE)));
 	    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
 	    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
@@ -101,7 +101,7 @@ public class GoalDB extends SQLiteOpenHelper{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KM_GOAL, goal.getGoal());
+		values.put(KM_GOAL, goal.getKm());
 		values.put(RUNNING_TIME_BASE, goal.getTimeBase());
 		values.put(GOAL_PROGRESS, goal.getProgress());
 		if(goal.isCurrent())
@@ -117,7 +117,7 @@ public class GoalDB extends SQLiteOpenHelper{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KM_GOAL, goal.getGoal());
+		values.put(KM_GOAL, goal.getKm());
 		values.put(RUNNING_TIME_BASE, goal.getTimeBase());
 		values.put(GOAL_PROGRESS, goal.getProgress());
 		if(goal.isCurrent())

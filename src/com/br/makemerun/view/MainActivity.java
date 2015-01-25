@@ -1,4 +1,4 @@
-package com.br.makemerun;
+package com.br.makemerun.view;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.br.makemerun.R;
 import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.service.ChangeLocationListener;

@@ -2,7 +2,7 @@ package com.br.makemerun.model;
 
 public class Goal {
 	private int id;
-	private int goal;
+	private int km;
 	private int timeBase;
 	private int progress;
 	private boolean isCurrent;
@@ -11,8 +11,8 @@ public class Goal {
 		
 	}
 
-	public Goal(int goal, int timeBase, int progress) {
-		this.goal = goal;
+	public Goal(int km, int timeBase, int progress) {
+		this.km = km;
 		this.timeBase = timeBase;
 		this.progress = progress;
 	}
@@ -22,11 +22,11 @@ public class Goal {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getGoal() {
-		return goal;
+	public int getKm() {
+		return km;
 	}
-	public void setGoal(int goal) {
-		this.goal = goal;
+	public void setKm(int km) {
+		this.km = km;
 	}
 	public int getTimeBase() {
 		return timeBase;

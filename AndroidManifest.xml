@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.br.makemerun.ChooseGoal"
+            android:name="com.br.makemerun.view.ChooseGoal"
             android:label="@string/title_activity_choose_goal" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.br.makemerun.RunTest"
+            android:name="com.br.makemerun.view.RunTest"
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
-            android:name="com.br.makemerun.MainActivity"
+            android:name="com.br.makemerun.view.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.br.makemerun.SubgoalsList"
+            android:name="com.br.makemerun.view.SubgoalsList"
             android:label="@string/title_activity_subgoals" >
         </activity>
 
