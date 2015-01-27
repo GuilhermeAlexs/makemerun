@@ -18,6 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.br.makemerun.view.ChooseGoal"
+            android:screenOrientation="portrait"
+			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_choose_goal" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +28,8 @@
         </activity>
         <activity
             android:name="com.br.makemerun.view.RunTest"
+            android:screenOrientation="portrait"
+			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
@@ -34,6 +38,8 @@
         </activity>
         <activity
             android:name="com.br.makemerun.view.SubgoalsList"
+            android:screenOrientation="portrait"
+			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
 
@@ -41,7 +47,5 @@
             android:name=".service.MapService"
             android:label="@string/mappingService" >
         </service>
-
     </application>
-
 </manifest>
