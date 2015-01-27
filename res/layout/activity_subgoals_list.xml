@@ -47,4 +47,23 @@
            android:layout_alignParentRight="true" 
            circular:progressColor="#0099dd"
            circular:titleColor="#0099dd"/>
+
+       <ImageView
+           android:id="@+id/iconBackward"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:layout_alignLeft="@+id/listSubgoals"
+           android:layout_below="@+id/listSubgoals"
+           android:src="@drawable/backward" />
+
+       <ImageView
+           android:id="@+id/iconForward"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:layout_below="@+id/listSubgoals"
+           android:layout_alignRight="@+id/listSubgoals"
+           android:src="@drawable/forward" />
+
 </RelativeLayout>

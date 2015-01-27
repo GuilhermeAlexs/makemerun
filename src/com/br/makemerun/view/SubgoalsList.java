@@ -3,6 +3,8 @@ package com.br.makemerun.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +26,15 @@ public class SubgoalsList extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_subgoals_list);
+
+		ImageView iconBackward = (ImageView) findViewById(R.id.iconBackward);
+		ImageView iconForward = (ImageView) findViewById(R.id.iconForward);
+
+//		iconForward.setOnClickListener(new View.OnClickListener() {
+//				public void onClick(View view) {
+//				if()
+//			}
+//		});
 
 		CircularProgressBar prog = (CircularProgressBar) findViewById(R.id.progressGoal);
 		prog.setTitle("42%");
@@ -49,11 +60,14 @@ public class SubgoalsList extends Activity{
 		Goal goal = db.getCurrentGoal();
 
 		subgoals = new Subgoal[N_SUBGOALS + 1];
-		int increaseTax = (int)Math.ceil((double)goal.getTimeBase()/(double)N_SUBGOALS);
-		for(int i = 0; i < N_SUBGOALS + 1; i++){
+		double speed = ((double)goal.getKm())/(goal.getTimeBase());
+		int tiro = (int) Math.ceil((((double)goal.getKm())/(2*speed)));
+		int increaseTax = (int) Math.ceil(tiro * 0.25);
+
+		for(int i = 0; i <= N_SUBGOALS ; i++){
 			subgoals[i] = new Subgoal();
-			subgoals[i].setTimeWalking(goal.getTimeBase() - i * increaseTax);
-			subgoals[i].setTimeRunning(goal.getTimeBase() + i * increaseTax);
+			subgoals[i].setTimeWalking(tiro - i * increaseTax);
+			subgoals[i].setTimeRunning(tiro + i * increaseTax);
 		}
 
 		//txKm.setText(goal.getKm() + "km");

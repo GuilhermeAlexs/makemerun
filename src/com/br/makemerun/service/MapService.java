@@ -37,7 +37,7 @@ public class MapService extends Service implements LocationListener {
     	timer = new Timer(this.getApplicationContext(), 10, 10);
     	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     	startGPS();
-    }    
+    }
 
     @Override
 	public void onDestroy() {
@@ -141,10 +141,10 @@ public class MapService extends Service implements LocationListener {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME,MIN_DISTANCE, this);
             this.currentProvider = LocationManager.GPS_PROVIDER;
-        }else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+        }/*else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
 	        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME,MIN_DISTANCE, this);
 	        this.currentProvider = LocationManager.NETWORK_PROVIDER;
-        }
+        }*/
     }
 
     public void stopGPS(){
