@@ -1,6 +1,9 @@
 package com.br.makemerun.view;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -37,12 +40,15 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	private boolean mBound = false;
 	private MapService mapService;
 	private int secondsElapsed;
+	private List<Double> speedList;
 	static Goal goal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_run_test);
+		
+		speedList = new ArrayList<Double>();
 		
 		startPauseButton = (Button) findViewById(R.id.startButton);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
@@ -68,6 +74,8 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 					GoalDB db = new GoalDB(view.getContext());
 					db.insertGoal(goal);
 					Intent intent = new Intent(view.getContext(), SubgoalsList.class);
+					intent.putExtra("avgSpeed", getAvgSpeed());
+					intent.putExtra("getStdDeviation", getStandardDeviation());
 					startActivity(intent);
 				}
 				isStart = !isStart;
@@ -130,7 +138,7 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		}
 
 		if(path.size() > 0 && path.size() % 4 == 0){
-			double velMedia = 0;
+			double speed = 0;
 			
 			Location x0 = path.get(path.size() - 4);
 			Location x1 = path.get(path.size() - 3);
@@ -141,24 +149,25 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 			double deltat = x1.getElapsedRealtimeNanos() - x0.getElapsedRealtimeNanos();
 			deltat = ((deltat/1000000000)/60)/60;
 			if(deltat > 0)
-				velMedia += dist/deltat;
+				speed += dist/deltat;
 			
 			dist = x1.distanceTo(x2)/1000;
 			deltat = x2.getElapsedRealtimeNanos() - x1.getElapsedRealtimeNanos();
 			deltat = ((deltat/1000000000)/60)/60;
 			if(deltat > 0)
-				velMedia += dist/deltat;
+				speed += dist/deltat;
 			
 			dist = x2.distanceTo(x3)/1000;
 			deltat = x3.getElapsedRealtimeNanos() - x2.getElapsedRealtimeNanos();
 			deltat = ((deltat/1000000000)/60)/60;
 			if(deltat > 0){
-				velMedia += dist/deltat;
+				speed += dist/deltat;
 			}
 			
-			velMedia = velMedia / 3;
+			speed = speed / 3;
+			speedList.add(speed);
 			
-			speedText.setText("" + df.format(velMedia) + "km/h");
+			speedText.setText("" + df.format(speed) + "km/h");
 		}
 
 		distance = distance / 1000;
@@ -176,5 +185,43 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		timerValue.setText("" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
 				+ String.format("%02d", secs));		
 	}
+	
+	private double getAvgSpeed(){
+		double avgSpeed = 0;
+		
+		Collections.sort(speedList, new Comparator<Double>() {
+	        @Override
+	        public int compare(Double  speed1, Double  speed2)
+	        {
+	        	if(speed1 > speed2){
+	        		return 1;
+	        	}
+	        	else if(speed1 == speed2){
+	        		return 0;
+	        	}
+        		return -1;
+	        }
 
+	    });
+		
+		if(speedList.size() % 2 == 0){
+			avgSpeed = speedList.get(speedList.size()/2) + speedList.get(speedList.size()/2 - 1);
+			avgSpeed = avgSpeed / 2;
+		}
+		else{
+			avgSpeed = speedList.get((int) Math.floor(speedList.size()/2));
+		}
+		
+		return avgSpeed;
+	}
+	
+	private double getStandardDeviation(){
+		Double avgSpeed = getAvgSpeed();
+		Double sum = 0d;
+		
+		for(Double speed : speedList){
+			sum += (avgSpeed - speed)*(avgSpeed - speed);
+		}
+		return Math.sqrt(sum/speedList.size());
+	}
 }
