@@ -16,7 +16,7 @@
         android:layout_below="@+id/txTimerValue"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:src="@drawable/up" />
+        android:src="@drawable/ic_expand_less_black_48dp" />
 
     <TextView
         android:id="@+id/txGoal"
@@ -26,19 +26,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:background="#111111"
+        android:background="#000000"
         android:text="10km"
+        android:fontFamily="sans-serif-light"
         android:textColor="#ff9900"
         android:textSize="60sp" />
 
-    <Button
+    <TextView
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/txTimerValue"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/ok" />
+        android:text="Next Step"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="italic"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/btnDown"
@@ -46,15 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnUp"
         android:layout_below="@+id/txGoal"
-        android:src="@drawable/down" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTimerValue"
-        android:layout_alignTop="@+id/btnOk"
-        android:src="@drawable/cancel" />
+        android:src="@drawable/ic_expand_more_black_48dp" />
 
     <TextView
         android:id="@+id/txTimerValue"
@@ -65,6 +62,7 @@
         android:layout_marginTop="30dp"
         android:text="@string/choose_goal"
         android:textColor="#ffffff"
+        android:fontFamily="sans-serif-light"
         android:textSize="35sp" />
 
 </RelativeLayout>
