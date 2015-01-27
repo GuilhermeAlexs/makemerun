@@ -18,6 +18,7 @@
         android:layout_marginTop="61dp"
         android:text="@string/timerVal"
         android:textColor="#ffffff"
+        android:fontFamily="sans-serif-light"
         android:textSize="65sp" />
 
     <Button
@@ -36,6 +37,7 @@
         android:layout_alignRight="@+id/txTimerValue"
         android:layout_below="@+id/txTimerValue"
         android:layout_marginTop="-10dp"
+        android:fontFamily="sans-serif-light"
         android:text="@string/distance"
         android:textColor="#ffffff"
         android:textSize="30sp" />
@@ -47,6 +49,7 @@
         android:layout_alignBottom="@+id/icState"
         android:layout_toRightOf="@+id/icState"
         android:textColor="#ffffff"
+        android:fontFamily="sans-serif-light"
         android:textSize="24sp" />
 
     <ImageView
@@ -67,6 +70,7 @@
         android:layout_toLeftOf="@+id/txDistance"
         android:layout_marginRight="20dp"
         android:text="0km/h"
+        android:fontFamily="sans-serif-light"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 

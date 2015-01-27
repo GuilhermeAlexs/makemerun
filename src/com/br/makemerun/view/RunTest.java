@@ -227,4 +227,13 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		}
 		return Math.sqrt(sum/speedList.size());
 	}
+	
+	@Override
+    public void onBackPressed() {
+        // finish() is called in super: we only override this method to be able to override the transition
+        super.onBackPressed();
+ 
+        overridePendingTransition(R.drawable.activity_back_in, R.drawable.activity_back_out);
+    }
+	
 }

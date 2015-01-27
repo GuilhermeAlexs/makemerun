@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class ChooseGoal extends Activity{
 	
-	private Button btnOk;
+	private TextView btnOk;
 	private ImageView btnUp;
 	private ImageView btnDown;
 	private TextView txGoal;
@@ -24,7 +24,7 @@ public class ChooseGoal extends Activity{
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_choose_goal);
-		btnOk = (Button) findViewById(R.id.btnOk);
+		btnOk = (TextView) findViewById(R.id.btnOk);
 		btnUp = (ImageView) findViewById(R.id.btnUp);
 		btnDown = (ImageView) findViewById(R.id.btnDown);
 		txGoal = (TextView) findViewById(R.id.txGoal);
@@ -52,6 +52,7 @@ public class ChooseGoal extends Activity{
 				Intent intent = new Intent(v.getContext(), RunTest.class);
 				intent.putExtra("goal", Integer.parseInt(txGoal.getText().toString().replace("km", "")));
 				startActivity(intent);
+				overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
 			}
 		});
 	}
