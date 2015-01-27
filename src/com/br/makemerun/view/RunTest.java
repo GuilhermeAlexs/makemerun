@@ -39,7 +39,7 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	public Boolean isStart = true;
 	private boolean mBound = false;
 	private MapService mapService;
-	private int secondsElapsed;
+	private double runDistance;
 	private List<Double> speedList;
 	static Goal goal;
 
@@ -69,13 +69,12 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 				else{
 					mapService.stopTestMapping();
 					int km = getIntent().getIntExtra("goal", 0);
-					goal = new Goal(km, secondsElapsed, 0);
+					goal = new Goal(km, runDistance,getAvgSpeed(),getSpeedStandardDeviation(), 0);
+					goal.setKmBase(500);
 					goal.setCurrent(true);
 					GoalDB db = new GoalDB(view.getContext());
 					db.insertGoal(goal);
-					Intent intent = new Intent(view.getContext(), SubgoalsList.class);
-					intent.putExtra("avgSpeed", getAvgSpeed());
-					intent.putExtra("getStdDeviation", getStandardDeviation());
+					Intent intent = new Intent(view.getContext(),SubgoalsList.class);
 					startActivity(intent);
 				}
 				isStart = !isStart;
@@ -171,14 +170,13 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		}
 
 		distance = distance / 1000;
-		
+		runDistance = distance;
 		distanceValue.setText(df.format(distance) + "km");
 	}
 
 	@Override
 	public void onChangeTime(long mili) {
 		int secs = (int) (mili/1000);
-		secondsElapsed = secs;
 		int mins = secs/60;
 		secs = secs % 60;
 		int hours = mins/60;
@@ -204,7 +202,9 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 
 	    });
 		
-		if(speedList.size() % 2 == 0){
+		if(speedList.size() == 0){
+			return 0;
+		}else if(speedList.size() % 2 == 0){
 			avgSpeed = speedList.get(speedList.size()/2) + speedList.get(speedList.size()/2 - 1);
 			avgSpeed = avgSpeed / 2;
 		}
@@ -214,10 +214,13 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		
 		return avgSpeed;
 	}
-	
-	private double getStandardDeviation(){
+
+	private double getSpeedStandardDeviation(){
 		Double avgSpeed = getAvgSpeed();
 		Double sum = 0d;
+		
+		if(speedList.size() == 0)
+			return 0;
 		
 		for(Double speed : speedList){
 			sum += (avgSpeed - speed)*(avgSpeed - speed);

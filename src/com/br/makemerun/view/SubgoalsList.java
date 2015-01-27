@@ -60,14 +60,14 @@ public class SubgoalsList extends Activity{
 		Goal goal = db.getCurrentGoal();
 
 		subgoals = new Subgoal[N_SUBGOALS + 1];
-		double speed = ((double)goal.getKm())/(goal.getTimeBase());
-		int tiro = (int) Math.ceil((((double)goal.getKm())/(2*speed)));
-		int increaseTax = (int) Math.ceil(tiro * 0.25);
 
-		for(int i = 0; i <= N_SUBGOALS ; i++){
+		double dividedTotalKm = goal.getKm()/(double)2;
+		double increaseTax = dividedTotalKm/(double)4;
+
+		for(int i = 0; i <= N_SUBGOALS; i++){
 			subgoals[i] = new Subgoal();
-			subgoals[i].setTimeWalking(tiro - i * increaseTax);
-			subgoals[i].setTimeRunning(tiro + i * increaseTax);
+			subgoals[i].setKmWalking(dividedTotalKm - i * increaseTax);
+			subgoals[i].setKmRunning(dividedTotalKm + i * increaseTax);
 		}
 
 		//txKm.setText(goal.getKm() + "km");

@@ -1,32 +1,32 @@
 package com.br.makemerun.model;
 
 public class Subgoal {
-	private int timeWalking;
-	private int timeRunning;
+	private double kmWalking;
+	private double kmRunning;
 
 	public Subgoal(){
-		this.timeWalking = 0;
-		this.timeRunning = 0;
+		this.kmWalking = 0;
+		this.kmRunning = 0;
 	}
 
-	public Subgoal(int timeWalking, int timeRunning) {
-		this.timeWalking = timeWalking;
-		this.timeRunning = timeRunning;
+	public Subgoal(double kmWalking, double kmRunning) {
+		this.kmWalking = kmWalking;
+		this.kmRunning = kmRunning;
 	}
 
-	public int getTimeWalking() {
-		return timeWalking;
+	public double getKmWalking() {
+		return kmWalking;
 	}
 
-	public void setTimeWalking(int timeWalking) {
-		this.timeWalking = timeWalking;
+	public void setKmWalking(double kmWalking) {
+		this.kmWalking = kmWalking;
 	}
 
-	public int getTimeRunning() {
-		return timeRunning;
+	public double getKmRunning() {
+		return kmRunning;
 	}
 
-	public void setTimeRunning(int timeRunning) {
-		this.timeRunning = timeRunning;
+	public void setKmRunning(double kmRunning) {
+		this.kmRunning = kmRunning;
 	}
 }

@@ -31,21 +31,21 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		TextView walkingText = (TextView) rowView.findViewById(R.id.txWalking);
 		TextView runningText = (TextView) rowView.findViewById(R.id.txRunning);
 		
-		int secs = (int)(values[position].getTimeWalking() % 60);
-		int mins = (int) ((values[position].getTimeWalking()/60) % 60);
-		int hours = (int) ((values[position].getTimeWalking()/3600) % 24);
+		/*int secs = (int)(values[position].getKmWalking() % 60);
+		int mins = (int) ((values[position].getKmWalking()/60) % 60);
+		int hours = (int) ((values[position].getKmWalking()/3600) % 24);
 
 		String timeWalking = "" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
-				+ String.format("%02d", secs);
-		walkingText.setText(timeWalking);
+				+ String.format("%02d", secs);*/
+		walkingText.setText(String.format("%.2f", values[position].getKmWalking()) + "km");
 		
-		secs = (int)(values[position].getTimeRunning() % 60);
-		mins = (int) ((values[position].getTimeRunning()/60) % 60);
-		hours = (int) ((values[position].getTimeRunning()/3600) % 24);
+		/*secs = (int)(values[position].getKmRunning() % 60);
+		mins = (int) ((values[position].getKmRunning()/60) % 60);
+		hours = (int) ((values[position].getKmRunning()/3600) % 24);
 
 		String timeRunning = "" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
-				+ String.format("%02d", secs);
-		runningText.setText(timeRunning);
+				+ String.format("%02d", secs);*/
+		runningText.setText(String.format("%.2f", values[position].getKmRunning()) + "km");
 
 		if(position < 2){
 			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);

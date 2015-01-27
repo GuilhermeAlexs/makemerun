@@ -2,8 +2,10 @@ package com.br.makemerun.model;
 
 public class Goal {
 	private int id;
-	private int km;
-	private int timeBase;
+	private double km;
+	private double kmBase;
+	private double speedBase;
+	private double speedDeviation;
 	private int progress;
 	private boolean isCurrent;
 
@@ -11,9 +13,11 @@ public class Goal {
 		
 	}
 
-	public Goal(int km, int timeBase, int progress) {
+	public Goal(double km, double kmBase, double speedBase, double speedDeviation, int progress) {
 		this.km = km;
-		this.timeBase = timeBase;
+		this.kmBase = kmBase;
+		this.speedBase = speedBase;
+		this.speedDeviation = speedDeviation;
 		this.progress = progress;
 	}
 	public int getId() {
@@ -22,21 +26,40 @@ public class Goal {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getKm() {
+	public double getKm() {
 		return km;
 	}
-	public void setKm(int km) {
+	public void setKm(double km) {
 		this.km = km;
 	}
-	public int getTimeBase() {
-		return timeBase;
+	public double getKmBase() {
+		return kmBase;
 	}
-	public void setTimeBase(int timeBase) {
-		this.timeBase = timeBase;
+
+	public void setKmBase(double kmBase) {
+		this.kmBase = kmBase;
 	}
+	
+	public double getSpeedBase() {
+		return speedBase;
+	}
+
+	public void setSpeedBase(double speedBase) {
+		this.speedBase = speedBase;
+	}
+
+	public double getSpeedDeviation() {
+		return speedDeviation;
+	}
+
+	public void setSpeedDeviation(double speedDeviation) {
+		this.speedDeviation = speedDeviation;
+	}
+
 	public int getProgress() {
 		return progress;
 	}
+
 	public void setProgress(int progress) {
 		this.progress = progress;
 	}
