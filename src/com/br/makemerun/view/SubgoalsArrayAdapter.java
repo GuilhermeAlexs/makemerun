@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
  
 public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
@@ -46,8 +47,16 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 				+ String.format("%02d", secs);
 		runningText.setText(timeRunning);
 
+		if(position < 2){
+			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);
+			ImageView runningIcon = (ImageView) rowView.findViewById(R.id.iconRunning);
+			walkingText.setTextColor(Color.DKGRAY);
+			runningText.setTextColor(Color.DKGRAY);
+			walkingIcon.setImageResource(R.drawable.walkicon_off);
+			runningIcon.setImageResource(R.drawable.runicon_off);
+		}
 		if(position%2 == 0){
-			rowView.setBackgroundColor(Color.rgb(30, 30, 30));
+			rowView.setBackgroundColor(Color.rgb(20, 20, 20));
 		}
 		return rowView;
 	}

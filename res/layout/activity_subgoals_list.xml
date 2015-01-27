@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,37 +10,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.br.makemerun.view.SubgoalsList" >
 
-    <TextView
-        android:id="@+id/txGoal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+    <com.br.makemerun.view.widgets.CircularProgressBar
+        android:id="@+id/progressGoal"
+        style="@style/Widget.ProgressBar.CircularProgressBar"
+        android:layout_width="120dip"
+        android:layout_height="120dip"
         android:layout_alignParentTop="true"
-        android:text="Goal:"
-        android:textColor="#ffffff"
-        android:textSize="35sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+ 
+       <ListView
+           android:id="@+id/listSubgoals"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="20dp" 
+           android:dividerHeight="0dp"
+		   android:divider="@null"
+           android:layout_below="@id/progressGoal"/>
 
-    <TextView
-        android:id="@+id/txKm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txGoal"
-        android:layout_alignBottom="@+id/txGoal"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@+id/txGoal"
-        android:textSize="35sp"
-        android:textColor="#ff9900"
-        android:text="5km" />
+       <com.br.makemerun.view.widgets.CircularProgressBar
+           android:id="@+id/progressSpeed"
+           style="@style/Widget.ProgressBar.CircularProgressBar"
+           android:layout_width="80dip"
+       	   android:layout_height="80dip"
+           android:layout_alignBaseline="@+id/progressGoal"
+           android:layout_alignParentLeft="true" 
+           circular:progressColor="#0099dd"
+           circular:titleColor="#0099dd"/>
 
-    <ListView
-        android:id="@+id/listSubgoals"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txGoal"
-        android:layout_below="@+id/txGoal"
-        android:layout_marginTop="34dp" 
-        android:dividerHeight="0dp"
-		android:divider="@null">
-    </ListView>
-
+       <com.br.makemerun.view.widgets.CircularProgressBar
+           android:id="@+id/progressTime"
+           style="@style/Widget.ProgressBar.CircularProgressBar"
+           android:layout_width="80dip"
+       	   android:layout_height="80dip"
+           android:layout_alignBaseline="@+id/progressGoal"
+           android:layout_alignParentRight="true" 
+           circular:progressColor="#0099dd"
+           circular:titleColor="#0099dd"/>
 </RelativeLayout>

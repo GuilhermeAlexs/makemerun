@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="6dp"
     android:orientation="vertical"
     android:background="#000000" >
 
@@ -21,34 +22,29 @@
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/iconWalking"
         android:text="05:00"
-        android:textColor="#ffffff"
+        android:textColor="#bbbbbb"
         android:textSize="20sp" />
-
-    <ImageView
-        android:id="@+id/iconRunning"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@id/txWalking"
-        android:src="@drawable/runicon" />
 
     <TextView
         android:id="@+id/txRunning"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="4dp"
         android:gravity="center_vertical"
-        android:layout_toRightOf="@id/iconRunning"
         android:text="05:00"
-        android:textColor="#ffffff"
+        android:textColor="#bbbbbb"
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/iconOk"
+        android:id="@+id/iconRunning"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/iconRunning"
-        android:src="@drawable/ok" />
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/txRunning"
+        android:src="@drawable/runicon" />
 
 </RelativeLayout>
