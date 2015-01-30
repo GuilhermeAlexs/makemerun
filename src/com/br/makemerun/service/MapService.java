@@ -1,7 +1,6 @@
 package com.br.makemerun.service;
 
 
-import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.model.Map;
 import com.br.makemerun.model.Timer;
@@ -113,24 +112,14 @@ public class MapService extends Service implements LocationListener {
         return provider1.equals(provider2);
     }
     
-    public void startTestMapping(){
+    public void startMapping(){
     	isMapping = true;
     	timer.startTimer();
     }
     
-    public void stopTestMapping(){
-    	isMapping = false;
-    	timer.stopTimer();
-    }
-
-    public void startMapping(){
-    	isMapping = true;
-    	timer.startCountdown();
-    }
-    
     public void pauseMapping(){
     	isMapping = false;
-    	timer.pauseCountdown();
+    	timer.stopTimer();
     }
     
     public boolean isMapping(){
@@ -155,8 +144,20 @@ public class MapService extends Service implements LocationListener {
     
     @Override
     public void onLocationChanged(Location location) {
+    	if(map.getPath().size() >= 3){
+    		Location oldLoc = map.getPath().get(map.getPath().size() - 1);
+	    	double oldLocSec = ((double) oldLoc.getElapsedRealtimeNanos())/1000000000;
+	    	double newLocSec = ((double) location.getElapsedRealtimeNanos())/1000000000;
+	    	double varSec = newLocSec - oldLocSec;
+	  
+	    	if(oldLoc.distanceTo(location) >= 700 && varSec <= 9){
+	    		return;
+	    	}
+    	}
+    		
     	setLocation(location);
     	Location newLoc = getLocation();
+
     	if(newLoc != null && isMapping && this.locationHasChanged){
     		map.addPoint(location);
     		if(locListener != null) 
@@ -184,10 +185,6 @@ public class MapService extends Service implements LocationListener {
     
     public void setChangeTimeListener(ChangeTimeListener listener){
     	timer.setChangeTimeListener(listener);
-    }
-    
-    public void setChangeExerciseListener(ChangeExerciseListener listener){
-    	timer.setChangeExerciseListener(listener);
     }
  
 	@Override

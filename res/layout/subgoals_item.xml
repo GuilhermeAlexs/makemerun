@@ -3,48 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="6dp"
-    android:orientation="vertical"
     android:background="#000000" >
 
     <ImageView
         android:id="@+id/iconWalking"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
         android:src="@drawable/walkicon" />
 
-    <TextView
-        android:id="@+id/txWalking"
+    <LinearLayout
+        android:id="@+id/layWalking" 
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:layout_toRightOf="@id/iconWalking"
-        android:text="05:00"
-        android:textColor="#bbbbbb"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txRunning"
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:layout_toRightOf="@id/iconWalking"
+	    android:orientation="vertical"
+	    android:background="#000000" >
+	    <TextView
+	        android:id="@+id/txWalking"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="05:00"
+	        android:textColor="#bbbbbb"
+	        android:textSize="20sp" />
+	    
+	    <TextView
+	        android:id="@+id/txPartialWalking"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#bbbbbb"
+	        android:textStyle="italic" />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/layRunning" 
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="4dp"
-        android:gravity="center_vertical"
-        android:text="05:00"
-        android:textColor="#bbbbbb"
-        android:textSize="20sp" />
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:layout_alignParentRight="true"
+	    android:orientation="vertical"
+	    android:background="#000000" >
+	    <TextView
+	        android:id="@+id/txRunning"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="05:00"
+	        android:textColor="#bbbbbb"
+	        android:textSize="20sp" />
+	
+	    <TextView
+	        android:id="@+id/txPartialRunning"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="TextView"
+	        android:textColor="#bbbbbb"
+	        android:textStyle="italic" />
+	</LinearLayout>
 
     <ImageView
         android:id="@+id/iconRunning"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/txRunning"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+	    android:layout_toLeftOf="@id/layRunning"
         android:src="@drawable/runicon" />
-
 </RelativeLayout>

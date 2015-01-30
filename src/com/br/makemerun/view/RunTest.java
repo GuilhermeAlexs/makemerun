@@ -63,16 +63,16 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 				if(isStart){
 					stateText.setText("Running");
 					stateIcon.setBackgroundResource(R.drawable.runicon);
-					mapService.startTestMapping();
+					mapService.startMapping();
 					startPauseButton.setBackgroundResource(R.drawable.stop);
 				}
 				else{
-					mapService.stopTestMapping();
+					mapService.pauseMapping();
 					int km = getIntent().getIntExtra("goal", 0);
-					goal = new Goal(km, runDistance,getAvgSpeed(),getSpeedStandardDeviation(), 0);
-					goal.setKmBase(500);
+					goal = new Goal(km, runDistance,getAvgSpeed(),getSpeedStandardDeviation(), -1);
 					goal.setCurrent(true);
 					GoalDB db = new GoalDB(view.getContext());
+					goal.setKmBase(200);
 					db.insertGoal(goal);
 					Intent intent = new Intent(view.getContext(),SubgoalsList.class);
 					startActivity(intent);
@@ -155,17 +155,17 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 			deltat = ((deltat/1000000000)/60)/60;
 			if(deltat > 0)
 				speed += dist/deltat;
-			
+
 			dist = x2.distanceTo(x3)/1000;
 			deltat = x3.getElapsedRealtimeNanos() - x2.getElapsedRealtimeNanos();
 			deltat = ((deltat/1000000000)/60)/60;
 			if(deltat > 0){
 				speed += dist/deltat;
 			}
-			
+
 			speed = speed / 3;
 			speedList.add(speed);
-			
+
 			speedText.setText("" + df.format(speed) + "km/h");
 		}
 
@@ -183,7 +183,7 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		timerValue.setText("" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
 				+ String.format("%02d", secs));		
 	}
-	
+
 	private double getAvgSpeed(){
 		double avgSpeed = 0;
 		
@@ -235,5 +235,4 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
  
         overridePendingTransition(R.drawable.activity_back_in, R.drawable.activity_back_out);
     }
-	
 }

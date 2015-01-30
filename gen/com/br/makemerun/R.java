@@ -118,15 +118,15 @@ containing a value of this type.
         public static final int window=0x7f020017;
     }
     public static final class id {
-        public static final int action_settings=0x7f090014;
+        public static final int action_settings=0x7f090016;
         public static final int btnDown=0x7f090004;
         public static final int btnOk=0x7f090003;
         public static final int btnUp=0x7f090000;
         public static final int icState=0x7f090008;
-        public static final int iconBackward=0x7f09000e;
-        public static final int iconForward=0x7f09000f;
-        public static final int iconRunning=0x7f090013;
-        public static final int iconWalking=0x7f090010;
+        public static final int iconRunning=0x7f090015;
+        public static final int iconWalking=0x7f09000e;
+        public static final int layRunning=0x7f090012;
+        public static final int layWalking=0x7f09000f;
         public static final int listSubgoals=0x7f09000b;
         public static final int progressGoal=0x7f09000a;
         public static final int progressSpeed=0x7f09000c;
@@ -134,11 +134,13 @@ containing a value of this type.
         public static final int startButton=0x7f090005;
         public static final int txDistance=0x7f090006;
         public static final int txGoal=0x7f090002;
-        public static final int txRunning=0x7f090012;
+        public static final int txPartialRunning=0x7f090014;
+        public static final int txPartialWalking=0x7f090011;
+        public static final int txRunning=0x7f090013;
         public static final int txSpeed=0x7f090009;
         public static final int txState=0x7f090007;
         public static final int txTimerValue=0x7f090001;
-        public static final int txWalking=0x7f090011;
+        public static final int txWalking=0x7f090010;
     }
     public static final class layout {
         public static final int activity_choose_goal=0x7f030000;
@@ -170,9 +172,6 @@ containing a value of this type.
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
-             Theme customizations available in newer API levels can go in 
-             res/values-vXX/styles.xml, while customizations related to 
-             backward-compatibility can go here. 
          */
         public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 

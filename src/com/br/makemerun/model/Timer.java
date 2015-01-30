@@ -21,7 +21,6 @@ public class Timer{
 	private Context context;
 	
 	private ChangeTimeListener timeListener;
-	private ChangeExerciseListener exerciseListener;
 	
 	public Timer(Context ctx, Integer runningTime, Integer walkingTime){
 		context = ctx;
@@ -51,9 +50,6 @@ public class Timer{
 				Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 				v.vibrate(500);
 				wasPaused = false;
-
-				if(exerciseListener != null)
-					exerciseListener.onChangeExercise(isRunning);
 			}
 
 			if(timeListener != null)
@@ -83,8 +79,6 @@ public class Timer{
 	};
 	
 	public void startCountdown(){
-		if(exerciseListener != null)
-			exerciseListener.onChangeExercise(isRunning);
 		startTime = SystemClock.uptimeMillis();
 		customHandler.postDelayed(updateCountdownTimerThread, 900);
 	}
@@ -96,8 +90,6 @@ public class Timer{
 	}
 	
 	public void startTimer(){
-		if(exerciseListener != null)
-			exerciseListener.onChangeExercise(isRunning);
 		startTime = SystemClock.uptimeMillis();
 		customHandler.postDelayed(updateTimerThread, 900);
 	}
@@ -132,9 +124,5 @@ public class Timer{
 	
 	public void setChangeTimeListener(ChangeTimeListener listener){
 		this.timeListener = listener;
-	}
-	
-	public void setChangeExerciseListener(ChangeExerciseListener listener){
-		this.exerciseListener = listener;
 	}
 }

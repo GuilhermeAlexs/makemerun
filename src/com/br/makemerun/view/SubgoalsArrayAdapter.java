@@ -3,6 +3,7 @@ package com.br.makemerun.view;
 import com.br.makemerun.R;
 import com.br.makemerun.model.Subgoal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -15,49 +16,49 @@ import android.widget.TextView;
 public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 	private final Context context;
 	private final Subgoal[] values;
- 
+
 	public SubgoalsArrayAdapter(Context context, Subgoal[] values) {
 		super(context, R.layout.subgoals_item, values);
 		this.context = context;
 		this.values = values;
 	}
  
+	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
- 
+
 		View rowView = inflater.inflate(R.layout.subgoals_item, parent, false);
 		TextView walkingText = (TextView) rowView.findViewById(R.id.txWalking);
 		TextView runningText = (TextView) rowView.findViewById(R.id.txRunning);
-		
-		/*int secs = (int)(values[position].getKmWalking() % 60);
-		int mins = (int) ((values[position].getKmWalking()/60) % 60);
-		int hours = (int) ((values[position].getKmWalking()/3600) % 24);
+		TextView walkingPartialText = (TextView) rowView.findViewById(R.id.txPartialWalking);
+		TextView runningPartialText = (TextView) rowView.findViewById(R.id.txPartialRunning);
 
-		String timeWalking = "" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
-				+ String.format("%02d", secs);*/
-		walkingText.setText(String.format("%.2f", values[position].getKmWalking()) + "km");
-		
-		/*secs = (int)(values[position].getKmRunning() % 60);
-		mins = (int) ((values[position].getKmRunning()/60) % 60);
-		hours = (int) ((values[position].getKmRunning()/3600) % 24);
+		if(values[position].getKmWalking() < 10)
+			walkingText.setText(String.format("%.2f", values[position].getKmWalking()) + "km");
+		else
+			walkingText.setText(String.format("%.1f", values[position].getKmWalking()) + "km");
 
-		String timeRunning = "" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
-				+ String.format("%02d", secs);*/
-		runningText.setText(String.format("%.2f", values[position].getKmRunning()) + "km");
+		if(values[position].getKmRunning() < 10)
+			runningText.setText(String.format("%.2f", values[position].getKmRunning()) + "km");
+		else
+			runningText.setText(String.format("%.1f", values[position].getKmRunning()) + "km");
 
-		if(position < 2){
+		walkingPartialText.setText("" + values[position].getKmPartialWalking() + "m");
+		runningPartialText.setText("" + values[position].getKmPartialRunning() + "m");
+
+		if(values[position].isCompleted()){
 			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);
 			ImageView runningIcon = (ImageView) rowView.findViewById(R.id.iconRunning);
 			walkingText.setTextColor(Color.DKGRAY);
 			runningText.setTextColor(Color.DKGRAY);
+			walkingPartialText.setTextColor(Color.DKGRAY);
+			runningPartialText.setTextColor(Color.DKGRAY);
 			walkingIcon.setImageResource(R.drawable.walkicon_off);
 			runningIcon.setImageResource(R.drawable.runicon_off);
 		}
-		if(position%2 == 0){
-			rowView.setBackgroundColor(Color.rgb(20, 20, 20));
-		}
+
 		return rowView;
 	}
 }

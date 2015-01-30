@@ -3,6 +3,9 @@ package com.br.makemerun.model;
 public class Subgoal {
 	private double kmWalking;
 	private double kmRunning;
+	private double kmPartialWalking;
+	private double kmPartialRunning;
+	private boolean completed;
 
 	public Subgoal(){
 		this.kmWalking = 0;
@@ -28,5 +31,29 @@ public class Subgoal {
 
 	public void setKmRunning(double kmRunning) {
 		this.kmRunning = kmRunning;
+	}
+
+	public double getKmPartialWalking() {
+		return kmPartialWalking;
+	}
+
+	public void setKmPartialWalking(double kmPartialWalking) {
+		this.kmPartialWalking = kmPartialWalking;
+	}
+
+	public double getKmPartialRunning() {
+		return kmPartialRunning;
+	}
+
+	public void setKmPartialRunning(double kmPartialRunning) {
+		this.kmPartialRunning = kmPartialRunning;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 }
