@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.br.makemerun.R;
-import com.br.makemerun.model.ChangeExerciseListener;
 import com.br.makemerun.model.ChangeTimeListener;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
@@ -32,6 +31,7 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	private TextView speedText;
 	private TextView distanceValue;
 	private TextView stateText;
+	private TextView runningKmText;
 	private ImageView stateIcon;
 	public Boolean isStart = true;
 	private boolean mBound = false;
@@ -73,6 +73,11 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		stateText = (TextView) findViewById(R.id.txState);
 		stateIcon = (ImageView) findViewById(R.id.icState);
 		speedText = (TextView) findViewById(R.id.txSpeed);
+		runningKmText = (TextView) findViewById(R.id.txRunningKm);
+
+		stateIcon.setImageResource(R.drawable.runicon);
+		stateText.setText("Running");
+		runningKmText.setText(partialDistanceRunning + "km");
 
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -185,11 +190,13 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		}else if(currState == RUNNING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
 			stateIcon.setImageResource(R.drawable.walkicon);
-			stateText.setText("Walking " +  partialDistanceWalking);
+			stateText.setText("Walking");
+			runningKmText.setText(partialDistanceWalking + "km");
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
 			stateIcon.setImageResource(R.drawable.runicon);
-			stateText.setText("Running " + partialDistanceRunning);
+			stateText.setText("Running");
+			runningKmText.setText(partialDistanceRunning + "km");
 		}
 	}
 	

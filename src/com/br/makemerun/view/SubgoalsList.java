@@ -22,7 +22,7 @@ public class SubgoalsList extends Activity{
 	private Subgoal [] subgoals;
 	private int choosenSubgoal;
 	private final int N_SUBGOALS = 4;
-	
+
 	private final int RUNNING_RESULTS_REQUEST = 1;
 
 	private CircularProgressBar kmProgress;
@@ -39,13 +39,13 @@ public class SubgoalsList extends Activity{
 
 		kmProgress = (CircularProgressBar) findViewById(R.id.progressGoal);
 		kmProgress.setMax((int)Math.ceil(goal.getKm()));
-		kmProgress.setTitle("0%");
-		kmProgress.setSubTitle("0 of " + goal.getKm() + "km");
+		kmProgress.setTitle("0");
+		kmProgress.setSubTitle("of " + goal.getKm() + "km");
 		kmProgress.setProgress(0);
 		kmProgress.setIndeterminate(false);
 
 		speedProgress = (CircularProgressBar) findViewById(R.id.progressSpeed);
-		speedProgress.setMax(20);
+		speedProgress.setMax(0);
 		speedProgress.setTitle("0");
 		speedProgress.setSubTitle("km/h");
 		speedProgress.setProgress(0);
@@ -68,8 +68,14 @@ public class SubgoalsList extends Activity{
 		for(int i = 0; i <= N_SUBGOALS; i++){
 			subgoals[i] = new Subgoal();
 
-			if(i <= goal.getProgress()){
+			if(i < goal.getProgress()){
 				subgoals[i].setCompleted(true);
+			}else if(i == goal.getProgress()){
+				kmProgress.setProgress((int)(dividedTotalKm + i * increaseTax));
+				kmProgress.setTitle(String.format("%.2f",dividedTotalKm + i * increaseTax));
+				
+	        	speedProgress.setProgress((int)goal.getSpeedBase());
+	        	speedProgress.setTitle(String.format("%.1f", goal.getSpeedBase()));
 			}
 
 			subgoals[i].setKmWalking(dividedTotalKm - i * increaseTax);
@@ -127,17 +133,18 @@ public class SubgoalsList extends Activity{
 
 	        	Goal goal = db.getCurrentGoal();
 	        	goal.setProgress(choosenSubgoal);
+	        	goal.setSpeedBase(speed);
 	        	db.updateGoal(goal);
 
 	        	kmProgress.setProgress((int)Math.ceil(subgoals[choosenSubgoal].getKmRunning()));
 	        	kmProgress.setTitle(String.format("%.2f",subgoals[choosenSubgoal].getKmRunning()));
 
 	        	speedProgress.setProgress((int)Math.floor(speed));
-	        	speedProgress.setTitle(String.format("%.2f", speed));
+	        	speedProgress.setTitle(String.format("%.1f", speed));
 
 	        	timeProgress.setMax((int)Math.ceil(goal.getKm()/speed));
 	        	timeProgress.setProgress(time);
-	        	timeProgress.setTitle(String.format("%.2f",(double)time/(double)60));
+	        	timeProgress.setTitle(String.format("%.1f",(double)time/(double)60));
 	        	timeProgress.setSubTitle("min");
 	        	subgoals[choosenSubgoal].setCompleted(true);
 	        	this.listAdapter.notifyDataSetChanged();

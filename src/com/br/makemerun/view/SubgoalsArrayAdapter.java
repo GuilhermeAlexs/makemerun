@@ -45,8 +45,8 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		else
 			runningText.setText(String.format("%.1f", values[position].getKmRunning()) + "km");
 
-		walkingPartialText.setText("" + values[position].getKmPartialWalking() + "m");
-		runningPartialText.setText("" + values[position].getKmPartialRunning() + "m");
+		walkingPartialText.setText("" + values[position].getKmPartialWalking() + "km");
+		runningPartialText.setText("" + values[position].getKmPartialRunning() + "km");
 
 		if(values[position].isCompleted()){
 			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);

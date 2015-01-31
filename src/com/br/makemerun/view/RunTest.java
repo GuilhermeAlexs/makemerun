@@ -72,7 +72,6 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 					goal = new Goal(km, runDistance,getAvgSpeed(),getSpeedStandardDeviation(), -1);
 					goal.setCurrent(true);
 					GoalDB db = new GoalDB(view.getContext());
-					goal.setKmBase(200);
 					db.insertGoal(goal);
 					Intent intent = new Intent(view.getContext(),SubgoalsList.class);
 					startActivity(intent);
