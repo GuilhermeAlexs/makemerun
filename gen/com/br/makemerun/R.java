@@ -103,52 +103,58 @@ containing a value of this type.
         public static final int ic_expand_less_black_48dp=0x7f020008;
         public static final int ic_expand_more_black_48dp=0x7f020009;
         public static final int ic_launcher=0x7f02000a;
-        public static final int next=0x7f02000b;
-        public static final int ok=0x7f02000c;
-        public static final int pause=0x7f02000d;
-        public static final int play=0x7f02000e;
-        public static final int runicon=0x7f02000f;
-        public static final int runicon32=0x7f020010;
-        public static final int runicon_off=0x7f020011;
-        public static final int stop=0x7f020012;
-        public static final int up=0x7f020013;
-        public static final int walkicon=0x7f020014;
-        public static final int walkicon32=0x7f020015;
-        public static final int walkicon_off=0x7f020016;
-        public static final int window=0x7f020017;
+        public static final int logo=0x7f02000b;
+        public static final int next=0x7f02000c;
+        public static final int ok=0x7f02000d;
+        public static final int pause=0x7f02000e;
+        public static final int play=0x7f02000f;
+        public static final int runicon=0x7f020010;
+        public static final int runicon32=0x7f020011;
+        public static final int runicon_off=0x7f020012;
+        public static final int stop=0x7f020013;
+        public static final int up=0x7f020014;
+        public static final int walkicon=0x7f020015;
+        public static final int walkicon32=0x7f020016;
+        public static final int walkicon_off=0x7f020017;
+        public static final int window=0x7f020018;
     }
     public static final class id {
-        public static final int action_settings=0x7f090017;
+        public static final int action_settings=0x7f09001b;
         public static final int btnDown=0x7f090004;
         public static final int btnOk=0x7f090003;
         public static final int btnUp=0x7f090000;
+        public static final int icLogo=0x7f09000c;
         public static final int icState=0x7f090008;
-        public static final int iconRunning=0x7f090016;
-        public static final int iconWalking=0x7f09000f;
-        public static final int layRunning=0x7f090013;
-        public static final int layWalking=0x7f090010;
-        public static final int listSubgoals=0x7f09000c;
-        public static final int progressGoal=0x7f09000b;
-        public static final int progressSpeed=0x7f09000d;
-        public static final int progressTime=0x7f09000e;
+        public static final int iconRunning=0x7f09001a;
+        public static final int iconWalking=0x7f090013;
+        public static final int layRunning=0x7f090017;
+        public static final int layWalking=0x7f090014;
+        public static final int listSubgoals=0x7f090010;
+        public static final int progressGoal=0x7f09000f;
+        public static final int progressLoading=0x7f09000b;
+        public static final int progressSpeed=0x7f090011;
+        public static final int progressTime=0x7f090012;
         public static final int startButton=0x7f090005;
         public static final int txDistance=0x7f090006;
         public static final int txGoal=0x7f090002;
-        public static final int txPartialRunning=0x7f090015;
-        public static final int txPartialWalking=0x7f090012;
-        public static final int txRunning=0x7f090014;
+        public static final int txLoading=0x7f09000d;
+        public static final int txLogo=0x7f09000e;
+        public static final int txPartialRunning=0x7f090019;
+        public static final int txPartialWalking=0x7f090016;
+        public static final int txRunning=0x7f090018;
         public static final int txRunningKm=0x7f090009;
         public static final int txSpeed=0x7f09000a;
         public static final int txState=0x7f090007;
         public static final int txTimerValue=0x7f090001;
-        public static final int txWalking=0x7f090011;
+        public static final int txWalking=0x7f090015;
     }
     public static final class layout {
         public static final int activity_choose_goal=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_run_test=0x7f030002;
-        public static final int activity_subgoals_list=0x7f030003;
-        public static final int subgoals_item=0x7f030004;
+        public static final int activity_splash=0x7f030003;
+        public static final int activity_subgoals_list=0x7f030004;
+        public static final int subgoals_item=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -157,16 +163,16 @@ containing a value of this type.
     public static final class string {
         public static final int action_settings=0x7f060002;
         public static final int app_name=0x7f060000;
-        public static final int choose_goal=0x7f060009;
+        public static final int choose_goal=0x7f060008;
         public static final int distance=0x7f060006;
         public static final int hello_world=0x7f060001;
         public static final int mappingService=0x7f060007;
         public static final int pauseButtonLabel=0x7f060004;
         public static final int startButtonLabel=0x7f060005;
         public static final int timerVal=0x7f060003;
-        public static final int title_activity_choose_goal=0x7f06000a;
-        public static final int title_activity_run_test=0x7f060008;
-        public static final int title_activity_subgoals=0x7f06000b;
+        public static final int title_activity_choose_goal=0x7f060009;
+        public static final int title_activity_run_test=0x7f06000b;
+        public static final int title_activity_subgoals=0x7f06000a;
     }
     public static final class style {
         /** 

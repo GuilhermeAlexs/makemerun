@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <com.br.makemerun.view.widgets.CircularProgressBar
+        android:id="@+id/progressLoading"
+        style="@style/Widget.ProgressBar.CircularProgressBar"
+        android:layout_width="80dip"
+        android:layout_height="80dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+		circular:strokeWidth="10"
+		circular:progressColor="#0099ff"/>
+
+    <ImageView
+        android:id="@+id/icLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/runicon" />
+
+    <TextView
+        android:id="@+id/txLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Getting GPS fix..."
+        android:textColor="#bbbbbb" />
+
+    <TextView
+        android:id="@+id/txLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressLoading"
+        android:layout_centerInParent="true"
+        android:text="Make Me Run"
+        android:textColor="#bbbbbb"
+        android:textSize="30sp" />
+
+</RelativeLayout>

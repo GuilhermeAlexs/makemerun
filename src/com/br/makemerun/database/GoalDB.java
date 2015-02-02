@@ -65,7 +65,8 @@ public class GoalDB extends SQLiteOpenHelper{
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_GOAL + " WHERE " + IS_CURRENT + " == " + 1, null);
 
-        cursor.moveToNext();
+        if(!cursor.moveToNext())
+        	return null;
 
     	Goal goal = new Goal();
     	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
