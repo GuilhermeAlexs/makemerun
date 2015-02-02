@@ -1,6 +1,8 @@
 package com.br.makemerun.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
@@ -99,6 +102,37 @@ public class SubgoalsList extends Activity{
                 intent.putExtra("partialRunning", subgoals[position].getKmPartialRunning());
                 startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
             }
+        });
+		
+		TextView txGiveUp = (TextView) findViewById(R.id.txGiveUp);
+		txGiveUp.setOnClickListener(new View.OnClickListener() {
+ 			@Override
+			public void onClick(View v) {
+        		AlertDialog.Builder builder = new AlertDialog.Builder(SubgoalsList.this);
+
+        	    builder.setTitle("Give Up");
+        	    builder.setMessage("Are you sure?");
+
+        	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        	        public void onClick(DialogInterface dialog, int which) {
+        	        	db.deleteGoal(goal);
+                        Intent intent = new Intent(SubgoalsList.this, ChooseGoal.class);
+                        startActivity(intent);
+        	            dialog.dismiss();
+        	        }
+
+        	    });
+
+        	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        	        @Override
+        	        public void onClick(DialogInterface dialog, int which) {
+        	            dialog.dismiss();
+        	        }
+        	    });
+
+        	    AlertDialog alert = builder.create();
+        	    alert.show();
+			}
         });
 	}
 

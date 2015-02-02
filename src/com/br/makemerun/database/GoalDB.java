@@ -140,4 +140,11 @@ public class GoalDB extends SQLiteOpenHelper{
 		db.update(TABLE_GOAL, values, ID + " == " + goal.getId(), null);
 		db.close();
 	}
+	
+	public void deleteGoal(Goal goal){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		db.delete(TABLE_GOAL, ID + " == " + goal.getId(), null);
+		db.close();
+	}
 }

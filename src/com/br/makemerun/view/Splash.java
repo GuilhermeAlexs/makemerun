@@ -28,6 +28,7 @@ public class Splash extends Activity {
 		new LoadingTask().execute();
 	}
 
+	@SuppressWarnings("rawtypes")
 	class LoadingTask extends AsyncTask<Void, String, Class>{
 		int progress = 0;
 

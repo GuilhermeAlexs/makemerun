@@ -48,4 +48,15 @@
            circular:progressColor="#0099dd"
            circular:titleColor="#0099dd"/>
 
+       <TextView
+           android:id="@+id/txGiveUp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignLeft="@id/listSubgoals"
+           android:layout_alignParentBottom="true"
+           android:textColor="#bbbbbb"
+           android:textSize="24sp"
+           android:textStyle="italic"
+           android:text="Give up!" />
+
 </RelativeLayout>

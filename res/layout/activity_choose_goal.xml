@@ -43,7 +43,7 @@
         android:fontFamily="sans-serif-light"
         android:textStyle="italic"
         android:textColor="#ffffff"
-        android:textSize="18sp" />
+        android:textSize="26sp" />
 
     <ImageView
         android:id="@+id/btnDown"
