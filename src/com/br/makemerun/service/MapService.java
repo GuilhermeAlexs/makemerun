@@ -26,6 +26,9 @@ public class MapService extends Service implements LocationListener {
     private boolean isMapping = false;
     private Map map;
     private Timer timer;
+	private boolean hasGpsSignal = false;
+	public static final int PROVIDER_ENABLED = 1;
+	public static final int PROVIDER_DISABLED = 0;
 
     public MapService(){
     }
@@ -35,7 +38,7 @@ public class MapService extends Service implements LocationListener {
     	map = new Map();
     	timer = new Timer(this.getApplicationContext(), 10, 10);
     	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-    	startGPS();
+		startGPS();
     }
 
     @Override
@@ -65,6 +68,10 @@ public class MapService extends Service implements LocationListener {
     		this.location = location;
     		this.locationHasChanged = true;
     	}
+    }
+    
+    public boolean isProviderEnabled(){
+    	return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
@@ -130,14 +137,12 @@ public class MapService extends Service implements LocationListener {
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME,MIN_DISTANCE, this);
             this.currentProvider = LocationManager.GPS_PROVIDER;
-        }/*else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-	        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MIN_TIME,MIN_DISTANCE, this);
-	        this.currentProvider = LocationManager.NETWORK_PROVIDER;
-        }*/
+        }
     }
 
     public void stopGPS(){
         if(locationManager != null){
+        	pauseMapping();
             locationManager.removeUpdates(MapService.this);
         }
     }
@@ -158,21 +163,32 @@ public class MapService extends Service implements LocationListener {
     	setLocation(location);
     	Location newLoc = getLocation();
 
-    	if(newLoc != null && isMapping && this.locationHasChanged){
-    		map.addPoint(location);
-    		if(locListener != null) 
-    			locListener.onChangeLocation(this.map.getPath());
-
-    		this.locationHasChanged = false;
+    	if(newLoc != null && this.locationHasChanged){
+    		if(isMapping){
+    			map.addPoint(location);
+    			if(locListener != null) 
+    				locListener.onChangeLocation(this.map.getPath());
+    			
+    			this.locationHasChanged = false;
+    		}
+    		if(locListener != null){
+    			locListener.onAcquiredGpsSignal();
+    			hasGpsSignal = true;
+    		}
     	}
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+    	if(locListener != null)
+    		locListener.onChangeProviderState(PROVIDER_DISABLED);
+    	stopGPS();
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+    	if(locListener != null)
+    		locListener.onChangeProviderState(PROVIDER_ENABLED);
     }
 
     @Override
@@ -183,12 +199,16 @@ public class MapService extends Service implements LocationListener {
     	this.locListener = listener;
     }
     
-    public void setChangeTimeListener(ChangeTimeListener listener){
+	public void setChangeTimeListener(ChangeTimeListener listener){
     	timer.setChangeTimeListener(listener);
     }
  
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mBinder;
+	}
+
+	public boolean hasGpsSignal() {
+		return hasGpsSignal;
 	}
 }

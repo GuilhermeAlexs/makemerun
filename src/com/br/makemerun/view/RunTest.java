@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +16,10 @@ import android.content.ServiceConnection;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +32,8 @@ import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
 
-public class RunTest extends Activity implements ChangeLocationListener, ChangeTimeListener{
+public class RunTest extends Activity implements ChangeLocationListener,
+		ChangeTimeListener {
 
 	private Button startPauseButton;
 	private TextView timerValue;
@@ -36,47 +41,57 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	private TextView distanceValue;
 	private TextView stateText;
 	private ImageView stateIcon;
-	public Boolean isStart = true;
+	private boolean isStart = true;
 	private boolean mBound = false;
 	private MapService mapService;
 	private double runDistance;
 	private List<Double> speedList;
 	static Goal goal;
+	AlertDialog providerAlertDialog;
+	AlertDialog gpsSignalAlertDialog;
+
+	private final int NUM_SAMPLES_SPEED = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_run_test);
-		
+
 		speedList = new ArrayList<Double>();
-		
 		startPauseButton = (Button) findViewById(R.id.startButton);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
 		speedText = (TextView) findViewById(R.id.txSpeed);
 		stateText = (TextView) findViewById(R.id.txState);
 		stateIcon = (ImageView) findViewById(R.id.icState);
+		setProviderPopup();
+		setGpsSignalPopup();
 
-		
 		startPauseButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				if(isStart){
-					stateText.setText("Running");
-					stateIcon.setBackgroundResource(R.drawable.runicon);
-					mapService.startMapping();
-					startPauseButton.setBackgroundResource(R.drawable.stop);
-				}
-				else{
+				if (isStart) {
+					if (canStart()) {
+						stateText.setText("Running");
+						stateIcon.setBackgroundResource(R.drawable.runicon);
+						mapService.startMapping();
+						startPauseButton.setBackgroundResource(R.drawable.stop);
+						isStart = !isStart;
+					} else {
+						gpsSignalAlertDialog.show();
+					}
+				} else {
 					mapService.pauseMapping();
 					int km = getIntent().getIntExtra("goal", 0);
-					goal = new Goal(km, runDistance,getAvgSpeed(),getSpeedStandardDeviation(), -1);
+					goal = new Goal(km, runDistance, getAvgSpeed(),
+							getSpeedStandardDeviation(), -1);
 					goal.setCurrent(true);
 					GoalDB db = new GoalDB(view.getContext());
 					db.insertGoal(goal);
-					Intent intent = new Intent(view.getContext(),SubgoalsList.class);
+					Intent intent = new Intent(view.getContext(),
+							SubgoalsList.class);
 					startActivity(intent);
+					isStart = !isStart;
 				}
-				isStart = !isStart;
 			}
 		});
 	}
@@ -86,7 +101,7 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -108,6 +123,16 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		// finish() is called in super: we only override this method to be able
+		// to override the transition
+		super.onBackPressed();
+
+		overridePendingTransition(R.drawable.activity_back_in,
+				R.drawable.activity_back_out);
+	}
+
 	private ServiceConnection mConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -116,6 +141,12 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 			mBound = true;
 			mapService.setChangeLocationListener(RunTest.this);
 			mapService.setChangeTimeListener(RunTest.this);
+			if (!mapService.isProviderEnabled()) {
+				if (gpsSignalAlertDialog.isShowing()) {
+					gpsSignalAlertDialog.hide();
+				}
+				providerAlertDialog.show();
+			}
 		}
 
 		@Override
@@ -127,111 +158,174 @@ public class RunTest extends Activity implements ChangeLocationListener, ChangeT
 	@Override
 	public void onChangeLocation(List<Location> path) {
 		double distance = 0;
-		DecimalFormat df = new DecimalFormat("0.00"); 
-		Location oldLoc = path.get(0);
-		
-		for(Location loc: path){
-			distance = loc.distanceTo(oldLoc) + distance;
-			oldLoc = loc;
-		}
+		double speed = 0;
+		DecimalFormat df = new DecimalFormat("0.00");
 
-		if(path.size() > 0 && path.size() % 4 == 0){
-			double speed = 0;
-			
-			Location x0 = path.get(path.size() - 4);
-			Location x1 = path.get(path.size() - 3);
-			Location x2 = path.get(path.size() - 2);
-			Location x3 = path.get(path.size() - 1);
-			
-			double dist = x0.distanceTo(x1)/1000;
-			double deltat = x1.getElapsedRealtimeNanos() - x0.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-			if(deltat > 0)
-				speed += dist/deltat;
-			
-			dist = x1.distanceTo(x2)/1000;
-			deltat = x2.getElapsedRealtimeNanos() - x1.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-			if(deltat > 0)
-				speed += dist/deltat;
-
-			dist = x2.distanceTo(x3)/1000;
-			deltat = x3.getElapsedRealtimeNanos() - x2.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-			if(deltat > 0){
-				speed += dist/deltat;
-			}
-
-			speed = speed / 3;
-			speedList.add(speed);
-
-			speedText.setText("" + df.format(speed) + "km/h");
-		}
-
+		distance = getDistance(path);
 		distance = distance / 1000;
 		runDistance = distance;
 		distanceValue.setText(df.format(distance) + "km");
+
+		if (path.size() > 0 && path.size() % NUM_SAMPLES_SPEED == 0) {
+			speed = getCurrentSpeed(path);
+			speedList.add(speed);
+			speedText.setText("" + df.format(speed) + "km/h");
+		}
 	}
 
 	@Override
 	public void onChangeTime(long mili) {
-		int secs = (int) (mili/1000);
-		int mins = secs/60;
+		int secs = (int) (mili / 1000);
+		int mins = secs / 60;
 		secs = secs % 60;
-		int hours = mins/60;
-		timerValue.setText("" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":"
-				+ String.format("%02d", secs));		
+		int hours = mins / 60;
+		timerValue.setText("" + String.format("%02d", hours) + ":"
+				+ String.format("%02d", mins) + ":"
+				+ String.format("%02d", secs));
 	}
 
-	private double getAvgSpeed(){
-		double avgSpeed = 0;
-		
-		Collections.sort(speedList, new Comparator<Double>() {
-	        @Override
-	        public int compare(Double  speed1, Double  speed2)
-	        {
-	        	if(speed1 > speed2){
-	        		return 1;
-	        	}
-	        	else if(speed1 == speed2){
-	        		return 0;
-	        	}
-        		return -1;
-	        }
+	@Override
+	public void onChangeProviderState(int state) {
+		if (state == MapService.PROVIDER_DISABLED) {
+			mapService.stopGPS();
+			if (gpsSignalAlertDialog.isShowing()) {
+				gpsSignalAlertDialog.hide();
+			}
+			providerAlertDialog.show();
+		} else {
+			if (providerAlertDialog.isShowing()) {
+				providerAlertDialog.hide();
+				mapService.startGPS();
+			}
+		}
 
-	    });
-		
-		if(speedList.size() == 0){
+	}
+
+	@Override
+	public void onAcquiredGpsSignal() {
+		if (gpsSignalAlertDialog.isShowing()) {
+			gpsSignalAlertDialog.hide();
+		}
+	}
+
+	private boolean canStart() {
+		if (mapService.hasGpsSignal()) {
+			return true;
+		}
+		return false;
+	}
+
+	private double getCurrentSpeed(List<Location> path) {
+
+		double speed = 0;
+		List<Location> samples = new ArrayList<Location>();
+		double distance = 0;
+		double deltat;
+		ListIterator<Location> iterator;
+
+		iterator = path.listIterator(path.size() - 4);
+		while (iterator.hasNext()) {
+			samples.add(iterator.next());
+		}
+
+		iterator = samples.listIterator();
+		while (iterator.hasNext()) {
+			Location currentLoc = (Location) iterator.next();
+			if (!iterator.hasNext())
+				break;
+			Location nextLoc = (Location) iterator.next();
+			distance = currentLoc.distanceTo(nextLoc) / 1000;
+			deltat = nextLoc.getElapsedRealtimeNanos()
+					- currentLoc.getElapsedRealtimeNanos();
+			deltat = ((deltat / 1000000000) / 60) / 60;
+			if (deltat > 0)
+				speed += (distance / deltat);
+		}
+		speed = speed / 3;
+		Log.d("speed", String.valueOf(speed));
+		return speed;
+	}
+
+	private double getDistance(List<Location> path) {
+		double distance = 0;
+		Location oldLoc = path.get(0);
+
+		for (Location loc : path) {
+			distance += loc.distanceTo(oldLoc);
+			oldLoc = loc;
+		}
+		return distance;
+	}
+
+	private double getAvgSpeed() {
+		double avgSpeed = 0;
+
+		Collections.sort(speedList, new Comparator<Double>() {
+			@Override
+			public int compare(Double speed1, Double speed2) {
+				if (speed1 > speed2) {
+					return 1;
+				} else if (speed1 == speed2) {
+					return 0;
+				}
+				return -1;
+			}
+
+		});
+
+		if (speedList.size() == 0) {
 			return 0;
-		}else if(speedList.size() % 2 == 0){
-			avgSpeed = speedList.get(speedList.size()/2) + speedList.get(speedList.size()/2 - 1);
+		} else if (speedList.size() % 2 == 0) {
+			avgSpeed = speedList.get(speedList.size() / 2)
+					+ speedList.get(speedList.size() / 2 - 1);
 			avgSpeed = avgSpeed / 2;
+		} else {
+			avgSpeed = speedList.get((int) Math.floor(speedList.size() / 2));
 		}
-		else{
-			avgSpeed = speedList.get((int) Math.floor(speedList.size()/2));
-		}
-		
+
 		return avgSpeed;
 	}
 
-	private double getSpeedStandardDeviation(){
+	private double getSpeedStandardDeviation() {
 		Double avgSpeed = getAvgSpeed();
 		Double sum = 0d;
-		
-		if(speedList.size() == 0)
+
+		if (speedList.size() == 0)
 			return 0;
-		
-		for(Double speed : speedList){
-			sum += (avgSpeed - speed)*(avgSpeed - speed);
+
+		for (Double speed : speedList) {
+			sum += (avgSpeed - speed) * (avgSpeed - speed);
 		}
-		return Math.sqrt(sum/speedList.size());
+		return Math.sqrt(sum / speedList.size());
 	}
-	
-	@Override
-    public void onBackPressed() {
-        // finish() is called in super: we only override this method to be able to override the transition
-        super.onBackPressed();
- 
-        overridePendingTransition(R.drawable.activity_back_in, R.drawable.activity_back_out);
-    }
+
+	private void setProviderPopup() {
+		AlertDialog.Builder alertDialogBuilder;
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle("GPS locations is off.");
+		alertDialogBuilder.setMessage("Turn it back on");
+		alertDialogBuilder.setCancelable(true);
+		Button tryAgain = new Button(this);
+		tryAgain.setText("I'm ready");
+		tryAgain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mapService != null && mapService.isProviderEnabled()) {
+					providerAlertDialog.hide();
+					mapService.startGPS();
+				}
+			}
+		});
+		alertDialogBuilder.setView(tryAgain);
+		providerAlertDialog = alertDialogBuilder.create();
+	}
+
+	private void setGpsSignalPopup() {
+		AlertDialog.Builder alertDialogBuilder;
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle("Looking for available satellites.");
+		alertDialogBuilder.setMessage("Almost there...");
+		alertDialogBuilder.setCancelable(true);
+		gpsSignalAlertDialog = alertDialogBuilder.create();
+	}
 }

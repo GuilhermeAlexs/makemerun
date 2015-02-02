@@ -254,4 +254,16 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		setResult(RESULT_CANCELED, intent);
 		finish();
 	}
+
+	@Override
+	public void onChangeProviderState(int state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAcquiredGpsSignal() {
+		// TODO Auto-generated method stub
+		
+	}
 }

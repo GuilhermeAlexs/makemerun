@@ -9,9 +9,9 @@
     <string name="startButtonLabel">Start</string>
     <string name="distance">0km</string>
     <string name="mappingService">Mapping Service</string>
-    <string name="title_activity_run_test">RunTest</string>
     <string name="choose_goal">Choose Your Goal</string>
     <string name="title_activity_choose_goal">ChooseGoal</string>
     <string name="title_activity_subgoals">SubgoalsList</string>
+    <string name="title_activity_run_test">RunTest</string>
 
 </resources>
