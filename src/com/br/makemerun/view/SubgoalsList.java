@@ -41,23 +41,24 @@ public class SubgoalsList extends Activity{
 		final Goal goal = db.getCurrentGoal();
 
 		kmProgress = (CircularProgressBar) findViewById(R.id.progressGoal);
-		kmProgress.setMax((int)Math.ceil(goal.getKm()));
-		kmProgress.setTitle("0");
+		kmProgress.setMax((int)Math.round(goal.getKm()*1000));
+		kmProgress.setTitle("5");
 		kmProgress.setSubTitle("of " + goal.getKm() + "km");
-		kmProgress.setProgress(0);
+		kmProgress.setProgress(5000);
 		kmProgress.setIndeterminate(false);
 
 		speedProgress = (CircularProgressBar) findViewById(R.id.progressSpeed);
-		speedProgress.setMax(0);
-		speedProgress.setTitle("0");
+		speedProgress.setMax(35);
+		speedProgress.setTitle("8");
 		speedProgress.setSubTitle("km/h");
-		speedProgress.setProgress(0);
+		speedProgress.setProgress(8);
 		speedProgress.setIndeterminate(false);
 
 		timeProgress = (CircularProgressBar) findViewById(R.id.progressTime);
-		timeProgress.setTitle("0");
+		timeProgress.setMax(50);
+		timeProgress.setTitle("20");
 		timeProgress.setSubTitle("min");
-		timeProgress.setProgress(0);
+		timeProgress.setProgress(20);
 		timeProgress.setIndeterminate(false);
 
 		listSubgoals = (ListView) findViewById(R.id.listSubgoals);
@@ -65,8 +66,14 @@ public class SubgoalsList extends Activity{
 		subgoals = new Subgoal[N_SUBGOALS + 1];
 
 		final double tax = (double)1 / (double)N_SUBGOALS;
-		final double dividedTotalKm = goal.getKm()/(double)2;
-		final double increaseTax = dividedTotalKm/(double)4;
+		final double nPartials = goal.getKm()/goal.getKmBase();		
+		final double kmTotalRunning = Math.ceil(nPartials / 2) * goal.getKmBase();
+		final double kmTotalWalking = (goal.getKm() - kmTotalRunning);
+
+		final double increaseTax = kmTotalWalking/(double)4;
+		double walkingPartialRef = kmTotalWalking/(Math.floor(nPartials / 2) + (goal.getKm()%goal.getKmBase()));
+		double partialRunning;
+		double partialWalking;
 
 		for(int i = 0; i <= N_SUBGOALS; i++){
 			subgoals[i] = new Subgoal();
@@ -74,18 +81,21 @@ public class SubgoalsList extends Activity{
 			if(i < goal.getProgress()){
 				subgoals[i].setCompleted(true);
 			}else if(i == goal.getProgress()){
-				kmProgress.setProgress((int)(dividedTotalKm + i * increaseTax));
-				kmProgress.setTitle(String.format("%.2f",dividedTotalKm + i * increaseTax));
-				
+				kmProgress.setProgress((int)(kmTotalRunning + i * increaseTax));
+				kmProgress.setTitle(String.format("%.2f",kmTotalRunning + i * increaseTax));
+
 	        	speedProgress.setProgress((int)goal.getSpeedBase());
 	        	speedProgress.setTitle(String.format("%.1f", goal.getSpeedBase()));
 			}
 
-			subgoals[i].setKmWalking(dividedTotalKm - i * increaseTax);
-			subgoals[i].setKmRunning(dividedTotalKm + i * increaseTax);
+			subgoals[i].setKmWalking(kmTotalWalking - i * increaseTax);
+			subgoals[i].setKmRunning(kmTotalRunning + i * increaseTax);
 
-			subgoals[i].setKmPartialWalking(goal.getKmBase()*(1 - i*tax));
-			subgoals[i].setKmPartialRunning(goal.getKmBase()*(1 + i*tax));
+			partialWalking = walkingPartialRef - walkingPartialRef*i*tax;
+			partialRunning = goal.getKmBase() + walkingPartialRef*i*tax;
+
+			subgoals[i].setKmPartialWalking(partialWalking);
+			subgoals[i].setKmPartialRunning(partialRunning);
 		}
 
 		listAdapter = new SubgoalsArrayAdapter(this, subgoals);
@@ -97,6 +107,7 @@ public class SubgoalsList extends Activity{
                     long id) {
             	choosenSubgoal = position;
                 Intent intent = new Intent(SubgoalsList.this, MainActivity.class);
+                intent.putExtra("subgoal",  position);
                 intent.putExtra("totalDistance",  goal.getKm());
                 intent.putExtra("partialWalking", subgoals[position].getKmPartialWalking());
                 intent.putExtra("partialRunning", subgoals[position].getKmPartialRunning());
@@ -110,7 +121,7 @@ public class SubgoalsList extends Activity{
 			public void onClick(View v) {
         		AlertDialog.Builder builder = new AlertDialog.Builder(SubgoalsList.this);
 
-        	    builder.setTitle("Give Up");
+        	    builder.setTitle("Quit");
         	    builder.setMessage("Are you sure?");
 
         	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -120,7 +131,6 @@ public class SubgoalsList extends Activity{
                         startActivity(intent);
         	            dialog.dismiss();
         	        }
-
         	    });
 
         	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -170,13 +180,13 @@ public class SubgoalsList extends Activity{
 	        	goal.setSpeedBase(speed);
 	        	db.updateGoal(goal);
 
-	        	kmProgress.setProgress((int)Math.ceil(subgoals[choosenSubgoal].getKmRunning()));
+	        	kmProgress.setProgress((int)Math.round(subgoals[choosenSubgoal].getKmRunning()*1000));
 	        	kmProgress.setTitle(String.format("%.2f",subgoals[choosenSubgoal].getKmRunning()));
 
-	        	speedProgress.setProgress((int)Math.floor(speed));
+	        	speedProgress.setProgress((int)Math.round(speed));
 	        	speedProgress.setTitle(String.format("%.1f", speed));
 
-	        	timeProgress.setMax((int)Math.ceil(goal.getKm()/speed));
+	        	timeProgress.setMax((int)Math.round(goal.getKm()/speed));
 	        	timeProgress.setProgress(time);
 	        	timeProgress.setTitle(String.format("%.1f",(double)time/(double)60));
 	        	timeProgress.setSubTitle("min");
@@ -184,5 +194,10 @@ public class SubgoalsList extends Activity{
 	        	this.listAdapter.notifyDataSetChanged();
 	        }
 	    }
+	}
+
+	@Override
+	public void onBackPressed() {
+		this.moveTaskToBack(true);
 	}
 }

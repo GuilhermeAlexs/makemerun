@@ -70,10 +70,10 @@ public class GoalDB extends SQLiteOpenHelper{
 
     	Goal goal = new Goal();
     	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-    	goal.setKm(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
-    	goal.setKmBase(cursor.getInt(cursor.getColumnIndex(RUNNING_KM_BASE)));
-    	goal.setSpeedBase(cursor.getInt(cursor.getColumnIndex(SPEED_BASE)));
-    	goal.setSpeedDeviation(cursor.getInt(cursor.getColumnIndex(SPEED_DEVIATION)));
+    	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
+    	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
+    	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
+    	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
     	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
     	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
         cursor.close();
@@ -91,10 +91,10 @@ public class GoalDB extends SQLiteOpenHelper{
         while(cursor.moveToNext()){
         	Goal goal = new Goal();
 	    	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-	    	goal.setKm(cursor.getInt(cursor.getColumnIndex(KM_GOAL)));
-	    	goal.setKmBase(cursor.getInt(cursor.getColumnIndex(RUNNING_KM_BASE)));
-	    	goal.setSpeedBase(cursor.getInt(cursor.getColumnIndex(SPEED_BASE)));
-	    	goal.setSpeedDeviation(cursor.getInt(cursor.getColumnIndex(SPEED_DEVIATION)));
+	    	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
+	    	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
+	    	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
+	    	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
 	    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
 	    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
 	    	goalList.add(goal);

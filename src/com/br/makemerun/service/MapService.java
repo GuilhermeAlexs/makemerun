@@ -27,6 +27,8 @@ public class MapService extends Service implements LocationListener {
     private Map map;
     private Timer timer;
 	private boolean hasGpsSignal = false;
+	private int discardedPackages = 0;
+
 	public static final int PROVIDER_ENABLED = 1;
 	public static final int PROVIDER_DISABLED = 0;
 
@@ -38,7 +40,6 @@ public class MapService extends Service implements LocationListener {
     	map = new Map();
     	timer = new Timer(this.getApplicationContext(), 10, 10);
     	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		startGPS();
     }
 
     @Override
@@ -95,7 +96,7 @@ public class MapService extends Service implements LocationListener {
         int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
         boolean isLessAccurate = accuracyDelta > 0;
         boolean isMoreAccurate = accuracyDelta < 0;
-        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+        boolean isSignificantlyLessAccurate = accuracyDelta > 50;
 
         // Check if the old and new location are from the same provider
         boolean isFromSameProvider = isSameProvider(location.getProvider(),currentBestLocation.getProvider());
@@ -118,21 +119,22 @@ public class MapService extends Service implements LocationListener {
 
         return provider1.equals(provider2);
     }
-    
+
     public void startMapping(){
     	isMapping = true;
+    	map.getPath().clear();
     	timer.startTimer();
     }
-    
+
     public void pauseMapping(){
     	isMapping = false;
     	timer.stopTimer();
     }
-    
+
     public boolean isMapping(){
     	return isMapping;
     }
-    
+
     public void startGPS(){
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MIN_TIME,MIN_DISTANCE, this);
@@ -146,20 +148,14 @@ public class MapService extends Service implements LocationListener {
             locationManager.removeUpdates(MapService.this);
         }
     }
-    
+
     @Override
     public void onLocationChanged(Location location) {
-    	if(map.getPath().size() >= 3){
-    		Location oldLoc = map.getPath().get(map.getPath().size() - 1);
-	    	double oldLocSec = ((double) oldLoc.getElapsedRealtimeNanos())/1000000000;
-	    	double newLocSec = ((double) location.getElapsedRealtimeNanos())/1000000000;
-	    	double varSec = newLocSec - oldLocSec;
-	  
-	    	if(oldLoc.distanceTo(location) >= 700 && varSec <= 9){
-	    		return;
-	    	}
+    	if(map.getPath().size() == 0 && discardedPackages < 5){
+    		discardedPackages++;
+    		return;
     	}
-    		
+    	
     	setLocation(location);
     	Location newLoc = getLocation();
 

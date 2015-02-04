@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     android:background="#000000" >
 
+
+    <com.br.makemerun.view.widgets.CircularProgressBar
+        android:id="@+id/progressKmTotal"
+        style="@style/Widget.ProgressBar.CircularProgressBar"
+        android:layout_width="180dip"
+        android:layout_height="180dip"
+        circular:backgroundColor="#222222"
+        circular:strokeWidth="35"
+        circular:progressColor="#dd7700"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <com.br.makemerun.view.widgets.CircularProgressBar
         android:id="@+id/progressKmPartial"
         style="@style/Widget.ProgressBar.CircularProgressBar"
@@ -12,7 +24,7 @@
         android:layout_height="130dip"
         circular:backgroundColor="#333333"
         circular:progressColor="#ff9900"
-        circular:strokeWidth="40"
+        circular:strokeWidth="35"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
@@ -21,7 +33,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" 
-        android:visibility="invisible">
+        android:visibility="invisible">"
+        
+        <TextView
+	        android:id="@+id/txPartial"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/icState"
+	        android:layout_centerHorizontal="true"
+	        android:fontFamily="sans-serif-light"
+	        android:text="1.5km"
+	        android:textColor="#ffffff"
+	        android:textSize="16sp" />
+            
         <ImageView
 	        android:id="@+id/icState"
 	        android:layout_width="wrap_content"
@@ -37,6 +61,25 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/play128" />
+
+    <TextView
+        android:id="@+id/btnStop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/window"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Stop"
+        android:textStyle="bold"
+        android:textColor="#bbbbbb"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/txTimerValue"
@@ -61,37 +104,5 @@
         android:text="@string/distance"
         android:textColor="#ffffff"
         android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/txInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTimerValue"
-        android:layout_alignRight="@+id/txTimerValue"
-        android:layout_below="@+id/progressKmPartial"
-        android:layout_marginTop="31dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Hello, let&apos;s do a test to see how much you can run without stopping. Press &apos;Start&apos; and start a run at a moderate speed. When you get tired, press &apos;Stop&apos;."
-        android:textColor="#ffffff"
-        android:textSize="14sp"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/btnStop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txInfo"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/txInfo"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/window"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:text="Stop"
-        android:textColor="#bbbbbb"
-        android:textSize="26sp"
-        android:textStyle="bold" />
 
 </RelativeLayout>

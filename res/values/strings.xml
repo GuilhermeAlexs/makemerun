@@ -7,7 +7,7 @@
     <string name="timerVal">00:00:00</string>
     <string name="pauseButtonLabel">Pause</string>
     <string name="startButtonLabel">Start</string>
-    <string name="distance">0km</string>
+    <string name="distance">0,00km</string>
     <string name="mappingService">Mapping Service</string>
     <string name="choose_goal">Choose Your Goal</string>
     <string name="title_activity_choose_goal">ChooseGoal</string>

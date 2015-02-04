@@ -40,8 +40,8 @@ public class ChooseGoal extends Activity{
 		btnDown.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				int newGoal = Integer.parseInt(txGoal.getText().toString().replace("km", "")) - 1;
-				if(newGoal < 0)
-					newGoal = 0;
+				if(newGoal <= 1)
+					newGoal = 1;
 				txGoal.setText("" + newGoal + "km");
 			}
 		});

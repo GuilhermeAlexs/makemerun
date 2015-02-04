@@ -45,8 +45,8 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		else
 			runningText.setText(String.format("%.1f", values[position].getKmRunning()) + "km");
 
-		walkingPartialText.setText("" + values[position].getKmPartialWalking() + "km");
-		runningPartialText.setText("" + values[position].getKmPartialRunning() + "km");
+		walkingPartialText.setText("" + String.format("%.2f", values[position].getKmPartialWalking()) + "km");
+		runningPartialText.setText("" + String.format("%.2f", values[position].getKmPartialRunning()) + "km");
 
 		if(values[position].isCompleted()){
 			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);
@@ -59,6 +59,14 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 			runningIcon.setImageResource(R.drawable.runicon_off);
 		}
 
+		if(position % 2 == 0){
+			int back = Color.rgb(40, 40, 40);
+			rowView.setBackgroundColor(back);
+			walkingText.setBackgroundColor(back);
+			runningText.setBackgroundColor(back);
+			walkingPartialText.setBackgroundColor(back);
+			runningPartialText.setBackgroundColor(back);
+		}
 		return rowView;
 	}
 }

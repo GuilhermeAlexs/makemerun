@@ -3,17 +3,25 @@ package com.br.makemerun.view;
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.Goal;
+import com.br.makemerun.service.MapService;
+import com.br.makemerun.service.MapService.LocalBinder;
 import com.br.makemerun.view.widgets.CircularProgressBar;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.widget.TextView;
 
 public class Splash extends Activity {
 	private CircularProgressBar progressLoading;
 	private TextView txLoading;
+	private MapService mapService;
+	private boolean mBound = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,43 @@ public class Splash extends Activity {
 		txLoading = (TextView) this.findViewById(R.id.txLoading);
 		new LoadingTask().execute();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Intent intent = new Intent(this, MapService.class);
+		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+//		if (mBound) {
+//			unbindService(mConnection);
+//			mBound = false;
+//		}
+	}
+	
+	private ServiceConnection mConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			LocalBinder binder = (LocalBinder) service;
+			mapService = binder.getService();
+			mBound = true;
+			//mapService.setChangeLocationListener(Splash.this);
+			mapService.startGPS();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mBound = false;
+		}
+	};
 
 	@SuppressWarnings("rawtypes")
 	class LoadingTask extends AsyncTask<Void, String, Class>{

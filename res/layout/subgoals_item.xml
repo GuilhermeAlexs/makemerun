@@ -19,8 +19,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_centerVertical="true"
 	    android:layout_toRightOf="@id/iconWalking"
-	    android:orientation="vertical"
-	    android:background="#000000" >
+	    android:orientation="vertical" >
 	    <TextView
 	        android:id="@+id/txWalking"
 	        android:layout_width="wrap_content"
@@ -38,14 +37,23 @@
 	        android:textStyle="italic" />
     </LinearLayout>
     
+    <ImageView
+        android:id="@+id/icStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="30dp"
+	    android:layout_alignParentRight="true"
+        android:src="@drawable/stats" />
+    
     <LinearLayout 
         android:id="@+id/layRunning" 
         android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_centerVertical="true"
-	    android:layout_alignParentRight="true"
-	    android:orientation="vertical"
-	    android:background="#000000" >
+	    android:layout_toLeftOf="@id/icStats"
+	    android:orientation="vertical" >
 	    <TextView
 	        android:id="@+id/txRunning"
 	        android:layout_width="wrap_content"
