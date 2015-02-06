@@ -6,6 +6,7 @@ import java.util.List;
 import org.achartengine.model.XYSeries;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +17,10 @@ import android.os.IBinder;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.RelativeLayout;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.StatsDB;
@@ -30,14 +32,12 @@ import com.br.makemerun.view.widgets.CircularProgressBar;
 
 public class MainActivity extends Activity implements ChangeLocationListener, ChangeTimeListener{
 
-	private ImageView startPauseButton;
 	private TextView timerValue;
 	//private TextView speedText;
 	private TextView distanceValue;
-//	private TextView runningKmText;
+	//private TextView runningKmText;
 	private TextView partialKmText;
-	private TextView stopButton;
-	private RelativeLayout layoutStateIcon;
+	private TextView startStopButton;
 	private ImageView stateIcon;
 	private CircularProgressBar kmTotalProgress;
 	private CircularProgressBar kmPartialProgress;
@@ -54,9 +54,10 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	private final int WALKING_STATE = 2;
 
 	private int subgoal;
-	
-	private double totalDistance;
 
+	private double totalDistance;
+	private double totalDistanceRunning;
+	private double totalDistanceWalking;
 	private double partialDistanceRunning;
 	private double partialDistanceWalking;
 	private double lastChangeKm = 0;
@@ -66,10 +67,16 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	private double runningSpeed = 0;
 	private double runningSpeedSamples = 0;
 
-	private int runningTime = 0;
+	private long runningTime = 0;
+	private long totalTime = 0;
 
-	private final int STATISTICS_REQUEST = 2;
+	private final int POST_RUN_REQUEST = 2;
 	private XYSeries speedSeries;
+
+	private boolean started = false;
+	
+	private AlertDialog providerAlertDialog;
+	private AlertDialog gpsSignalAlertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +87,14 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 		subgoal = bundle.getInt("subgoal");
 		totalDistance = bundle.getDouble("totalDistance");
+		totalDistanceRunning = bundle.getDouble("totalDistanceRunning");
+		totalDistanceWalking = bundle.getDouble("totalDistanceWalking");
 		partialDistanceRunning = bundle.getDouble("partialDistanceRunning");
 		partialDistanceWalking = bundle.getDouble("partialDistanceWalking");
 
 		speedSeries = new XYSeries("Speed");
-		
-		startPauseButton = (ImageView) findViewById(R.id.startButton);
-		stopButton = (TextView) findViewById(R.id.btnStop);
+
+		startStopButton = (TextView) findViewById(R.id.btnStartStop);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
 		stateIcon = (ImageView) findViewById(R.id.icState);
@@ -95,32 +103,34 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		partialKmText = (TextView) findViewById(R.id.txPartial);
 		kmTotalProgress = (CircularProgressBar) findViewById(R.id.progressKmTotal);
 		kmPartialProgress = (CircularProgressBar) findViewById(R.id.progressKmPartial);
-		layoutStateIcon = (RelativeLayout) findViewById(R.id.layStateIcon);
 		stateIcon.setImageResource(R.drawable.runicon);
 		partialKmText.setText(String.format("%.2f", partialDistanceRunning) + "km");
 
 		kmTotalProgress.setMax((int)(Math.round(totalDistance*1000)));
 		kmPartialProgress.setMax((int)(Math.round(partialDistanceRunning*1000)));
 
-		stopButton.setVisibility(View.INVISIBLE);
+		setProviderPopup();
+		setGpsSignalPopup();
 
-		stopButton.setOnClickListener(new View.OnClickListener() {
+		startStopButton.setText("Start");
+		
+		startStopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				mapService.pauseMapping();
-				startPauseButton.setVisibility(View.VISIBLE);
-				layoutStateIcon.setVisibility(View.INVISIBLE);
-				Intent intent = new Intent();
-				setResult(RESULT_CANCELED,intent);
-				finish();
-			}
-		});
-
-		startPauseButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				mapService.startMapping();
-				stopButton.setVisibility(View.VISIBLE);
-				startPauseButton.setVisibility(View.INVISIBLE);
-				layoutStateIcon.setVisibility(View.VISIBLE);
+				if(!started){
+					if (canStart()) {
+						started = true;
+						mapService.startMapping();
+						startStopButton.setText("Stop");
+					} else {
+						gpsSignalAlertDialog.show();
+					}
+				}else{
+					started = false;
+					mapService.pauseMapping();
+					Intent intent = new Intent();
+					setResult(RESULT_CANCELED,intent);
+					finish();
+				}
 			}
 		});
 	}
@@ -152,6 +162,36 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		}
 	}
 
+	@Override
+	public void onChangeProviderState(int state) {
+		if (state == MapService.PROVIDER_DISABLED) {
+			mapService.stopGPS();
+			if (gpsSignalAlertDialog.isShowing()) {
+				gpsSignalAlertDialog.hide();
+			}
+			providerAlertDialog.show();
+		} else {
+			if (providerAlertDialog.isShowing()) {
+				providerAlertDialog.hide();
+				mapService.startGPS();
+			}
+		}
+	}
+
+	@Override
+	public void onAcquiredGpsSignal() {
+		if (gpsSignalAlertDialog.isShowing()) {
+			gpsSignalAlertDialog.hide();
+		}
+	}
+
+	private boolean canStart() {
+		if (mapService.hasGpsSignal()) {
+			return true;
+		}
+		return false;
+	}
+	
 	private ServiceConnection mConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -160,6 +200,12 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 			mBound = true;
 			mapService.setChangeLocationListener(MainActivity.this);
 			mapService.setChangeTimeListener(MainActivity.this);
+			if (!mapService.isProviderEnabled()) {
+				if (gpsSignalAlertDialog.isShowing()) {
+					gpsSignalAlertDialog.hide();
+				}
+				providerAlertDialog.show();
+			}
 		}
 
 		@Override
@@ -215,11 +261,19 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		if(currState == END_STATE){
 			mapService.pauseMapping();
 			v.vibrate(VIBRATION_TIME_END);
-			Intent intent = new Intent(MainActivity.this, Statistics.class);
+			Intent intent = new Intent(MainActivity.this, PostRun.class);
+            intent.putExtra("subgoal",  subgoal);
+            intent.putExtra("totalDistance", totalDistance);
+            intent.putExtra("totalDistanceWalking", totalDistanceWalking);
+            intent.putExtra("totalDistanceRunning", totalDistanceRunning);
+            intent.putExtra("partialDistanceWalking", partialDistanceWalking);
+            intent.putExtra("partialDistanceRunning", partialDistanceRunning);
+            intent.putExtra("time", this.timerValue.getText());
+
 			StatsDB statsDB = new StatsDB(this);
 			statsDB.deleteStats(subgoal); //Mais rápido deletar do que fazer um update...
 			statsDB.insertStats(subgoal, speedSeries);
-			startActivityForResult(intent,STATISTICS_REQUEST);
+			startActivityForResult(intent,POST_RUN_REQUEST);
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
 			stateIcon.setImageResource(R.drawable.walkicon);
@@ -248,15 +302,22 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 		//Coletando informações sobre a velocidade de corrida.
 		if(currState == RUNNING_STATE){
-			if(speed > 1) 
+			if(speed > 1) {
+				runningSpeed = speed + runningSpeed;
+				runningSpeedSamples++;
 				speedSeries.add(distance, speed);
+			}
 		}
 		
 		double partialDistance = distance - lastChangeKm;
 
 		kmTotalProgress.setProgress((int)(Math.round(distance*1000)));
 		kmPartialProgress.setProgress((int)(Math.round(partialDistance*1000)));
-		partialKmText.setText(String.format("%.2f", partialDistanceWalking - partialDistance) + "km");
+		
+		if(currState == RUNNING_STATE)
+			partialKmText.setText(String.format("%.2f", partialDistanceRunning - partialDistance) + "km");
+		else if(currState == WALKING_STATE)
+			partialKmText.setText(String.format("%.2f", partialDistanceWalking - partialDistance) + "km");
 
 		//Verifica se a corrida acabou (atingiu o Goal KM, ou seja, a distância total) ou se já deu a distância
 		//necessária para trocar de exercicio (corrida e caminhada)
@@ -266,10 +327,12 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		}else if(currState == RUNNING_STATE && partialDistance >= this.partialDistanceRunning){
 		   lastChangeKm = distance;
 		   currState = WALKING_STATE;
+		   kmPartialProgress.setMax((int)(Math.round(partialDistanceWalking*1000)));
 		   changeViewState();
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
 		   lastChangeKm = distance;
 		   currState = RUNNING_STATE;
+		   kmPartialProgress.setMax((int)(Math.round(partialDistanceRunning*1000)));
 		   changeViewState();
 		}
 
@@ -279,6 +342,8 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	@Override
 	public void onChangeTime(long mili) {
 		int secs = (int) (mili/1000);
+
+		totalTime = secs + totalTime;
 
 		if(currState == RUNNING_STATE){
 			runningTime = secs + runningTime;
@@ -298,21 +363,45 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		finish();
 	}
 
-	@Override
-	public void onChangeProviderState(int state) {
+	private void setProviderPopup() {
+		AlertDialog.Builder alertDialogBuilder;
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle("GPS locations is off.");
+		alertDialogBuilder.setMessage("Turn it back on");
+		alertDialogBuilder.setCancelable(true);
+		Button tryAgain = new Button(this);
+		tryAgain.setText("I'm ready");
+		tryAgain.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mapService != null && mapService.isProviderEnabled()) {
+					providerAlertDialog.hide();
+					mapService.startGPS();
+				}
+			}
+		});
+		alertDialogBuilder.setView(tryAgain);
+		providerAlertDialog = alertDialogBuilder.create();
 	}
 
-	@Override
-	public void onAcquiredGpsSignal() {
+	private void setGpsSignalPopup() {
+		AlertDialog.Builder alertDialogBuilder;
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle("Looking for available satellites.");
+		alertDialogBuilder.setMessage("Almost there...");
+		alertDialogBuilder.setCancelable(true);
+		gpsSignalAlertDialog = alertDialogBuilder.create();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == STATISTICS_REQUEST) {
+	    if (requestCode == POST_RUN_REQUEST) {
 	        if (resultCode == RESULT_OK) {
 				Intent intent = new Intent();
 				intent.putExtra("runningSpeed", runningSpeed/(double)runningSpeedSamples);
 				intent.putExtra("runningTime", runningTime);
+				intent.putExtra("totalTime", totalTime);
+
 				setResult(RESULT_OK,intent);
 				finish();
 	        }

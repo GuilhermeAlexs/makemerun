@@ -36,24 +36,24 @@ import com.br.makemerun.view.widgets.CircularProgressBar;
 public class RunTest extends Activity implements ChangeLocationListener,
 		ChangeTimeListener {
 
-	private ImageView startPauseButton;
-	private TextView stopButton;
+	private TextView startStopButton;
 	private TextView timerValue;
 	private TextView distanceValue;
 	private ImageView stateIcon;
-	private RelativeLayout layoutStateIcon;
 	private CircularProgressBar kmPartialProgress;
 	private boolean mBound = false;
 	private MapService mapService;
 	private double runDistance = 0;
 	private List<Double> speedList;
-	static Goal goal;
+	private static Goal goal;
 	AlertDialog providerAlertDialog;
 	AlertDialog gpsSignalAlertDialog;
 
 	private final int NUM_SAMPLES_SPEED = 4;
 
 	private int km;
+
+	private boolean started = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +63,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 		km = getIntent().getIntExtra("goal", 0);
 
 		speedList = new ArrayList<Double>();
-		startPauseButton = (ImageView) findViewById(R.id.startButton);
-		stopButton = (TextView) findViewById(R.id.btnStop);
-		layoutStateIcon = (RelativeLayout) findViewById(R.id.layStateIcon);
+		startStopButton = (TextView) findViewById(R.id.btnStartStop);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
 		stateIcon = (ImageView) findViewById(R.id.icState);
@@ -77,36 +75,30 @@ public class RunTest extends Activity implements ChangeLocationListener,
 
 		setProviderPopup();
 		setGpsSignalPopup();
+		startStopButton.setText("Start");
 		
-		stopButton.setVisibility(View.INVISIBLE);
-
-		stopButton.setOnClickListener(new View.OnClickListener() {
+		startStopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				mapService.pauseMapping();
-				startPauseButton.setVisibility(View.VISIBLE);
-				layoutStateIcon.setVisibility(View.INVISIBLE);
-				goal = new Goal(km, runDistance, getAvgSpeed(),
-						getSpeedStandardDeviation(), -1);
-				goal.setKm(10);
-				goal.setKmBase(2);
-				goal.setCurrent(true);
-				GoalDB db = new GoalDB(view.getContext());
-				db.insertGoal(goal);
-				Intent intent = new Intent(view.getContext(),
-						SubgoalsList.class);
-				startActivity(intent);
-			}
-		});
-
-		startPauseButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				if (canStart()) {
-					stopButton.setVisibility(View.VISIBLE);
-					mapService.startMapping();
-					startPauseButton.setVisibility(View.INVISIBLE);
-					layoutStateIcon.setVisibility(View.VISIBLE);
-				} else {
-					gpsSignalAlertDialog.show();
+				if(!started){
+					if (canStart()) {
+						started = true;
+						mapService.startMapping();
+						startStopButton.setText("Stop");
+					} else {
+						gpsSignalAlertDialog.show();
+					}
+				}else{
+					started = false;
+					mapService.pauseMapping();
+					startStopButton.setText("Start");
+					goal = new Goal(km, runDistance, getAvgSpeed(),
+							getSpeedStandardDeviation(), -1);
+					goal.setCurrent(true);
+					GoalDB db = new GoalDB(view.getContext());
+					db.insertGoal(goal);
+					Intent intent = new Intent(view.getContext(),
+							SubgoalsList.class);
+					startActivity(intent);
 				}
 			}
 		});

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txTimerValue"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/ic_expand_less_black_48dp" />
 
     <TextView
@@ -37,12 +37,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/txTimerValue"
         android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="@drawable/window"
         android:text="Next Step"
         android:fontFamily="sans-serif-light"
-        android:textStyle="italic"
-        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textColor="#bbbbbb"
         android:textSize="26sp" />
 
     <ImageView

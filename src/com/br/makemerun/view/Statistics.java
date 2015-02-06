@@ -12,6 +12,7 @@ import com.br.makemerun.R;
 import com.br.makemerun.database.StatsDB;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -61,15 +62,16 @@ public class Statistics extends Activity{
      	mRenderer.setYAxisMax(50);
      	mRenderer.setYAxisMin(0);
      	mRenderer.setShowGrid(true);
-        
+
      	LinearLayout graphLay = (LinearLayout) findViewById(R.id.layGraph);
         chartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
         graphLay.addView(chartView);
-        
+
         TextView txSkip = (TextView) findViewById(R.id.txSkip);
         txSkip.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				setResult(RESULT_OK,null);
+				Intent intent = new Intent();
+				setResult(RESULT_OK,intent);
 				finish();
 			}
 		});

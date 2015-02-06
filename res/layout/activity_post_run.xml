@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="#000000">
+    android:layout_height="match_parent"
+    android:background="#000000" >
 
     <TextView
         android:id="@+id/txTimerValue"
@@ -12,21 +12,21 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
         android:fontFamily="sans-serif-light"
-        android:text="Perfect!"
+        android:text="Nice job!"
         android:textColor="#ffffff"
         android:textSize="65sp" />
 
     <TextView
-        android:id="@+id/btnStop"
+        android:id="@+id/btnSkip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
         android:background="@drawable/window"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:layout_marginLeft="10dp"
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -40,13 +40,13 @@
         android:id="@+id/btnStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnStop"
-        android:layout_alignBottom="@+id/btnStop"
+        android:layout_alignBaseline="@+id/btnSkip"
+        android:layout_alignBottom="@+id/btnSkip"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:background="@drawable/window"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:layout_marginRight="10dp"
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -57,17 +57,84 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/txInfo"
+        android:id="@+id/txTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView3"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/imageView3"
+        android:text="00:10:00"
+        android:textColor="#bbbbbb"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txTimerValue"
-        android:layout_alignRight="@+id/txTimerValue"
+        android:layout_below="@+id/imageView3"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/runicon" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="28dp"
+        android:layout_toLeftOf="@+id/txTime"
+        android:src="@drawable/walkicon" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
         android:layout_below="@+id/txTimerValue"
-        android:layout_marginTop="34dp"
-        android:fontFamily="sans-serif-light"
-        android:text="ojb"
-        android:textColor="#ffffff"
-        android:textSize="14sp"
-        android:textStyle="italic" />
+        android:layout_marginTop="44dp"
+        android:src="@drawable/watch" />
+
+    <TextView
+        android:id="@+id/txKmPartialRunning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignLeft="@+id/txKmTotalRunning"
+        android:layout_marginTop="3dp"
+        android:textColor="#bbbbbb"
+        android:textSize="16sp"
+        android:text="2.00km" />
+
+    <TextView
+        android:id="@+id/txKmTotalWalking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txKmPartialRunning"
+        android:layout_alignTop="@+id/imageView2"
+        android:text="2.00km"
+        android:textColor="#bbbbbb"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txKmTotalRunning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txTime"
+        android:layout_alignTop="@+id/imageView1"
+        android:text="2.00km"
+        android:textColor="#bbbbbb"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txKmPartialWalking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignLeft="@+id/txKmTotalWalking"
+        android:layout_marginTop="3dp"
+        android:text="2.00km"
+        android:textColor="#bbbbbb"
+        android:textSize="16sp" />
 
 </RelativeLayout>

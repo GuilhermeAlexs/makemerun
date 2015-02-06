@@ -4,7 +4,9 @@ import com.br.makemerun.R;
 import com.br.makemerun.model.Subgoal;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,18 +51,20 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		runningPartialText.setText("" + String.format("%.2f", values[position].getKmPartialRunning()) + "km");
 
 		if(values[position].isCompleted()){
-			ImageView walkingIcon = (ImageView) rowView.findViewById(R.id.iconWalking);
-			ImageView runningIcon = (ImageView) rowView.findViewById(R.id.iconRunning);
-			walkingText.setTextColor(Color.DKGRAY);
-			runningText.setTextColor(Color.DKGRAY);
-			walkingPartialText.setTextColor(Color.DKGRAY);
-			runningPartialText.setTextColor(Color.DKGRAY);
-			walkingIcon.setImageResource(R.drawable.walkicon_off);
-			runningIcon.setImageResource(R.drawable.runicon_off);
+			ImageView icStats = (ImageView) rowView.findViewById(R.id.icStats);
+			icStats.setVisibility(View.VISIBLE);
+			final int subgoal = position;
+			icStats.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View view) {
+					Intent intent = new Intent(context,Statistics.class);
+					intent.putExtra("subgoal", subgoal);
+					context.startActivity(intent);
+				}
+			});
 		}
 
 		if(position % 2 == 0){
-			int back = Color.rgb(40, 40, 40);
+			int back = Color.rgb(25, 25, 25);
 			rowView.setBackgroundColor(back);
 			walkingText.setBackgroundColor(back);
 			runningText.setBackgroundColor(back);

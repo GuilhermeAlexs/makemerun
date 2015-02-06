@@ -45,6 +45,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginLeft="30dp"
 	    android:layout_alignParentRight="true"
+	    android:visibility="invisible"
         android:src="@drawable/stats" />
     
     <LinearLayout 

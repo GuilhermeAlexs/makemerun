@@ -5,6 +5,8 @@ public class Subgoal {
 	private double kmRunning;
 	private double kmPartialWalking;
 	private double kmPartialRunning;
+	private int numberOfWalkings;
+	private int numberOfRunnings;
 	private boolean completed;
 
 	public Subgoal(){
@@ -55,5 +57,21 @@ public class Subgoal {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
+	}
+
+	public int getNumberOfWalkings() {
+		return numberOfWalkings;
+	}
+
+	public void setNumberOfWalkings(int numberOfWalkings) {
+		this.numberOfWalkings = numberOfWalkings;
+	}
+
+	public int getNumberOfRunnings() {
+		return numberOfRunnings;
+	}
+
+	public void setNumberOfRunnings(int numberOfRunnings) {
+		this.numberOfRunnings = numberOfRunnings;
 	}
 }

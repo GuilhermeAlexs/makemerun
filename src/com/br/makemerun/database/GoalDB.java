@@ -22,8 +22,12 @@ public class GoalDB extends SQLiteOpenHelper{
     private static final String ID = "id";
     private static final String KM_GOAL = "km_goal";
     private static final String RUNNING_KM_BASE = "running_km_base";
+    private static final String LAST_SPEED_RUNNING = "last_speed_running";
+    private static final String LAST_TIME_RUNNING = "last_time_running";
+    private static final String LAST_TOTAL_TIME_RUNNING = "last_total_time_running";   
     private static final String SPEED_BASE = "speed_base";
     private static final String SPEED_DEVIATION = "speed_sd_base";
+    private static final String GOAL_PROGRESS_KM = "gal_progress_km";
     private static final String GOAL_PROGRESS = "gal_progress";
     private static final String IS_CURRENT = "is_current";
 
@@ -32,8 +36,12 @@ public class GoalDB extends SQLiteOpenHelper{
     		ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
     		KM_GOAL + " FLOAT," +
     		RUNNING_KM_BASE + " FLOAT," +
+    		LAST_SPEED_RUNNING + " FLOAT," +
+    		LAST_TIME_RUNNING + " INTEGER," + 
+    		LAST_TOTAL_TIME_RUNNING + " INTEGER," +
     		SPEED_BASE + " FLOAT," +
     		SPEED_DEVIATION + " FLOAT," +
+    		GOAL_PROGRESS_KM + " FLOAT," +
     		GOAL_PROGRESS + " INTEGER," +
     		IS_CURRENT + " BOOLEAN)";
 
@@ -72,9 +80,13 @@ public class GoalDB extends SQLiteOpenHelper{
     	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
     	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
     	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
+    	goal.setLastSpeedRunning(cursor.getDouble(cursor.getColumnIndex(LAST_SPEED_RUNNING)));
+    	goal.setLastTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TIME_RUNNING)));
+    	goal.setLastTotalTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TOTAL_TIME_RUNNING)));
     	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
     	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
     	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
+    	goal.setProgressKm(cursor.getDouble(cursor.getColumnIndex(GOAL_PROGRESS_KM)));
     	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
         cursor.close();
  
@@ -90,13 +102,17 @@ public class GoalDB extends SQLiteOpenHelper{
 
         while(cursor.moveToNext()){
         	Goal goal = new Goal();
-	    	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-	    	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
-	    	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
-	    	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
-	    	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
-	    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
-	    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
+         	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+        	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
+        	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
+        	goal.setLastSpeedRunning(cursor.getDouble(cursor.getColumnIndex(LAST_SPEED_RUNNING)));
+        	goal.setLastTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TIME_RUNNING)));
+        	goal.setLastTotalTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TOTAL_TIME_RUNNING)));
+        	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
+        	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
+        	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
+        	goal.setProgressKm(cursor.getDouble(cursor.getColumnIndex(GOAL_PROGRESS_KM)));
+        	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
 	    	goalList.add(goal);
         }
  
@@ -112,8 +128,12 @@ public class GoalDB extends SQLiteOpenHelper{
 		ContentValues values = new ContentValues();
 		values.put(KM_GOAL, goal.getKm());
 		values.put(RUNNING_KM_BASE, goal.getKmBase());
+		values.put(LAST_SPEED_RUNNING, goal.getLastSpeedRunning());
+		values.put(LAST_TIME_RUNNING, goal.getLastTimeRunning());
+		values.put(LAST_TOTAL_TIME_RUNNING, goal.getLastTotalTimeRunning());
 		values.put(SPEED_BASE, goal.getSpeedBase());
 		values.put(SPEED_DEVIATION, goal.getSpeedDeviation());
+		values.put(GOAL_PROGRESS_KM, goal.getProgressKm());
 		values.put(GOAL_PROGRESS, goal.getProgress());
 		if(goal.isCurrent())
 			values.put(IS_CURRENT, 1);
@@ -130,8 +150,12 @@ public class GoalDB extends SQLiteOpenHelper{
 		ContentValues values = new ContentValues();
 		values.put(KM_GOAL, goal.getKm());
 		values.put(RUNNING_KM_BASE, goal.getKmBase());
+		values.put(LAST_SPEED_RUNNING, goal.getLastSpeedRunning());
+		values.put(LAST_TIME_RUNNING, goal.getLastTimeRunning());
+		values.put(LAST_TOTAL_TIME_RUNNING, goal.getLastTotalTimeRunning());
 		values.put(SPEED_BASE, goal.getSpeedBase());
 		values.put(SPEED_DEVIATION, goal.getSpeedDeviation());
+		values.put(GOAL_PROGRESS_KM, goal.getProgressKm());
 		values.put(GOAL_PROGRESS, goal.getProgress());
 		if(goal.isCurrent())
 			values.put(IS_CURRENT, 1);

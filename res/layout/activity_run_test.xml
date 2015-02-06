@@ -20,8 +20,7 @@
         android:id="@+id/layStateIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" 
-        android:visibility="invisible">
+        android:layout_centerInParent="true">
         <ImageView
 	        android:id="@+id/icState"
 	        android:layout_width="wrap_content"
@@ -29,14 +28,6 @@
 	        android:layout_centerHorizontal="true"
 	        android:src="@drawable/runicon" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/play128" />
 
     <TextView
         android:id="@+id/txTimerValue"
@@ -71,13 +62,13 @@
         android:layout_below="@+id/progressKmPartial"
         android:layout_marginTop="31dp"
         android:fontFamily="sans-serif-light"
-        android:text="Hello, let&apos;s do a test to see how much you can run without stopping. Press &apos;Start&apos; and start a run at a moderate speed. When you get tired, press &apos;Stop&apos;."
+        android:text="Hello, let&apos;s see how much you can run without stopping. Press &apos;Start&apos; and start a run at a moderate speed. When you get tired, press &apos;Stop&apos;."
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="italic" />
 
     <TextView
-        android:id="@+id/btnStop"
+        android:id="@+id/btnStartStop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txInfo"

@@ -32,8 +32,7 @@
         android:id="@+id/layStateIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" 
-        android:visibility="invisible">"
+        android:layout_centerInParent="true">
         
         <TextView
 	        android:id="@+id/txPartial"
@@ -54,16 +53,8 @@
 	        android:src="@drawable/runicon" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/play128" />
-
     <TextView
-        android:id="@+id/btnStop"
+        android:id="@+id/btnStartStop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

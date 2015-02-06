@@ -4,8 +4,12 @@ public class Goal {
 	private int id;
 	private double km;
 	private double kmBase;
-	private double speedBase;
-	private double speedDeviation;
+	private double progressKm = 0;
+	private double lastSpeedRunning = 0;
+	private long lastTimeRunning = 0;
+	private long lastTotalTimeRunning = 0;
+	private double speedBase = 0;
+	private double speedDeviation = 0;
 	private int progress;
 	private boolean isCurrent;
 
@@ -62,6 +66,38 @@ public class Goal {
 
 	public void setProgress(int progress) {
 		this.progress = progress;
+	}
+
+	public double getProgressKm() {
+		return progressKm;
+	}
+
+	public void setProgressKm(double progressKm) {
+		this.progressKm = progressKm;
+	}
+
+	public double getLastSpeedRunning() {
+		return lastSpeedRunning;
+	}
+
+	public void setLastSpeedRunning(double lastSpeedRunning) {
+		this.lastSpeedRunning = lastSpeedRunning;
+	}
+
+	public long getLastTimeRunning() {
+		return lastTimeRunning;
+	}
+
+	public void setLastTimeRunning(long lastTimeRunning) {
+		this.lastTimeRunning = lastTimeRunning;
+	}
+
+	public long getLastTotalTimeRunning() {
+		return lastTotalTimeRunning;
+	}
+
+	public void setLastTotalTimeRunning(long lastTotalTimeRunning) {
+		this.lastTotalTimeRunning = lastTotalTimeRunning;
 	}
 
 	public boolean isCurrent() {

@@ -56,6 +56,12 @@
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
+        <activity
+            android:name="com.br.makemerun.view.PostRun"
+            android:screenOrientation="portrait"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_subgoals" >
+        </activity>
         <service
             android:name=".service.MapService"
             android:label="@string/mappingService" >
