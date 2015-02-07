@@ -1,5 +1,6 @@
 package com.br.makemerun.view;
 
+
 import com.br.makemerun.R;
 
 import android.app.Activity;
@@ -17,7 +18,7 @@ public class ChooseGoal extends Activity{
 	private ImageView btnUp;
 	private ImageView btnDown;
 	private TextView txGoal;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class ChooseGoal extends Activity{
 		btnUp = (ImageView) findViewById(R.id.btnUp);
 		btnDown = (ImageView) findViewById(R.id.btnDown);
 		txGoal = (TextView) findViewById(R.id.txGoal);
-		
+
 		btnUp.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				int newGoal = Integer.parseInt(txGoal.getText().toString().replace("km", "")) + 1;
@@ -51,7 +52,7 @@ public class ChooseGoal extends Activity{
 				Intent intent = new Intent(v.getContext(), RunTest.class);
 				intent.putExtra("goal", Integer.parseInt(txGoal.getText().toString().replace("km", "")));
 				startActivity(intent);
-				overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
+				overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);				
 			}
 		});
 	}

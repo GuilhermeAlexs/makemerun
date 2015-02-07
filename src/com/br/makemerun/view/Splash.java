@@ -1,5 +1,7 @@
 package com.br.makemerun.view;
 
+import java.util.Locale;
+
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.Goal;
@@ -15,19 +17,29 @@ import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
 import android.widget.TextView;
 
 public class Splash extends Activity {
 	private CircularProgressBar progressLoading;
 	private TextView txLoading;
 	private MapService mapService;
-	private boolean mBound = false;
+	public static TextToSpeech voice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-
+		voice = new TextToSpeech(getApplicationContext(), 
+			      new TextToSpeech.OnInitListener() {
+			      @Override
+			      public void onInit(int status) {
+			         if(status != TextToSpeech.ERROR){
+			             voice.setLanguage(Locale.UK);
+			             voice.playSilence(2, TextToSpeech.QUEUE_FLUSH, null);
+			            }				
+			         }
+			      });
 		progressLoading = (CircularProgressBar) this.findViewById(R.id.progressLoading);
 		progressLoading.setMax(4);
 		progressLoading.setProgress(0);
@@ -51,10 +63,6 @@ public class Splash extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-//		if (mBound) {
-//			unbindService(mConnection);
-//			mBound = false;
-//		}
 	}
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
@@ -62,14 +70,12 @@ public class Splash extends Activity {
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			LocalBinder binder = (LocalBinder) service;
 			mapService = binder.getService();
-			mBound = true;
 			//mapService.setChangeLocationListener(Splash.this);
 			mapService.startGPS();
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			mBound = false;
 		}
 	};
 

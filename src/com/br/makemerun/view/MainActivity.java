@@ -15,6 +15,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,6 +68,8 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	private double runningSpeed = 0;
 	private double runningSpeedSamples = 0;
 
+	private long startRun = 0;
+	private long endRun = 0;
 	private long runningTime = 0;
 	private long totalTime = 0;
 
@@ -78,11 +81,15 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	private AlertDialog providerAlertDialog;
 	private AlertDialog gpsSignalAlertDialog;
 
+	private final String VOICE_RUNNING = "Start Running!";
+	private final String VOICE_WALKING = "Start Walking!";
+	private final String VOICE_END_WORKOUT = "Nice Job! See you in next training day.";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start_run);
-
+		
 		Bundle bundle = this.getIntent().getExtras();
 
 		subgoal = bundle.getInt("subgoal");
@@ -261,6 +268,9 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 		if(currState == END_STATE){
 			mapService.pauseMapping();
 			v.vibrate(VIBRATION_TIME_END);
+			
+			Splash.voice.speak(VOICE_END_WORKOUT, TextToSpeech.QUEUE_FLUSH, null);
+			
 			Intent intent = new Intent(MainActivity.this, PostRun.class);
             intent.putExtra("subgoal",  subgoal);
             intent.putExtra("totalDistance", totalDistance);
@@ -269,17 +279,22 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
             intent.putExtra("partialDistanceWalking", partialDistanceWalking);
             intent.putExtra("partialDistanceRunning", partialDistanceRunning);
             intent.putExtra("time", this.timerValue.getText());
-
 			StatsDB statsDB = new StatsDB(this);
 			statsDB.deleteStats(subgoal); //Mais rápido deletar do que fazer um update...
 			statsDB.insertStats(subgoal, speedSeries);
 			startActivityForResult(intent,POST_RUN_REQUEST);
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
+			
+			Splash.voice.speak(VOICE_WALKING, TextToSpeech.QUEUE_FLUSH, null);
+			
 			stateIcon.setImageResource(R.drawable.walkicon);
 			partialKmText.setText(String.format("%.2f", partialDistanceWalking) + "km");
 		}else if(currState == RUNNING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
+			
+			Splash.voice.speak(VOICE_RUNNING, TextToSpeech.QUEUE_FLUSH, null);
+
 			stateIcon.setImageResource(R.drawable.runicon);
 			partialKmText.setText(String.format("%.2f", partialDistanceRunning) + "km");
 		}
@@ -343,10 +358,13 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 	public void onChangeTime(long mili) {
 		int secs = (int) (mili/1000);
 
-		totalTime = secs + totalTime;
+		totalTime = secs;
 
 		if(currState == RUNNING_STATE){
-			runningTime = secs + runningTime;
+			startRun = secs;
+		}else{
+			endRun = secs;
+			runningTime = (endRun - startRun) + runningTime;
 		}
 
 		int mins = secs/60;
