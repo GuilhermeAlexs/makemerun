@@ -360,11 +360,17 @@ public class MainActivity extends Activity implements ChangeLocationListener, Ch
 
 		totalTime = secs;
 
+		//Coleta o tempo de corrida
 		if(currState == RUNNING_STATE){
 			startRun = secs;
 		}else{
-			endRun = secs;
-			runningTime = (endRun - startRun) + runningTime;
+			//-1 é usado para ativar a coleta do endRun. Ele força a entrada nesse bloco
+			//apenas quando um período de corrida termina.
+			if(startRun != -1){
+				endRun = secs;
+				runningTime = (endRun - startRun) + runningTime;
+				startRun = -1;
+			}
 		}
 
 		int mins = secs/60;
