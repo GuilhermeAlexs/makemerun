@@ -1,7 +1,5 @@
 package com.br.makemerun.view;
 
-import java.util.Locale;
-
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.Goal;
@@ -89,7 +87,7 @@ public class Splash extends Activity {
 			try {
 				GoalDB db = new GoalDB(getApplicationContext());
 
-				publishProgress("Loading current goal...");
+				publishProgress(getString(R.string.loading_current_goal));
 
 				Goal goal = db.getCurrentGoal();
 
@@ -99,11 +97,11 @@ public class Splash extends Activity {
 					nextView = ChooseGoal.class;
 
 				Thread.sleep(1000);
-				publishProgress("Getting GPS first fix...");
+				publishProgress(getString(R.string.loading_voice_system));
 				Thread.sleep(1000);
-				publishProgress("Getting GPS first fix...");
+				publishProgress(getString(R.string.loading_first_fix));
 				Thread.sleep(2000);
-				publishProgress("Getting GPS first fix...");
+				publishProgress(getString(R.string.loading_first_fix));
 				Thread.sleep(600);
 			} catch (InterruptedException e) {
 				e.printStackTrace();

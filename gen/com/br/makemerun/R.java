@@ -217,6 +217,9 @@ containing a value of this type.
         public static final int description_test_results_ok=0x7f06001a;
         public static final int description_test_results_under_recommended=0x7f06001c;
         public static final int description_turn_on=0x7f06001e;
+        public static final int loading_current_goal=0x7f060026;
+        public static final int loading_first_fix=0x7f060027;
+        public static final int loading_voice_system=0x7f060028;
         public static final int mappingService=0x7f060005;
         public static final int title_activity_choose_goal=0x7f060006;
         public static final int title_activity_run_test=0x7f060008;

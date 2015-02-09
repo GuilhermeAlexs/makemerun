@@ -43,7 +43,7 @@ public class PostTest extends Activity{
 			msg = getString(R.string.description_test_results_under_recommended);
 			result = TEST_RESULT_UNDER_RECOMMENDED;
 		}else{
-			msg = String.format(getString(R.string.description_test_results_ok), kmRunning);
+			msg = String.format(getString(R.string.description_test_results_ok), String.format("%.2f", kmRunning) + "km");
 			result = TEST_RESULT_OK;
 		}
 

@@ -28,9 +28,9 @@
     <string name="title_looking_satellites">Procurando por satélites GPS</string>
     <string name="title_gps_off">Seu GPS está desligado</string>
     <string name="title_nice_job">Perfeito!</string>
- 
+
     <string name="description_run_test">Olá! Vamos ver o quanto você consegue correr sem parar. Pressione \'Iniciar\' e começe a correr em velocidade moderada. Quando cansar, pressione \'Parar\'.</string>
-    <string name="description_test_results_ok">A uma velocidade moderada, você consegue correr no máximo %1$d km! Assim, com base nesse valor, seus treinos serão divididos em uma série de corridas e caminhadas. Em cada treinamento, vamos remover alguns quilômetros (ou metros) da caminhada e para colocar na corrida. </string>
+    <string name="description_test_results_ok">A uma velocidade moderada, você consegue correr no máximo %1$s km! Assim, com base nesse valor, seus treinos serão divididos em uma série de corridas e caminhadas. Em cada treinamento, vamos remover alguns quilômetros (ou metros) da caminhada para colocar na corrida. </string>
     <string name="description_test_results_goal_completed">Você já atingiu seu objetivo. Escolha outro!</string>
     <string name="description_test_results_under_recommended">Você precisa correr pelo menos 100m. Tente novamente!</string>
    	<string name="description_are_you_sure">Tem certeza?</string>
@@ -39,8 +39,12 @@
    	<string name="description_speed">velocidade</string>
    	<string name="description_distance">distância</string>
 	<string name="description_of">de</string>
-	
+
 	<string name="voice_start_running">Começe a correr!</string>
 	<string name="voice_start_walking">Começe a caminhada!</string>
 	<string name="voice_end_training">Perfeito! Nos vemos no próximo treino!</string>
+
+	<string name="loading_current_goal">Carregando o objetivo atual...</string>
+	<string name="loading_first_fix">Conectando com o GPS...</string>
+	<string name="loading_voice_system">Carregando sistema de áudio...</string>
 </resources>
