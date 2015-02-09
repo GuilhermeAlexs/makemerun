@@ -13,14 +13,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logoicon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.br.makemerun.view.Splash"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_choose_goal" >
+            android:label="@string/app_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,7 +39,7 @@
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.MainActivity"
+            android:name="com.br.makemerun.view.StartRun"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_run_test" >
@@ -58,6 +58,12 @@
         </activity>
         <activity
             android:name="com.br.makemerun.view.PostRun"
+            android:screenOrientation="portrait"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_subgoals" >
+        </activity>
+        <activity
+            android:name="com.br.makemerun.view.PostTest"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >

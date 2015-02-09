@@ -55,12 +55,14 @@ public class Statistics extends Activity{
         mRenderer.setLabelsTextSize(20);
         mRenderer.setLegendTextSize(18);
         mRenderer.setChartTitleTextSize(20);
-        mRenderer.setXTitle("Distance");
-        mRenderer.setYTitle("Speed");
+        mRenderer.setXTitle(this.getString(R.string.description_distance));
+        mRenderer.setYTitle(this.getString(R.string.description_speed));
         
         mRenderer.setPanEnabled(false, false);
-     	mRenderer.setYAxisMax(50);
-     	mRenderer.setYAxisMin(0);
+     	mRenderer.setYAxisMax(series.getMaxY());
+     	mRenderer.setYAxisMin(series.getMinY());
+     	mRenderer.setXAxisMax(series.getMaxX());
+     	mRenderer.setXAxisMin(series.getMinX());
      	mRenderer.setShowGrid(true);
 
      	LinearLayout graphLay = (LinearLayout) findViewById(R.id.layGraph);

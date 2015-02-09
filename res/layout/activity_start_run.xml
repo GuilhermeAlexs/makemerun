@@ -67,7 +67,7 @@
         android:layout_marginRight="45dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:text="Stop"
+        android:text="@string/button_stop"
         android:textStyle="bold"
         android:textColor="#bbbbbb"
         android:textSize="26sp" />
@@ -80,7 +80,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/timerVal"
+        android:text="@string/default_time"
         android:textColor="#ffffff"
         android:textSize="65sp" />
 
@@ -92,7 +92,7 @@
         android:layout_alignTop="@+id/txTimerValue"
         android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/distance"
+        android:text="@string/default_distance"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 

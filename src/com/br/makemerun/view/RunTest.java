@@ -24,9 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.br.makemerun.R;
-import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.ChangeTimeListener;
-import com.br.makemerun.model.Goal;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
@@ -44,7 +42,6 @@ public class RunTest extends Activity implements ChangeLocationListener,
 	private MapService mapService;
 	private double runDistance = 0;
 	private List<Double> speedList;
-	private static Goal goal;
 	AlertDialog providerAlertDialog;
 	AlertDialog gpsSignalAlertDialog;
 
@@ -74,7 +71,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 
 		setProviderPopup();
 		setGpsSignalPopup();
-		startStopButton.setText("Start");
+		startStopButton.setText(getString(R.string.button_start));
 		
 		startStopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -82,21 +79,23 @@ public class RunTest extends Activity implements ChangeLocationListener,
 					if (canStart()) {
 						started = true;
 						mapService.startMapping();
-						startStopButton.setText("Stop");
+						startStopButton.setText(RunTest.this.getString(R.string.button_stop));
 					} else {
 						gpsSignalAlertDialog.show();
 					}
 				}else{
 					started = false;
 					mapService.pauseMapping();
-					startStopButton.setText("Start");
-					goal = new Goal(km, runDistance, getAvgSpeed(),
-							getSpeedStandardDeviation(), -1);
-					goal.setCurrent(true);
-					GoalDB db = new GoalDB(view.getContext());
-					db.insertGoal(goal);
+					startStopButton.setText(RunTest.this.getString(R.string.button_start));
+
 					Intent intent = new Intent(view.getContext(),
-							SubgoalsList.class);
+							PostTest.class);
+
+					intent.putExtra("time", timerValue.getText());
+					intent.putExtra("kmGoal", km);
+					intent.putExtra("kmRunning", runDistance);
+					intent.putExtra("avgSpeed", getAvgSpeed());
+					intent.putExtra("sdSpeed", getSpeedStandardDeviation());
 					startActivity(intent);
 				}
 			}
@@ -276,7 +275,6 @@ public class RunTest extends Activity implements ChangeLocationListener,
 				}
 				return -1;
 			}
-
 		});
 
 		if (speedList.size() == 0) {
@@ -302,14 +300,15 @@ public class RunTest extends Activity implements ChangeLocationListener,
 		for (Double speed : speedList) {
 			sum += (avgSpeed - speed) * (avgSpeed - speed);
 		}
+
 		return Math.sqrt(sum / speedList.size());
 	}
 
 	private void setProviderPopup() {
 		AlertDialog.Builder alertDialogBuilder;
 		alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setTitle("GPS locations is off.");
-		alertDialogBuilder.setMessage("Turn it back on");
+		alertDialogBuilder.setTitle(getString(R.string.title_gps_off));
+		alertDialogBuilder.setMessage(getString(R.string.description_turn_on));
 		alertDialogBuilder.setCancelable(true);
 		Button tryAgain = new Button(this);
 		tryAgain.setText("I'm ready");
@@ -329,8 +328,8 @@ public class RunTest extends Activity implements ChangeLocationListener,
 	private void setGpsSignalPopup() {
 		AlertDialog.Builder alertDialogBuilder;
 		alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setTitle("Looking for available satellites.");
-		alertDialogBuilder.setMessage("Almost there...");
+		alertDialogBuilder.setTitle(getString(R.string.title_looking_satellites));
+		alertDialogBuilder.setMessage(getString(R.string.description_almost_there));
 		alertDialogBuilder.setCancelable(true);
 		gpsSignalAlertDialog = alertDialogBuilder.create();
 	}

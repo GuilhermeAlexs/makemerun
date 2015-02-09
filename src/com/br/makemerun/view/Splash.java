@@ -35,8 +35,9 @@ public class Splash extends Activity {
 			      @Override
 			      public void onInit(int status) {
 			         if(status != TextToSpeech.ERROR){
-			             voice.setLanguage(Locale.UK);
+			             voice.setLanguage(getResources().getConfiguration().locale);
 			             voice.playSilence(2, TextToSpeech.QUEUE_FLUSH, null);
+			             voice.speak(getString(R.string.voice_end_training), TextToSpeech.QUEUE_FLUSH, null);
 			            }				
 			         }
 			      });

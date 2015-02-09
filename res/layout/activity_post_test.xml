@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+     <TextView
+        android:id="@+id/txExplain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/title_test_results"
+        android:textColor="#bbbbbb"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/txResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txExplain"
+        android:layout_below="@id/txExplain"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/description_test_results_ok"
+        android:textColor="#bbbbbb"
+        android:textStyle="italic"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/icWatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txResults"
+        android:layout_below="@id/txResults"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/watch" />
+
+    <TextView
+        android:id="@+id/txRunningTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/icWatch"
+        android:layout_toRightOf="@id/icWatch"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/default_time"
+        android:textColor="#bbbbbb"
+        android:textSize="30sp" />
+    
+    <ImageView
+        android:id="@+id/icRunning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icWatch"
+        android:layout_alignRight="@id/icWatch"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/runicon" />
+
+    <TextView
+        android:id="@+id/txKmRunning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/icRunning"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/icRunning"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/default_distance"
+        android:textColor="#bbbbbb"
+        android:textSize="30sp" />
+    
+    <TextView
+        android:id="@+id/btnAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/window"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:text="@string/button_ok"
+        android:textColor="#bbbbbb"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -5,14 +5,14 @@
     android:background="#000000" >
 
     <TextView
-        android:id="@+id/txTimerValue"
+        android:id="@+id/txTitleNiceJob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
         android:fontFamily="sans-serif-light"
-        android:text="Nice job!"
+        android:text="@string/title_nice_job"
         android:textColor="#ffffff"
         android:textSize="65sp" />
 
@@ -31,7 +31,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="5dp"
-        android:text="   Skip   "
+        android:text="@string/button_skip"
         android:textColor="#bbbbbb"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -51,7 +51,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="5dp"
-        android:text="Statistics"
+        android:text="@string/button_statistics"
         android:textColor="#bbbbbb"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -63,15 +63,14 @@
         android:layout_alignBottom="@+id/imageView3"
         android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/imageView3"
-        android:text="00:10:00"
         android:textColor="#bbbbbb"
         android:textSize="24sp" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/icWatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTimerValue"
+        android:layout_alignLeft="@+id/txTitleNiceJob"
         android:layout_below="@+id/imageView3"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="30dp"
@@ -81,7 +80,7 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
+        android:layout_below="@+id/icWatch"
         android:layout_marginTop="28dp"
         android:layout_toLeftOf="@+id/txTime"
         android:src="@drawable/walkicon" />
@@ -90,8 +89,8 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_below="@+id/txTimerValue"
+        android:layout_alignLeft="@+id/icWatch"
+        android:layout_below="@+id/txTitleNiceJob"
         android:layout_marginTop="44dp"
         android:src="@drawable/watch" />
 
@@ -99,7 +98,7 @@
         android:id="@+id/txKmPartialRunning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignBottom="@+id/icWatch"
         android:layout_alignLeft="@+id/txKmTotalRunning"
         android:layout_marginTop="3dp"
         android:textColor="#bbbbbb"
@@ -121,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txTime"
-        android:layout_alignTop="@+id/imageView1"
+        android:layout_alignTop="@+id/icWatch"
         android:text="2.00km"
         android:textColor="#bbbbbb"
         android:textSize="24sp" />

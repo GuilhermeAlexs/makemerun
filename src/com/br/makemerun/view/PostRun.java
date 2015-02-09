@@ -5,6 +5,7 @@ import com.br.makemerun.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ public class PostRun extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_run);
+
+		Splash.voice.speak("Nice job! See you next training day.", TextToSpeech.QUEUE_FLUSH, null);
 
 		Bundle bundle = this.getIntent().getExtras();
 

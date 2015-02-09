@@ -42,7 +42,7 @@ public class SubgoalsList extends Activity{
 
 		kmProgress = (CircularProgressBar) findViewById(R.id.progressGoal);
 		kmProgress.setMax((int)Math.round(goal.getKm()*1000));
-		kmProgress.setSubTitle("of " + goal.getKm() + "km");
+		kmProgress.setSubTitle(getString(R.string.description_of) + " " + goal.getKm() + "km");
 		kmProgress.setProgress((int)Math.round(goal.getProgressKm()*1000));
     	kmProgress.setTitle(String.format("%.2f",goal.getProgressKm()));
 		kmProgress.setIndeterminate(false);
@@ -106,7 +106,7 @@ public class SubgoalsList extends Activity{
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {
             	choosenSubgoal = position;
-                Intent intent = new Intent(SubgoalsList.this, MainActivity.class);
+                Intent intent = new Intent(SubgoalsList.this, StartRun.class);
                 intent.putExtra("subgoal",  position);
                 intent.putExtra("totalDistance",  goal.getKm());
                 intent.putExtra("totalDistanceWalking", subgoals[position].getKmWalking());
@@ -123,8 +123,8 @@ public class SubgoalsList extends Activity{
 			public void onClick(View v) {
         		AlertDialog.Builder builder = new AlertDialog.Builder(SubgoalsList.this);
 
-        	    builder.setTitle("Quit");
-        	    builder.setMessage("Are you sure?");
+        	    builder.setTitle(SubgoalsList.this.getString(R.string.title_quit));
+        	    builder.setMessage(SubgoalsList.this.getString(R.string.description_are_you_sure));
 
         	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
         	        public void onClick(DialogInterface dialog, int which) {

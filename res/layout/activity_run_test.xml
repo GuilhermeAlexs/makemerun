@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/timerVal"
+        android:text="@string/default_time"
         android:textColor="#ffffff"
         android:textSize="65sp" />
 
@@ -49,7 +49,7 @@
         android:layout_alignTop="@+id/txTimerValue"
         android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/distance"
+        android:text="@string/default_distance"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 
@@ -62,7 +62,7 @@
         android:layout_below="@+id/progressKmPartial"
         android:layout_marginTop="31dp"
         android:fontFamily="sans-serif-light"
-        android:text="Hello, let&apos;s see how much you can run without stopping. Press &apos;Start&apos; and start a run at a moderate speed. When you get tired, press &apos;Stop&apos;."
+        android:text="@string/description_run_test"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="italic" />
@@ -80,7 +80,7 @@
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:text="Stop"
+        android:text="@string/button_stop"
         android:textColor="#bbbbbb"
         android:textSize="26sp"
         android:textStyle="bold" />
