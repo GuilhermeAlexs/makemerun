@@ -1,6 +1,9 @@
 package com.br.makemerun.view;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.achartengine.model.XYSeries;
@@ -9,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.location.Location;
@@ -39,6 +43,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	//private TextView runningKmText;
 	private TextView partialKmText;
 	private TextView startStopButton;
+	private ImageView soundButton;
 	private ImageView stateIcon;
 	private CircularProgressBar kmTotalProgress;
 	private CircularProgressBar kmPartialProgress;
@@ -65,28 +70,34 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 
 	private double currState = RUNNING_STATE;
 
-	private double runningSpeed = 0;
-	private double runningSpeedSamples = 0;
-
 	private long startRun = 0;
 	private long endRun = 0;
 	private boolean runningStarted = false;
 	private long runningTime = 0;
 	private long totalTime = 0;
 
-	private final int POST_RUN_REQUEST = 2;
-	private XYSeries speedSeries;
-
 	private boolean started = false;
-	
+
 	private AlertDialog providerAlertDialog;
 	private AlertDialog gpsSignalAlertDialog;
+
+	private boolean soundOn = true;
 	
+	private double runningSpeedSum = 0;
+	private int runningSpeedSamples = 0;
+	private List<Double> runningSpeedList = new ArrayList<Double>();
+	private List<Double> walkingSpeedList = new ArrayList<Double>();
+	private XYSeries runningSpeedSeries;
+	private XYSeries walkingSpeedSeries;
+	private int mode_index = 1;
+
+	private final int POST_RUN_REQUEST = 2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start_run);
-		
+
 		Bundle bundle = this.getIntent().getExtras();
 
 		subgoal = bundle.getInt("subgoal");
@@ -96,12 +107,14 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		partialDistanceRunning = bundle.getDouble("partialDistanceRunning");
 		partialDistanceWalking = bundle.getDouble("partialDistanceWalking");
 
-		speedSeries = new XYSeries(getString(R.string.description_speed));
+		runningSpeedSeries = new XYSeries(getString(R.string.description_speed) + "running");
+		walkingSpeedSeries = new XYSeries(getString(R.string.description_speed) + "walking");
 
 		startStopButton = (TextView) findViewById(R.id.btnStartStop);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
 		distanceValue = (TextView) findViewById(R.id.txDistance);
 		stateIcon = (ImageView) findViewById(R.id.icState);
+		soundButton = (ImageView) findViewById(R.id.btnSound);
 		//speedText = (TextView) findViewById(R.id.txSpeed);
 		//runningKmText = (TextView) findViewById(R.id.txRunningKm);
 		partialKmText = (TextView) findViewById(R.id.txPartial);
@@ -117,7 +130,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		setGpsSignalPopup();
 
 		startStopButton.setText(getString(R.string.button_start));
-		
+
 		startStopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(!started){
@@ -125,15 +138,48 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 						started = true;
 						mapService.startMapping();
 						startStopButton.setText(getString(R.string.button_stop));
+						if(soundOn)
+							Splash.voice.speak(getString(R.string.voice_start_running), TextToSpeech.QUEUE_FLUSH, null);
 					} else {
 						gpsSignalAlertDialog.show();
 					}
 				}else{
-					started = false;
-					mapService.pauseMapping();
-					Intent intent = new Intent();
-					setResult(RESULT_CANCELED,intent);
-					finish();
+					AlertDialog.Builder builder = new AlertDialog.Builder(StartRun.this);
+
+				    builder.setTitle(StartRun.this.getString(R.string.title_quit));
+				    builder.setMessage(StartRun.this.getString(R.string.description_are_you_sure));
+
+				    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) {
+							started = false;
+							mapService.stopMapping();
+							Intent intent = new Intent();
+							setResult(RESULT_CANCELED,intent);
+							finish();
+				        }
+				    });
+
+				    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				        @Override
+				        public void onClick(DialogInterface dialog, int which) {
+				            dialog.dismiss();
+				        }
+				    });
+
+				    AlertDialog alert = builder.create();
+				    alert.show();
+				}
+			}
+		});
+
+		soundButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				if(soundOn){
+					soundButton.setImageResource(R.drawable.voloff);
+					soundOn = false;
+				}else{
+					soundButton.setImageResource(R.drawable.volon);
+					soundOn = true;
 				}
 			}
 		});
@@ -144,7 +190,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -195,7 +241,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		}
 		return false;
 	}
-	
+
 	private ServiceConnection mConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
@@ -263,11 +309,12 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		if(currState == END_STATE){
-			mapService.pauseMapping();
+			mapService.stopMapping();
 			v.vibrate(VIBRATION_TIME_END);
-			
-			Splash.voice.speak(getString(R.string.voice_end_training), TextToSpeech.QUEUE_FLUSH, null);
-			
+
+			if(soundOn)
+				Splash.voice.speak(getString(R.string.voice_end_training), TextToSpeech.QUEUE_FLUSH, null);
+
 			Intent intent = new Intent(StartRun.this, PostRun.class);
             intent.putExtra("subgoal",  subgoal);
             intent.putExtra("totalDistance", totalDistance);
@@ -278,19 +325,22 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
             intent.putExtra("time", this.timerValue.getText());
 			StatsDB statsDB = new StatsDB(this);
 			statsDB.deleteStats(subgoal); //Mais rápido deletar do que fazer um update...
-			statsDB.insertStats(subgoal, speedSeries);
+			statsDB.insertStats(subgoal, StatsDB.RUNNING_SPRINT, runningSpeedSeries);
+			statsDB.insertStats(subgoal, StatsDB.WALKING_SPRINT, walkingSpeedSeries);
 			startActivityForResult(intent,POST_RUN_REQUEST);
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
 
-			Splash.voice.speak(getString(R.string.voice_start_walking), TextToSpeech.QUEUE_FLUSH, null);
+			if(soundOn)
+				Splash.voice.speak(getString(R.string.voice_start_walking), TextToSpeech.QUEUE_FLUSH, null);
 
 			stateIcon.setImageResource(R.drawable.walkicon);
 			partialKmText.setText(String.format("%.2f", partialDistanceWalking) + "km");
 		}else if(currState == RUNNING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
 
-			Splash.voice.speak(getString(R.string.voice_start_running), TextToSpeech.QUEUE_FLUSH, null);
+			if(soundOn)
+				Splash.voice.speak(getString(R.string.voice_start_running), TextToSpeech.QUEUE_FLUSH, null);
 
 			stateIcon.setImageResource(R.drawable.runicon);
 			partialKmText.setText(String.format("%.2f", partialDistanceRunning) + "km");
@@ -312,36 +362,54 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 
 		distance = distance / 1000;
 
-		//Coletando informações sobre a velocidade de corrida.
-		if(currState == RUNNING_STATE){
-			if(speed > 1) {
-				runningSpeed = speed + runningSpeed;
-				runningSpeedSamples++;
-				speedSeries.add(distance, speed);
-			}
-		}
-
 		double partialDistance = distance - lastChangeKm;
+		double speedAvg;
 
 		kmTotalProgress.setProgress((int)(Math.round(distance*1000)));
 		kmPartialProgress.setProgress((int)(Math.round(partialDistance*1000)));
 
-		if(currState == RUNNING_STATE)
+		//Coletando informações sobre a velocidade de corrida e printando elementos da tela
+		if(currState == RUNNING_STATE){
+			if(speed > 1)
+				runningSpeedList.add(speed);
 			partialKmText.setText(String.format("%.2f", partialDistanceRunning - partialDistance) + "km");
-		else if(currState == WALKING_STATE)
+		}else if(currState == WALKING_STATE){
+			if(speed > 1)
+				walkingSpeedList.add(speed);
 			partialKmText.setText(String.format("%.2f", partialDistanceWalking - partialDistance) + "km");
+		}
 
 		//Verifica se a corrida acabou (atingiu o Goal KM, ou seja, a distância total) ou se já deu a distância
 		//necessária para trocar de exercicio (corrida e caminhada)
 		if(distance >= totalDistance){
+		   if(currState == RUNNING_STATE){
+			   speedAvg = getAvgSpeed(runningSpeedList);
+			   runningSpeedSeries.add(mode_index, speedAvg);
+			   runningSpeedSum = runningSpeedSum + speedAvg;
+			   runningSpeedSamples++;
+		   }else{
+			   speedAvg = getAvgSpeed(walkingSpeedList);
+			   walkingSpeedSeries.add(mode_index, speedAvg);
+		   }
+
 		   currState = END_STATE;
 		   changeViewState();
 		}else if(currState == RUNNING_STATE && partialDistance >= this.partialDistanceRunning){
+		   speedAvg = getAvgSpeed(runningSpeedList);
+		   runningSpeedSeries.add(mode_index, speedAvg);
+		   runningSpeedSum = runningSpeedSum + speedAvg;
+		   runningSpeedSamples++;
+		   runningSpeedList.clear();
+		   mode_index++;
 		   lastChangeKm = distance;
 		   currState = WALKING_STATE;
 		   kmPartialProgress.setMax((int)(Math.round(partialDistanceWalking*1000)));
 		   changeViewState();
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
+		   speedAvg = getAvgSpeed(walkingSpeedList);
+		   walkingSpeedSeries.add(mode_index, speedAvg);
+		   walkingSpeedList.clear();
+		   mode_index++;
 		   lastChangeKm = distance;
 		   currState = RUNNING_STATE;
 		   kmPartialProgress.setMax((int)(Math.round(partialDistanceRunning*1000)));
@@ -349,6 +417,34 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		}
 
 		distanceValue.setText(df.format(distance) + "km");
+	}
+
+	private double getAvgSpeed(List<Double> speedList) {
+		double avgSpeed = 0;
+
+		Collections.sort(speedList, new Comparator<Double>() {
+			@Override
+			public int compare(Double speed1, Double speed2) {
+				if (speed1 > speed2) {
+					return 1;
+				} else if (speed1 == speed2) {
+					return 0;
+				}
+				return -1;
+			}
+		});
+
+		if (speedList.size() == 0) {
+			return 0;
+		} else if (speedList.size() % 2 == 0) {
+			avgSpeed = speedList.get(speedList.size() / 2)
+					+ speedList.get((speedList.size() / 2) - 1);
+			avgSpeed = avgSpeed / 2;
+		} else {
+			avgSpeed = speedList.get((int) Math.floor(speedList.size() / 2));
+		}
+
+		return avgSpeed;
 	}
 	
 	@Override
@@ -362,9 +458,9 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 			startRun = secs;
 			runningStarted = true;
 		}else{
-			//-1 é usado para ativar a coleta do endRun. Ele força a entrada nesse bloco
-			//apenas quando um período de corrida termina.
-			if(runningStarted){
+			//Verifica se o começo da corrida já foi marcado, mas o fim não.
+			//Ou seja, se a corrida terminou, ele anexa o tempo dela.
+			if(runningStarted  && currState != RUNNING_STATE){
 				endRun = secs;
 				runningTime = (endRun - startRun) + runningTime;
 				runningStarted = false;
@@ -379,12 +475,32 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	}
 
 	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent();
-		setResult(RESULT_CANCELED, intent);
-		finish();
-	}
+	public void onBackPressed() {	
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+	    builder.setTitle(this.getString(R.string.title_quit));
+	    builder.setMessage(this.getString(R.string.description_are_you_sure));
+
+	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	mapService.stopMapping();
+	    		Intent intent = new Intent();
+	    		setResult(RESULT_CANCELED, intent);
+	    		finish();
+	        }
+	    });
+
+	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	        @Override
+	        public void onClick(DialogInterface dialog, int which) {
+	            dialog.dismiss();
+	        }
+	    });
+
+	    AlertDialog alert = builder.create();
+	    alert.show();
+	}
+	
 	private void setProviderPopup() {
 		AlertDialog.Builder alertDialogBuilder;
 		alertDialogBuilder = new AlertDialog.Builder(this);
@@ -420,7 +536,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	    if (requestCode == POST_RUN_REQUEST) {
 	        if (resultCode == RESULT_OK) {
 				Intent intent = new Intent();
-				intent.putExtra("runningSpeed", runningSpeed/(double)runningSpeedSamples);
+				intent.putExtra("runningSpeed", (this.runningSpeedSum/(double)this.runningSpeedSamples));
 				intent.putExtra("runningTime", runningTime);
 				intent.putExtra("totalTime", totalTime);
 

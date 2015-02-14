@@ -2,7 +2,7 @@ package com.br.makemerun.view;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.PointStyle;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -21,8 +21,10 @@ import android.widget.TextView;
 
 public class Statistics extends Activity{
 	private GraphicalView chartView;
-	private XYSeries series;
-    private XYSeriesRenderer renderer;
+	private XYSeries walkingSeries;
+	private XYSeries runningSeries;
+    private XYSeriesRenderer walkingRenderer;
+    private XYSeriesRenderer runningRenderer;
     private XYMultipleSeriesDataset mDataset;
     private XYMultipleSeriesRenderer mRenderer;
 
@@ -33,22 +35,28 @@ public class Statistics extends Activity{
 
 		Bundle bundle = this.getIntent().getExtras();
 		int subgoal = bundle.getInt("subgoal");
-		
+
         StatsDB db = new StatsDB(this);
-        series = db.getStatsBySubgoal(subgoal);
+        walkingSeries = db.getStatsBySubgoal(subgoal, StatsDB.WALKING_SPRINT);
+        runningSeries = db.getStatsBySubgoal(subgoal, StatsDB.RUNNING_SPRINT);
 
         mDataset = new XYMultipleSeriesDataset();
-        mDataset.addSeries(series);
+        mDataset.addSeries(walkingSeries);
+        mDataset.addSeries(runningSeries);
 
-        renderer = new XYSeriesRenderer();
-        renderer.setLineWidth(6);
-        renderer.setColor(Color.rgb(0, 153, 255));
-        renderer.setDisplayBoundingPoints(true);
-        renderer.setPointStyle(PointStyle.CIRCLE);
-        renderer.setPointStrokeWidth(7);
+        walkingRenderer = new XYSeriesRenderer();
+        walkingRenderer.setLineWidth(8);
+        walkingRenderer.setFillPoints(true);
+        walkingRenderer.setColor(Color.rgb(0, 153, 255));
+
+        runningRenderer = new XYSeriesRenderer();
+        runningRenderer.setLineWidth(8);
+        runningRenderer.setFillPoints(true);
+        runningRenderer.setColor(Color.rgb(255, 153, 0));
 
         mRenderer = new XYMultipleSeriesRenderer();
-        mRenderer.addSeriesRenderer(renderer);
+        mRenderer.addSeriesRenderer(walkingRenderer);
+        mRenderer.addSeriesRenderer(runningRenderer);
 
         mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00)); // transparent margins
         mRenderer.setAxisTitleTextSize(16);
@@ -57,16 +65,29 @@ public class Statistics extends Activity{
         mRenderer.setChartTitleTextSize(20);
         mRenderer.setXTitle(this.getString(R.string.description_distance));
         mRenderer.setYTitle(this.getString(R.string.description_speed));
-        
+
         mRenderer.setPanEnabled(false, false);
-     	mRenderer.setYAxisMax(series.getMaxY());
-     	mRenderer.setYAxisMin(series.getMinY());
-     	mRenderer.setXAxisMax(series.getMaxX());
-     	mRenderer.setXAxisMin(series.getMinX());
+     	mRenderer.setYAxisMax(runningSeries.getMaxY() + 10);
+     	mRenderer.setYAxisMin(0);
+     	mRenderer.setPanEnabled(true);
+     	mRenderer.setPanEnabled(true, true);
+     	mRenderer.setZoomEnabled(false,true);
+     	mRenderer.setBarWidth(120);
+
+
+     	if(runningSeries.getMaxX() >= walkingSeries.getMaxX()){
+     		mRenderer.setXAxisMax(runningSeries.getMaxX());
+     		//mRenderer.setPanLimits(new double[]{0,runningSeries.getMaxX() + 1,0,0});
+     	}else{
+     		mRenderer.setXAxisMax(walkingSeries.getMaxX());
+     		//mRenderer.setPanLimits(new double[]{0,walkingSeries.getMaxX() + 1,0,0});
+     	}
+
+     	mRenderer.setXAxisMin(0);
      	mRenderer.setShowGrid(true);
 
      	LinearLayout graphLay = (LinearLayout) findViewById(R.id.layGraph);
-        chartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
+        chartView = ChartFactory.getBarChartView(this, mDataset, mRenderer, Type.STACKED);
         graphLay.addView(chartView);
 
         TextView txSkip = (TextView) findViewById(R.id.txSkip);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
+import com.br.makemerun.database.StatsDB;
 import com.br.makemerun.model.Goal;
 import com.br.makemerun.model.Subgoal;
 import com.br.makemerun.view.widgets.CircularProgressBar;
@@ -74,11 +75,12 @@ public class SubgoalsList extends Activity{
 		double walkingPartialRef = kmTotalWalking/(Math.ceil(nPartials - Math.ceil(nPartials / 2)));
 		double partialRunning;
 		double partialWalking;
+		StatsDB statsDB = new StatsDB(this);
 
 		for(int i = 0; i <= N_SUBGOALS; i++){
 			subgoals[i] = new Subgoal();
 
-			if(i <= goal.getProgress()){
+			if(statsDB.getStatsBySubgoal(i, StatsDB.RUNNING_SPRINT) != null){
 				subgoals[i].setCompleted(true);
 			}else if(i == goal.getProgress()){
 				kmProgress.setProgress((int)(kmTotalRunning + i * increaseTax));

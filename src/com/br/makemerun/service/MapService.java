@@ -126,7 +126,7 @@ public class MapService extends Service implements LocationListener {
     	timer.startTimer();
     }
 
-    public void pauseMapping(){
+    public void stopMapping(){
     	isMapping = false;
     	timer.stopTimer();
     }
@@ -144,7 +144,7 @@ public class MapService extends Service implements LocationListener {
 
     public void stopGPS(){
         if(locationManager != null){
-        	pauseMapping();
+        	stopMapping();
             locationManager.removeUpdates(MapService.this);
         }
     }

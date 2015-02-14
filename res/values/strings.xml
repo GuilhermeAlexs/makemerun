@@ -19,7 +19,7 @@
     <string name="button_statistics">Statistics</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
-    <string name="button_choose_goal">Choose Another Goal</string>
+    <string name="button_choose_goal">Abandon Goal</string>
 	<string name="button_try_again">Try Again</string>
 
     <string name="title_choose_goal">Choose Your Goal</string>
@@ -30,7 +30,7 @@
     <string name="title_nice_job">Nice job!</string>
  
     <string name="description_run_test">Hello, let\'s see how much you can run without stopping. Press \'Start\' and start a run at moderate speed. When you get tired, press \'Stop\'.</string>
-    <string name="description_test_results_ok">Hey! At a moderate speed, you can run at most %1$s km! This way your trainings will be divided in a series of sprints and walks. In each training we\'ll take some km from the walk and put them on the sprints. </string>
+    <string name="description_test_results_ok">Hey! At a moderate speed, you can run at most %1$s! This way your trainings will be divided in a series of sprints and walks. In each training we\'ll take some km from the walk and put them on the sprints. </string>
     <string name="description_test_results_goal_completed">You have reached you goal. Choose another one!</string>
     <string name="description_test_results_under_recommended">You need to run at least 100 meters. Try again!</string>
    	<string name="description_are_you_sure">Are you sure?</string>

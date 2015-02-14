@@ -85,7 +85,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 					}
 				}else{
 					started = false;
-					mapService.pauseMapping();
+					mapService.stopMapping();
 					startStopButton.setText(RunTest.this.getString(R.string.button_start));
 
 					Intent intent = new Intent(view.getContext(),
@@ -134,7 +134,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 		// finish() is called in super: we only override this method to be able
 		// to override the transition
 		super.onBackPressed();
-
+		this.mapService.stopMapping();
 		overridePendingTransition(R.drawable.activity_back_in,
 				R.drawable.activity_back_out);
 	}

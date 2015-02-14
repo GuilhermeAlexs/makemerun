@@ -18,13 +18,18 @@ public class StatsDB extends SQLiteOpenHelper{
 
     private static final String ID = "id";
     private static final String SUBGOAL = "subgoal_id";
+    private static final String SPRINT_TYPE = "sprint_type";
     private static final String X_VALUE = "x_value";
     private static final String Y_VALUE = "y_value";
+    
+    public static final int WALKING_SPRINT = 0;
+    public static final int RUNNING_SPRINT = 1;
 
     private static final String CREATE_TABLE_STATS = "CREATE TABLE "
     		+ TABLE_STATS + "(" +
     		ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
     		SUBGOAL + " INTEGER," +
+    		SPRINT_TYPE + " INTEGER," +
     		X_VALUE + " FLOAT," +
     		Y_VALUE + " FLOAT)";
 
@@ -51,25 +56,35 @@ public class StatsDB extends SQLiteOpenHelper{
 		onCreate(db);
 	}
 	
-	public XYSeries getStatsBySubgoal(int subgoal){
+	public XYSeries getStatsBySubgoal(int subgoal, int sprintType){
 		SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STATS + " WHERE " + SUBGOAL + " == " + subgoal, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STATS + " WHERE " + SUBGOAL + " == " + subgoal + " AND " + SPRINT_TYPE + " == " + sprintType, null);
         XYSeries series = new XYSeries("Speed");
 
         while(cursor.moveToNext())
         	series.add(cursor.getDouble(cursor.getColumnIndex(X_VALUE)), cursor.getDouble(cursor.getColumnIndex(Y_VALUE)));
 
+        if(sprintType == WALKING_SPRINT)
+        	series.setTitle("Speed Walking");
+        else
+        	series.setTitle("Speed Running");
+
         db.close();
+        
+        if(series.getItemCount() == 0)
+        	series = null;
+
         return series;
     }
 
-	public void insertStats(int subgoal, XYSeries series) {
+	public void insertStats(int subgoal, int sprintType, XYSeries series) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		for(int i = 0; i < series.getItemCount(); i++){
 			ContentValues values = new ContentValues();
 			values.put(SUBGOAL, subgoal);
+			values.put(SPRINT_TYPE, sprintType);
 			values.put(X_VALUE, series.getX(i));
 			values.put(Y_VALUE, series.getY(i));
 

@@ -19,7 +19,7 @@
     <string name="button_statistics">Estatísticas</string>
     <string name="button_yes">Sim</string>
     <string name="button_no">Não</string>
-    <string name="button_choose_goal">Escolher Objetivo</string>
+    <string name="button_choose_goal">Abandonar Objetivo</string>
 	<string name="button_try_again">Tentar novamente</string>
 
     <string name="title_choose_goal">Escolha um objetivo</string>
@@ -30,7 +30,7 @@
     <string name="title_nice_job">Perfeito!</string>
 
     <string name="description_run_test">Olá! Vamos ver o quanto você consegue correr sem parar. Pressione \'Iniciar\' e começe a correr em velocidade moderada. Quando cansar, pressione \'Parar\'.</string>
-    <string name="description_test_results_ok">A uma velocidade moderada, você consegue correr no máximo %1$s km! Assim, com base nesse valor, seus treinos serão divididos em uma série de corridas e caminhadas. Em cada treinamento, vamos remover alguns quilômetros (ou metros) da caminhada para colocar na corrida. </string>
+    <string name="description_test_results_ok">A uma velocidade moderada, você consegue correr no máximo %1$s! Assim, com base nesse valor, seus treinos serão divididos em uma série de corridas e caminhadas. Em cada treinamento, vamos remover alguns quilômetros (ou metros) da caminhada para colocar na corrida. </string>
     <string name="description_test_results_goal_completed">Você já atingiu seu objetivo. Escolha outro!</string>
     <string name="description_test_results_under_recommended">Você precisa correr pelo menos 100m. Tente novamente!</string>
    	<string name="description_are_you_sure">Tem certeza?</string>

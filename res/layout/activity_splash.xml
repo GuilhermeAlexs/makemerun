@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
 		circular:strokeWidth="10"
-		circular:progressColor="#0099ff"/>
+		circular:progressColor="#3299bb"/>
 
     <ImageView
         android:id="@+id/icLogo"

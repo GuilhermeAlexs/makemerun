@@ -1,5 +1,11 @@
 package com.br.makemerun.view;
 
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.model.Goal;
@@ -16,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.widget.TextView;
 
 public class Splash extends Activity {
@@ -41,9 +48,50 @@ public class Splash extends Activity {
 		progressLoading = (CircularProgressBar) this.findViewById(R.id.progressLoading);
 		progressLoading.setMax(4);
 		progressLoading.setProgress(0);
-		
+
+		List<Double> speedList = new ArrayList<Double>();
+		speedList.add((double)60);
+		speedList.add((double)0);
+		speedList.add((double)10);
+		speedList.add((double)11);
+		speedList.add((double)10);
+		speedList.add((double)12);
+		speedList.add((double)14);
+		speedList.add((double)10);
+		speedList.add((double)90);
+		speedList.add((double)12);
+		Log.d("Splash", "speed = " + getAvgSpeed(speedList));
 		txLoading = (TextView) this.findViewById(R.id.txLoading);
 		new LoadingTask().execute();
+	}
+	
+	
+	private double getAvgSpeed(List<Double> speedList) {
+		double avgSpeed = 0;
+
+		Collections.sort(speedList, new Comparator<Double>() {
+			@Override
+			public int compare(Double speed1, Double speed2) {
+				if (speed1 > speed2) {
+					return 1;
+				} else if (speed1 == speed2) {
+					return 0;
+				}
+				return -1;
+			}
+		});
+
+		if (speedList.size() == 0) {
+			return 0;
+		} else if (speedList.size() % 2 == 0) {
+			avgSpeed = speedList.get(speedList.size() / 2)
+					+ speedList.get((speedList.size() / 2) - 1);
+			avgSpeed = avgSpeed / 2;
+		} else {
+			avgSpeed = speedList.get((int) Math.floor(speedList.size() / 2));
+		}
+
+		return avgSpeed;
 	}
 	
 	@Override
