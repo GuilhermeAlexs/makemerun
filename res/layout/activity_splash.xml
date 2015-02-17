@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
 		circular:strokeWidth="10"
+		circular:backgroundColor="#444444"
 		circular:progressColor="#3299bb"/>
 
     <ImageView

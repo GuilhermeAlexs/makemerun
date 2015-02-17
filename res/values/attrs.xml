@@ -9,5 +9,7 @@
         <attr name="subtitle" format="string"/>
         <attr name="subtitleColor" format="string"/>
         <attr name="strokeWidth" format="integer"/>
+        <attr name="titleTextSize" format="float"/>
+        <attr name="subTitleTextSize" format="float"/>
     </declare-styleable>
 </resources>

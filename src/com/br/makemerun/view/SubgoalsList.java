@@ -52,13 +52,13 @@ public class SubgoalsList extends Activity{
 		speedProgress.setMax(35);
 		speedProgress.setSubTitle("km/h");
     	speedProgress.setProgress((int)Math.round(goal.getLastSpeedRunning()));
-    	speedProgress.setTitle("" + ((int)Math.ceil(goal.getLastSpeedRunning())));
+    	speedProgress.setTitle("" + String.format("%.1f",goal.getLastSpeedRunning()));
 		speedProgress.setIndeterminate(false);
 
 		timeProgress = (CircularProgressBar) findViewById(R.id.progressTime);
     	timeProgress.setMax((int) goal.getLastTotalTimeRunning());
     	timeProgress.setProgress((int)goal.getLastTimeRunning());
-    	timeProgress.setTitle("" + ((int)Math.ceil((double)goal.getLastTimeRunning()/(double)60)));
+    	timeProgress.setTitle("" + String.format("%.1f",(double)goal.getLastTimeRunning()/(double)60));
     	timeProgress.setSubTitle("min");
 		timeProgress.setIndeterminate(false);
 
@@ -131,6 +131,8 @@ public class SubgoalsList extends Activity{
         	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
         	        public void onClick(DialogInterface dialog, int which) {
         	        	db.deleteGoal(goal);
+        	        	StatsDB statsDB = new StatsDB(SubgoalsList.this);
+        	        	statsDB.deleteAll();
                         Intent intent = new Intent(SubgoalsList.this, ChooseGoal.class);
                         startActivity(intent);
         	            dialog.dismiss();

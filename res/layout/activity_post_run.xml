@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/icWatch"
         android:layout_alignLeft="@+id/txKmTotalRunning"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
         android:textColor="#bbbbbb"
         android:textSize="16sp"
         android:text="2.00km" />
@@ -134,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView2"
         android:layout_alignLeft="@+id/txKmTotalWalking"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
         android:text="2.00km"
         android:textColor="#bbbbbb"
         android:textSize="16sp" />

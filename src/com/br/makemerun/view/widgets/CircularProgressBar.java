@@ -125,10 +125,12 @@ public class CircularProgressBar extends ProgressBar{
 		if(t!=null)
 			mSubTitle = t;
 
+		float titleTextSize = a.getFloat(R.styleable.CircularProgressBar_titleTextSize,60);
+		float subTitleTextSize = a.getFloat(R.styleable.CircularProgressBar_subTitleTextSize,20);
+
 		mStrokeWidth = a.getInt(R.styleable.CircularProgressBar_strokeWidth, STROKE_WIDTH);
 
 		a.recycle();
-
 
 		mProgressColorPaint.setAntiAlias(true);
 		mProgressColorPaint.setStyle(Paint.Style.STROKE);
@@ -138,13 +140,13 @@ public class CircularProgressBar extends ProgressBar{
 		mBackgroundColorPaint.setStyle(Paint.Style.STROKE);
 		mBackgroundColorPaint.setStrokeWidth(mStrokeWidth);
 
-		mTitlePaint.setTextSize(60); 
+		mTitlePaint.setTextSize(titleTextSize); 
 		mTitlePaint.setStyle(Style.FILL);
 		mTitlePaint.setAntiAlias(true);
 		mTitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.NORMAL));
 		mTitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
 
-		mSubtitlePaint.setTextSize(20); 
+		mSubtitlePaint.setTextSize(subTitleTextSize); 
 		mSubtitlePaint.setStyle(Style.FILL);
 		mSubtitlePaint.setAntiAlias(true);
 		mSubtitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.BOLD));
@@ -285,4 +287,5 @@ public class CircularProgressBar extends ProgressBar{
 	public boolean getHasShadow(){
 		return mHasShadow;
 	}
+	
 }

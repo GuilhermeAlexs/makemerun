@@ -41,6 +41,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int strokeWidth=0x7f010007;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int subTitleTextSize=0x7f010009;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -73,6 +81,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int titleColor=0x7f010004;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int titleTextSize=0x7f010008;
     }
     public static final class color {
         public static final int circular_progress_default_background=0x7f040001;
@@ -262,23 +278,28 @@ containing a value of this type.
            <tr><td><code>{@link #CircularProgressBar_hasShadow com.br.makemerun:hasShadow}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_progressColor com.br.makemerun:progressColor}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_strokeWidth com.br.makemerun:strokeWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircularProgressBar_subTitleTextSize com.br.makemerun:subTitleTextSize}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_subtitle com.br.makemerun:subtitle}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_subtitleColor com.br.makemerun:subtitleColor}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_title com.br.makemerun:title}</code></td><td></td></tr>
            <tr><td><code>{@link #CircularProgressBar_titleColor com.br.makemerun:titleColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircularProgressBar_titleTextSize com.br.makemerun:titleTextSize}</code></td><td></td></tr>
            </table>
            @see #CircularProgressBar_backgroundColor
            @see #CircularProgressBar_hasShadow
            @see #CircularProgressBar_progressColor
            @see #CircularProgressBar_strokeWidth
+           @see #CircularProgressBar_subTitleTextSize
            @see #CircularProgressBar_subtitle
            @see #CircularProgressBar_subtitleColor
            @see #CircularProgressBar_title
            @see #CircularProgressBar_titleColor
+           @see #CircularProgressBar_titleTextSize
          */
         public static final int[] CircularProgressBar = {
             0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
+            0x7f010008, 0x7f010009
         };
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#backgroundColor}
@@ -337,6 +358,20 @@ containing a value of this type.
         */
         public static final int CircularProgressBar_strokeWidth = 7;
         /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#subTitleTextSize}
+          attribute's value can be found in the {@link #CircularProgressBar} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:subTitleTextSize
+        */
+        public static final int CircularProgressBar_subTitleTextSize = 9;
+        /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#subtitle}
           attribute's value can be found in the {@link #CircularProgressBar} array.
 
@@ -392,5 +427,19 @@ containing a value of this type.
           @attr name com.br.makemerun:titleColor
         */
         public static final int CircularProgressBar_titleColor = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#titleTextSize}
+          attribute's value can be found in the {@link #CircularProgressBar} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:titleTextSize
+        */
+        public static final int CircularProgressBar_titleTextSize = 8;
     };
 }

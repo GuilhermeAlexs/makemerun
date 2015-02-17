@@ -77,4 +77,9 @@ public class ChooseGoal extends Activity{
 	protected void onStop() {
 		super.onStop();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		this.moveTaskToBack(true);
+	}
 }

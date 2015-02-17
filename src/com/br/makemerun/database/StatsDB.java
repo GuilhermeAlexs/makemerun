@@ -100,4 +100,11 @@ public class StatsDB extends SQLiteOpenHelper{
 		db.delete(TABLE_STATS, SUBGOAL + " == " + subgoal, null);
 		db.close();
 	}
+	
+	public void deleteAll(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		db.delete(TABLE_STATS, null, null);
+		db.close();
+	}
 }
