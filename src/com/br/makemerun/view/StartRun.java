@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.br.makemerun.R;
 import com.br.makemerun.database.StatsDB;
 import com.br.makemerun.model.ChangeTimeListener;
+import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
@@ -384,7 +385,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		if(distance >= totalDistance){
 		   if(currState == RUNNING_STATE){
 			   speedAvg = getAvgSpeed(runningSpeedList);
-			   runningSpeedSeries.add(mode_index, speedAvg);
+			   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 			   runningSpeedSum = runningSpeedSum + speedAvg;
 			   runningSpeedSamples++;
 		   }else{
@@ -395,19 +396,21 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		   currState = END_STATE;
 		   changeViewState();
 		}else if(currState == RUNNING_STATE && partialDistance >= this.partialDistanceRunning){
-		   speedAvg = getAvgSpeed(runningSpeedList);
-		   runningSpeedSeries.add(mode_index, speedAvg);
-		   runningSpeedSum = runningSpeedSum + speedAvg;
-		   runningSpeedSamples++;
-		   runningSpeedList.clear();
-		   mode_index++;
-		   lastChangeKm = distance;
-		   currState = WALKING_STATE;
-		   kmPartialProgress.setMax((int)(Math.round(partialDistanceWalking*1000)));
-		   changeViewState();
+			if(partialDistanceWalking > 1){
+			   speedAvg = getAvgSpeed(runningSpeedList);
+			   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
+			   runningSpeedSum = runningSpeedSum + speedAvg;
+			   runningSpeedSamples++;
+			   runningSpeedList.clear();
+			   mode_index++;
+			   lastChangeKm = distance;
+			   currState = WALKING_STATE;
+			   kmPartialProgress.setMax((int)(Math.round(partialDistanceWalking*1000)));
+			   changeViewState();
+		   }
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
 		   speedAvg = getAvgSpeed(walkingSpeedList);
-		   walkingSpeedSeries.add(mode_index, speedAvg);
+		   walkingSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 		   walkingSpeedList.clear();
 		   mode_index++;
 		   lastChangeKm = distance;

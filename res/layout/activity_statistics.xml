@@ -28,5 +28,4 @@
         android:textColor="#bbbbbb"
         android:textSize="26sp"
         android:textStyle="bold" />
-
 </RelativeLayout>

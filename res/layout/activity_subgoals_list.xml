@@ -10,20 +10,61 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.br.makemerun.view.SubgoalsList" >
 
-    <com.br.makemerun.view.widgets.CircularProgressBar
-        android:id="@+id/progressGoal"
-        style="@style/Widget.ProgressBar.CircularProgressBar"
-        android:layout_width="120dip"
-        android:layout_height="120dip"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" 
-        circular:backgroundColor="#444444"
-        circular:progressColor="#FF9900"
-        circular:titleColor="#FF9900"
-        circular:titleTextSize="60"
-        circular:subTitleTextSize="20"/>
- 
+	<ViewSwitcher android:id="@+id/lastStatsSwitcher"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:background="#000000">
+		<RelativeLayout android:id="@+id/runningStatsFrame"     
+		    android:layout_width="match_parent"
+    		android:layout_height="match_parent"
+    		android:background="#000000">
+
+		    <com.br.makemerun.view.widgets.CircularProgressBar
+		        android:id="@+id/progressRunningGoal"
+		        style="@style/Widget.ProgressBar.CircularProgressBar"
+		        android:layout_width="120dip"
+		        android:layout_height="120dip"
+		        android:layout_alignParentTop="true"
+		        android:layout_centerHorizontal="true"
+		        android:layout_marginTop="10dp" 
+		        circular:backgroundColor="#444444"
+		        circular:progressColor="#FF9900"
+		        circular:titleColor="#FF9900"
+		        circular:titleTextSize="60"
+		        circular:subtitleColor="#bbbbbb"
+		        circular:subTitleTextSize="20"/>
+
+		    <com.br.makemerun.view.widgets.CircularProgressBar
+		           android:id="@+id/progressRunningSpeed"
+		           style="@style/Widget.ProgressBar.CircularProgressBar"
+		           android:layout_width="82dip"
+		       	   android:layout_height="82dip"
+		           android:layout_alignBaseline="@+id/progressRunningGoal"
+		           android:layout_alignParentLeft="true"
+		           circular:backgroundColor="#444444"
+		           circular:progressColor="#FF9900"
+		           circular:titleColor="#FF9900"
+		           circular:titleTextSize="30"
+		           circular:subtitleColor="#bbbbbb"
+		           circular:subTitleTextSize="20"/>
+
+		    <com.br.makemerun.view.widgets.CircularProgressBar
+		           android:id="@+id/progressRunningTime"
+		           style="@style/Widget.ProgressBar.CircularProgressBar"
+		           android:layout_width="82dip"
+		       	   android:layout_height="82dip"
+		           android:layout_alignBaseline="@+id/progressRunningGoal"
+		           android:layout_alignParentRight="true"
+		           circular:backgroundColor="#444444"
+		           circular:progressColor="#FF9900"
+		           circular:titleColor="#FF9900"
+		           circular:titleTextSize="30"
+		           circular:subtitleColor="#bbbbbb"
+		           circular:subTitleTextSize="20"/>
+	    </RelativeLayout>
+    </ViewSwitcher>
+
        <ListView
            android:id="@+id/listSubgoals"
            android:layout_width="wrap_content"
@@ -31,33 +72,7 @@
            android:layout_marginTop="20dp" 
            android:dividerHeight="0dp"
 		   android:divider="@null"
-           android:layout_below="@id/progressGoal"/>
-
-       <com.br.makemerun.view.widgets.CircularProgressBar
-           android:id="@+id/progressSpeed"
-           style="@style/Widget.ProgressBar.CircularProgressBar"
-           android:layout_width="80dip"
-       	   android:layout_height="80dip"
-           android:layout_alignBaseline="@+id/progressGoal"
-           android:layout_alignParentLeft="true"
-           circular:backgroundColor="#444444"
-           circular:progressColor="#FF9900"
-           circular:titleColor="#FF9900"
-           circular:titleTextSize="40"
-           circular:subTitleTextSize="20"/>
-
-       <com.br.makemerun.view.widgets.CircularProgressBar
-           android:id="@+id/progressTime"
-           style="@style/Widget.ProgressBar.CircularProgressBar"
-           android:layout_width="80dip"
-       	   android:layout_height="80dip"
-           android:layout_alignBaseline="@+id/progressGoal"
-           android:layout_alignParentRight="true"
-           circular:backgroundColor="#444444"
-           circular:progressColor="#FF9900"
-           circular:titleColor="#FF9900"
-           circular:titleTextSize="40"
-           circular:subTitleTextSize="20"/>
+           android:layout_below="@id/lastStatsSwitcher"/>
 
        <TextView
            android:id="@+id/txGiveUp"
