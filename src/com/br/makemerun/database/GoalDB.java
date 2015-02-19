@@ -135,7 +135,7 @@ public class GoalDB extends SQLiteOpenHelper{
 		List<Subgoal> subgoals = goal.getSubgoals();
 
 		for(Subgoal subgoal: subgoals)
-			subgoalDB.insertSubgoal(subgoal);
+			subgoalDB.updateSubgoal(subgoal);
 
 		db.update(TABLE_GOAL, values, ID + " == " + goal.getId(), null);
 		db.close();

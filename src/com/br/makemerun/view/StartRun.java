@@ -388,6 +388,9 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 			   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 			   runningSpeedSum = runningSpeedSum + speedAvg;
 			   runningSpeedSamples++;
+			   
+			   runningTime = (totalTime - startRun) + runningTime;
+			   runningStarted = false;
 		   }else{
 			   speedAvg = getAvgSpeed(walkingSpeedList);
 			   walkingSpeedSeries.add(mode_index, speedAvg);
@@ -396,18 +399,19 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		   currState = END_STATE;
 		   changeViewState();
 		}else if(currState == RUNNING_STATE && partialDistance >= this.partialDistanceRunning){
-			if(partialDistanceWalking > 1){
-			   speedAvg = getAvgSpeed(runningSpeedList);
-			   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
-			   runningSpeedSum = runningSpeedSum + speedAvg;
-			   runningSpeedSamples++;
-			   runningSpeedList.clear();
-			   mode_index++;
-			   lastChangeKm = distance;
+		   speedAvg = getAvgSpeed(runningSpeedList);
+		   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
+		   runningSpeedSum = runningSpeedSum + speedAvg;
+		   runningSpeedSamples++;
+		   runningSpeedList.clear();
+		   mode_index++;
+		   lastChangeKm = distance;
+
+		   if(partialDistanceWalking > 0.01f){
 			   currState = WALKING_STATE;
 			   kmPartialProgress.setMax((int)(Math.round(partialDistanceWalking*1000)));
-			   changeViewState();
 		   }
+		   changeViewState();
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
 		   speedAvg = getAvgSpeed(walkingSpeedList);
 		   walkingSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));

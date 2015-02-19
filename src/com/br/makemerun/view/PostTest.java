@@ -29,8 +29,7 @@ public class PostTest extends Activity{
 
 		String time = bundle.getString("time");
 		final int kmGoal = bundle.getInt("kmGoal");
-//		final double kmTest = bundle.getDouble("kmRunning");
-		final double kmTest = 0.5;
+		final double kmTest = bundle.getDouble("kmRunning");
 		final double avgSpeed = bundle.getDouble("avgSpeed");
 		final double sdSpeed = bundle.getDouble("sdSpeed");
 

@@ -58,9 +58,9 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 			icStats.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					SubgoalsList.updateStatsView(subgoal);
-					Intent intent = new Intent(context,Statistics.class);
-					intent.putExtra("subgoal", subgoal);
-					context.startActivity(intent);
+//					Intent intent = new Intent(context,Statistics.class);
+//					intent.putExtra("subgoal", subgoal);
+//					context.startActivity(intent);
 				}
 			});
 		}

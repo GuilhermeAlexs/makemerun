@@ -82,7 +82,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
         	subgoal.setKmPartialWalking(cursor.getDouble(cursor.getColumnIndex(PARTIAL_DISTANCE_WALKING)));
 
         	subgoal.setTotalTime(cursor.getLong(cursor.getColumnIndex(TOTAL_TIME)));
-        	subgoal.setPartialRunningTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_RUNNING)));
+        	subgoal.setTotalRunningTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_RUNNING)));
         	subgoal.setTotalWalkingTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_WALKING)));
 
         	subgoal.setCompleted(cursor.getInt(cursor.getColumnIndex(IS_COMPLETED)) == 1);
@@ -118,7 +118,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 		values.put(PARTIAL_DISTANCE_RUNNING, subgoal.getKmPartialRunning());
 		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
 		values.put(TOTAL_TIME, subgoal.getTotalTime());
-		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
+		values.put(PARTIAL_TIME_RUNNING, subgoal.getTotalRunningTime());
 		values.put(PARTIAL_TIME_WALKING, subgoal.getTotalWalkingTime());
 		values.put(IS_COMPLETED, subgoal.isCompleted());
 		values.put(IS_LAST, subgoal.isLast());
@@ -148,7 +148,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 		values.put(PARTIAL_DISTANCE_RUNNING, subgoal.getKmPartialRunning());
 		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
 		values.put(TOTAL_TIME, subgoal.getTotalTime());
-		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
+		values.put(PARTIAL_TIME_RUNNING, subgoal.getTotalRunningTime());
 		values.put(PARTIAL_TIME_WALKING, subgoal.getTotalWalkingTime());
 		values.put(IS_COMPLETED, subgoal.isCompleted());
 		values.put(IS_LAST, subgoal.isLast());

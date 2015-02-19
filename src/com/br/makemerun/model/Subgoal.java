@@ -83,14 +83,6 @@ public class Subgoal {
 		this.totalTime = totalTime;
 	}
 
-	public long getPartialRunningTime() {
-		return totalRunningTime;
-	}
-
-	public void setPartialRunningTime(long runningTime) {
-		this.totalRunningTime = runningTime;
-	}
-
 	public long getTotalRunningTime() {
 		return totalRunningTime;
 	}
