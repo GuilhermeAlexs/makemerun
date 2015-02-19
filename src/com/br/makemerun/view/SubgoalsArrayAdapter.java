@@ -52,7 +52,14 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		runningPartialText.setText("" + String.format("%.2f", values.get(position).getKmPartialRunning()) + "km");
 
 		if(values.get(position).isCompleted()){
-			ImageView icStats = (ImageView) rowView.findViewById(R.id.icStats);
+			ImageView icStats;
+			icStats = (ImageView) rowView.findViewById(R.id.icStats);
+			if(SubgoalsList.selectedSubgoal.getId() == position){
+				icStats.setImageResource(R.drawable.meteron);
+			}else{
+				icStats.setImageResource(R.drawable.meter);
+			}
+
 			icStats.setVisibility(View.VISIBLE);
 			final int subgoal = position;
 			icStats.setOnClickListener(new View.OnClickListener() {
