@@ -1,5 +1,7 @@
 package com.br.makemerun.view;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -20,6 +23,7 @@ import android.widget.ViewSwitcher;
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.database.StatsDB;
+import com.br.makemerun.database.SubgoalDB;
 import com.br.makemerun.model.Goal;
 import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.model.Subgoal;
@@ -29,15 +33,16 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	private ListView listSubgoals;
 	private SubgoalsArrayAdapter listAdapter;
 	private GoalDB db;
-	private Subgoal [] subgoals;
 	private int choosenSubgoal;
 	private final int N_SUBGOALS = 4;
+	private List<Subgoal> subgoals;
+	public static Subgoal selectedSubgoal;
 
 	private final int RUNNING_RESULTS_REQUEST = 1;
 
-	private CircularProgressBar kmRunningProgress;
-	private CircularProgressBar speedRunningProgress;
-	private CircularProgressBar timeRunningProgress;
+	public static CircularProgressBar kmRunningProgress;
+	public static CircularProgressBar speedRunningProgress;
+	public static CircularProgressBar timeRunningProgress;
 
 	private GestureDetector gestureDetector;
 	private ViewSwitcher lastStatsSwitcher;
@@ -57,6 +62,21 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	private int currTimeStatsView = PROGRESS_TIME_RUNNING;
 	private int currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 
+	public static void updateStatsView(int id){
+		kmRunningProgress.setProgress((int) selectedSubgoal.getKmTotalRunning()*1000);
+		kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
+		
+		double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
+		long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
+		double speedRunning = selectedSubgoal.getKmTotalRunning() / timeRunning;
+		speedRunningProgress.setProgress((int)Math.round( speedRunning * 10));
+		speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
+		
+		timeRunningProgress.setMax((int) selectedSubgoal.getTotalRunningTime());
+		timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
+		timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,152 +89,158 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		lastStatsSwitcher.setInAnimation(this, android.R.anim.fade_in);
 		lastStatsSwitcher.setOutAnimation(this, android.R.anim.fade_out);
 		gestureDetector = new GestureDetector(this, this);
-
+		
 		kmRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningGoal);
+		speedRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningSpeed);
+		timeRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningTime);
+
+		if(goal.getProgress() != -1){
+			updateStatsView(goal.getProgress());
+		}
+		else{
+			kmRunningProgress.setProgress(0);
+			kmRunningProgress.setTitle("0,00");
+			
+			speedRunningProgress.setProgress(0);
+			speedRunningProgress.setTitle("--:--");
+			
+			timeRunningProgress.setProgress(0);
+			timeRunningProgress.setTitle("--:--");
+			
+		}
+		
 		kmRunningProgress.setMax((int)Math.round(goal.getKm()*1000));
 		kmRunningProgress.setSubTitle(getString(R.string.description_of) + " " + goal.getKm() + "km");
-		kmRunningProgress.setProgress((int)Math.round(goal.getProgressKm()*1000));
-    	kmRunningProgress.setTitle(String.format("%.2f",goal.getProgressKm()));
 		kmRunningProgress.setIndeterminate(false);
 		
 		kmRunningProgress.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				switch(currKmStatsView){
 					case PROGRESS_KM_WALKING:
+						if(selectedSubgoal != null){
+							kmRunningProgress.setProgress((int) selectedSubgoal.getKmTotalRunning()*1000);
+							kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
+						}
+
 						kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						kmRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-
+						kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 						kmRunningProgress.setSubTitle(getString(R.string.description_of) + " " + goal.getKm() + "km");
-						kmRunningProgress.setProgress((int)Math.round(goal.getProgressKm()*1000));
-				    	kmRunningProgress.setTitle(String.format("%.2f",goal.getProgressKm()));
 				    	currKmStatsView = PROGRESS_KM_RUNNING; 
 						break;
 					case PROGRESS_KM_RUNNING:
+						if(selectedSubgoal != null){
+							kmRunningProgress.setProgress((int)Math.round((selectedSubgoal.getKmTotalWalking())*1000));
+							kmRunningProgress.setTitle(String.format("%.2f", selectedSubgoal.getKmTotalWalking()));
+						}
+
 						kmRunningProgress.setProgressColor(Color.parseColor("#3299bb"));
 						kmRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-
+						kmRunningProgress.setTitleColor(Color.parseColor("#3299bb"));
 						kmRunningProgress.setSubTitle(getString(R.string.description_of) + " " + goal.getKm() + "km");
-						kmRunningProgress.setProgress((int)Math.round((goal.getKm() - goal.getProgressKm())*1000));
-				    	kmRunningProgress.setTitle(String.format("%.2f",goal.getKm() - goal.getProgressKm()));
 				    	currKmStatsView = PROGRESS_KM_WALKING; 
 						break;
 				}
 			}
 		});
 
-		speedRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningSpeed);
 		speedRunningProgress.setMax((int)Math.round(goal.getSpeedBase())*10);
 		speedRunningProgress.setSubTitle("min/km");
-    	speedRunningProgress.setProgress((int)Math.round((goal.getProgressKm() / (goal.getLastTimeRunning()/(double)3600)*10)));
-    	speedRunningProgress.setTitle("" + String.format("%.1f",MetricUtils.convertToPace(goal.getProgressKm() / (goal.getLastTimeRunning()/(double)3600))));
 		speedRunningProgress.setIndeterminate(false);
 		speedRunningProgress.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				switch(currSpeedStatsView){
 					case PROGRESS_SPEED_WALKING:
+						if(selectedSubgoal != null){
+							double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
+							long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
+							double speedRunning = selectedSubgoal.getKmTotalRunning() / timeRunning;
+							speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
+							speedRunningProgress.setProgress((int)Math.round(speedRunning*10));
+						}
+						
 						speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						speedRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-						double speedRunning = goal.getProgressKm() / (goal.getLastTimeRunning()/(double)3600);
-						speedRunningProgress.setTitle("" + String.format("%.1f", MetricUtils.convertToPace(speedRunning)));
-				    	speedRunningProgress.setProgress((int)Math.round(speedRunning*10));
+						speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 				    	currSpeedStatsView = PROGRESS_SPEED_RUNNING; 
 						break;
 					case PROGRESS_SPEED_RUNNING:
+						if(selectedSubgoal != null){
+							double timeWalking = selectedSubgoal.getTotalWalkingTime() / (double) 3600;
+							double speedWalking = selectedSubgoal.getKmTotalWalking() / timeWalking;
+							long paceWalking = (long) (MetricUtils.convertToPace(speedWalking) * 60);
+							if((selectedSubgoal.getKmTotalWalking()) != 0){
+								speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceWalking));
+							}
+							else{
+								speedRunningProgress.setTitle("--:--");
+							}
+							speedRunningProgress.setProgress((int)Math.round(speedWalking*10));
+						}
+						
 						speedRunningProgress.setProgressColor(Color.parseColor("#3299bb"));
 						speedRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-						double speedWalking = (goal.getKm() - goal.getProgressKm()) / ((goal.getLastTotalTimeRunning() - goal.getLastTimeRunning()) / (double)3600);
-						speedRunningProgress.setTitle("" + String.format("%.1f",MetricUtils.convertToPace(speedWalking)));
-				    	speedRunningProgress.setProgress((int)Math.round(speedWalking*10));
+						speedRunningProgress.setTitleColor(Color.parseColor("#3299bb"));
 				    	currSpeedStatsView = PROGRESS_SPEED_WALKING; 
 						break;
 				}
 			}
 		});
 
-		timeRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningTime);
-    	timeRunningProgress.setMax((int) goal.getLastTotalTimeRunning());
-    	timeRunningProgress.setProgress((int)goal.getLastTimeRunning());
-    	timeRunningProgress.setTitle("" + String.format("%.1f",(double)goal.getLastTimeRunning()/(double)60));
     	timeRunningProgress.setSubTitle("tempo");
 		timeRunningProgress.setIndeterminate(false);
 		timeRunningProgress.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				switch(currTimeStatsView){
 					case PROGRESS_TIME_WALKING:
+						if(selectedSubgoal != null){
+							timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
+							timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
+							timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
+						}
+						
 						timeRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						timeRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-
-						timeRunningProgress.setMax((int) goal.getLastTotalTimeRunning());
-						timeRunningProgress.setProgress((int)goal.getLastTimeRunning());
-						timeRunningProgress.setTitle("" + String.format("%.1f",(double)goal.getLastTimeRunning()/(double)60));
+						timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 						currTimeStatsView = PROGRESS_TIME_RUNNING; 
 						break;
 					case PROGRESS_TIME_RUNNING:
+						if(selectedSubgoal != null){
+							timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
+							timeRunningProgress.setProgress((int)(selectedSubgoal.getTotalWalkingTime()));
+							timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalWalkingTime()));
+						}
+
 						timeRunningProgress.setProgressColor(Color.parseColor("#3299bb"));
 						timeRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
-
-						timeRunningProgress.setMax((int) goal.getLastTotalTimeRunning());
-						timeRunningProgress.setProgress((int)(goal.getLastTotalTimeRunning() - goal.getLastTimeRunning()));
-						timeRunningProgress.setTitle("" + String.format("%.1f",((double)goal.getLastTotalTimeRunning() - goal.getLastTimeRunning())/(double)60));
+						timeRunningProgress.setTitleColor(Color.parseColor("#3299bb"));
+						
 						currTimeStatsView = PROGRESS_TIME_WALKING; 
 						break;
 				}
 			}
 		});
-
+		
 		listSubgoals = (ListView) findViewById(R.id.listSubgoals);
-
-		subgoals = new Subgoal[N_SUBGOALS + 1];
-
-		final double tax = (double)1 / (double)N_SUBGOALS;
-		final double nPartials = goal.getKm()/goal.getKmBase();		
-		final double kmTotalRunning = Math.ceil(nPartials / 2) * goal.getKmBase();
-		final double kmTotalWalking = (goal.getKm() - kmTotalRunning);
-
-		final double increaseTax = kmTotalWalking/(double)4;
-		double walkingPartialRef = kmTotalWalking/(Math.ceil(nPartials - Math.ceil(nPartials / 2)));
-		double partialRunning;
-		double partialWalking;
-		StatsDB statsDB = new StatsDB(this);
-
-		for(int i = 0; i <= N_SUBGOALS; i++){
-			subgoals[i] = new Subgoal();
-
-			if(statsDB.getStatsBySubgoal(i, StatsDB.RUNNING_SPRINT) != null){
-				subgoals[i].setCompleted(true);
-			}else if(i == goal.getProgress()){
-				kmRunningProgress.setProgress((int)(kmTotalRunning + i * increaseTax));
-				kmRunningProgress.setTitle(String.format("%.2f",kmTotalRunning + i * increaseTax));
-
-	        	speedRunningProgress.setProgress((int)goal.getSpeedBase());
-	        	speedRunningProgress.setTitle(String.format("%.1f", goal.getSpeedBase()));
-			}
-
-			subgoals[i].setKmWalking(kmTotalWalking - i * increaseTax);
-			subgoals[i].setKmRunning(kmTotalRunning + i * increaseTax);
-
-			partialWalking = walkingPartialRef - walkingPartialRef*i*tax;
-			partialRunning = goal.getKmBase() + walkingPartialRef*i*tax;
-
-			subgoals[i].setKmPartialWalking(partialWalking);
-			subgoals[i].setKmPartialRunning(partialRunning);
-		}
-
+		SubgoalDB subgoalDB = new SubgoalDB(this);
+		subgoals = subgoalDB.getSubgoals();
+		
+		listSubgoals = (ListView) findViewById(R.id.listSubgoals);
 		listAdapter = new SubgoalsArrayAdapter(this, subgoals);
-
 		listSubgoals.setAdapter(listAdapter);
 		listSubgoals.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {
             	choosenSubgoal = position;
+//            	selectedSubgoal = subgoals.get(choosenSubgoal);
                 Intent intent = new Intent(SubgoalsList.this, StartRun.class);
                 intent.putExtra("subgoal",  position);
                 intent.putExtra("totalDistance",  goal.getKm());
-                intent.putExtra("totalDistanceWalking", subgoals[position].getKmWalking());
-                intent.putExtra("totalDistanceRunning", subgoals[position].getKmRunning());
-                intent.putExtra("partialDistanceWalking", subgoals[position].getKmPartialWalking());
-                intent.putExtra("partialDistanceRunning", subgoals[position].getKmPartialRunning());
+                intent.putExtra("totalDistanceWalking", subgoals.get(position).getKmTotalWalking());
+                intent.putExtra("totalDistanceRunning", subgoals.get(position).getKmTotalRunning());
+                intent.putExtra("partialDistanceWalking", subgoals.get(position).getKmPartialWalking());
+                intent.putExtra("partialDistanceRunning", subgoals.get(position).getKmPartialRunning());
                 startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
             }
         });
@@ -278,31 +304,35 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	    if (requestCode == RUNNING_RESULTS_REQUEST) {
 	        if (resultCode == RESULT_OK) {
 	        	Bundle bundle = data.getExtras();
-	        	double speed = bundle.getDouble("runningSpeed");
 	        	long runningTime = bundle.getLong("runningTime");
 	        	long totalTime = bundle.getLong("totalTime");
 
 	        	Goal goal = db.getCurrentGoal();
-	        	goal.setProgressKm(subgoals[choosenSubgoal].getKmRunning());
-	        	goal.setLastSpeedRunning(speed);
-	        	goal.setLastTimeRunning(runningTime);
-	        	goal.setLastTotalTimeRunning(totalTime);
+	        	Subgoal subgoal = subgoals.get(choosenSubgoal);
+
+
 	        	goal.setProgress(choosenSubgoal);
-	        	goal.setSpeedBase(speed);
+	        	subgoal.setTotalRunningTime(runningTime);
+	        	subgoal.setTotalWalkingTime(totalTime - runningTime);
+	        	subgoal.setTotalTime(totalTime);
+	        	subgoal.setCompleted(true);
 	        	db.updateGoal(goal);
 
-	        	kmRunningProgress.setProgress((int)Math.round(subgoals[choosenSubgoal].getKmRunning()*1000));
-	        	kmRunningProgress.setTitle(String.format("%.2f",subgoals[choosenSubgoal].getKmRunning()));
+	        	kmRunningProgress.setProgress((int) subgoal.getKmTotalRunning()*1000);
+	        	kmRunningProgress.setTitle(String.format("%.2f",subgoal.getKmTotalRunning()));
 
-	        	speedRunningProgress.setProgress((int)Math.round(MetricUtils.convertToPace(speed)));
-	        	speedRunningProgress.setTitle("" + String.format("%.1f",MetricUtils.convertToPace(speed)));
+	        	
+	    		double time = ( subgoal.getTotalRunningTime() / (double) 3600); //horas
+	    		long pace = (long) (MetricUtils.convertToPace(subgoal.getKmTotalRunning() / time ) * 60); //segundos
+	    		double speed = subgoal.getKmTotalRunning() / time;
+	        	speedRunningProgress.setProgress((int)Math.round( speed * 10));
+	        	speedRunningProgress.setTitle("" + MetricUtils.formatTime(pace));
 
 	        	timeRunningProgress.setMax((int) totalTime);
 	        	timeRunningProgress.setProgress((int)runningTime);
 	        	timeRunningProgress.setTitle("" + String.format("%.1f",(double)runningTime/(double)60));
 	        	timeRunningProgress.setSubTitle("min");
 
-	        	subgoals[choosenSubgoal].setCompleted(true);
 
 	        	listAdapter.notifyDataSetChanged();
 	        }
