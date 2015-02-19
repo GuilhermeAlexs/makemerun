@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -23,7 +22,6 @@ import android.widget.ViewSwitcher;
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
 import com.br.makemerun.database.StatsDB;
-import com.br.makemerun.database.SubgoalDB;
 import com.br.makemerun.model.Goal;
 import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.model.Subgoal;
@@ -66,16 +64,22 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		selectedSubgoal = subgoals.get(id);
 		kmRunningProgress.setProgress((int) (selectedSubgoal.getKmTotalRunning()*1000));
 		kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
+		kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 		
 		double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
 		long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
 		double speedRunning = selectedSubgoal.getKmTotalRunning() / timeRunning;
 		speedRunningProgress.setProgress((int)Math.round( speedRunning * 10));
 		speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
+		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 		
-		timeRunningProgress.setMax((int) selectedSubgoal.getTotalRunningTime());
+		timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
 		timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
 		timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
+		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 	}
 	
 	@Override
@@ -233,7 +237,6 @@ public class SubgoalsList extends Activity implements OnGestureListener{
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {
             	choosenSubgoal = position;
-//            	selectedSubgoal = subgoals.get(choosenSubgoal);
                 Intent intent = new Intent(SubgoalsList.this, StartRun.class);
                 intent.putExtra("subgoal",  position);
                 intent.putExtra("totalDistance",  goal.getKm());
@@ -254,7 +257,7 @@ public class SubgoalsList extends Activity implements OnGestureListener{
         	    builder.setTitle(SubgoalsList.this.getString(R.string.title_quit));
         	    builder.setMessage(SubgoalsList.this.getString(R.string.description_are_you_sure));
 
-        	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        	    builder.setPositiveButton(SubgoalsList.this.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
         	        public void onClick(DialogInterface dialog, int which) {
         	        	db.deleteGoal(goal);
         	        	StatsDB statsDB = new StatsDB(SubgoalsList.this);
@@ -265,7 +268,7 @@ public class SubgoalsList extends Activity implements OnGestureListener{
         	        }
         	    });
 
-        	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        	    builder.setNegativeButton(SubgoalsList.this.getString(R.string.button_no), new DialogInterface.OnClickListener() {
         	        @Override
         	        public void onClick(DialogInterface dialog, int which) {
         	            dialog.dismiss();

@@ -313,7 +313,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 		alertDialogBuilder.setMessage(getString(R.string.description_turn_on));
 		alertDialogBuilder.setCancelable(true);
 		Button tryAgain = new Button(this);
-		tryAgain.setText("I'm ready");
+		tryAgain.setText(getString(R.string.button_try_again));
 		tryAgain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

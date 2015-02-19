@@ -150,7 +150,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 				    builder.setTitle(StartRun.this.getString(R.string.title_quit));
 				    builder.setMessage(StartRun.this.getString(R.string.description_are_you_sure));
 
-				    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				    builder.setPositiveButton(StartRun.this.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int which) {
 							started = false;
 							mapService.stopMapping();
@@ -160,7 +160,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 				        }
 				    });
 
-				    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				    builder.setNegativeButton(StartRun.this.getString(R.string.button_no), new DialogInterface.OnClickListener() {
 				        @Override
 				        public void onClick(DialogInterface dialog, int which) {
 				            dialog.dismiss();
@@ -488,7 +488,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	    builder.setTitle(this.getString(R.string.title_quit));
 	    builder.setMessage(this.getString(R.string.description_are_you_sure));
 
-	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	    builder.setPositiveButton(StartRun.this.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	mapService.stopMapping();
 	    		Intent intent = new Intent();
@@ -497,7 +497,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	        }
 	    });
 
-	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	    builder.setNegativeButton(StartRun.this.getString(R.string.button_no), new DialogInterface.OnClickListener() {
 	        @Override
 	        public void onClick(DialogInterface dialog, int which) {
 	            dialog.dismiss();
@@ -515,7 +515,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		alertDialogBuilder.setMessage(R.string.description_turn_on);
 		alertDialogBuilder.setCancelable(true);
 		Button tryAgain = new Button(this);
-		tryAgain.setText("I'm ready");
+		tryAgain.setText(StartRun.this.getString(R.string.button_try_again));
 		tryAgain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
