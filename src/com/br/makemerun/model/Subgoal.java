@@ -1,38 +1,54 @@
 package com.br.makemerun.model;
 
 public class Subgoal {
-	private double kmWalking;
-	private double kmRunning;
+	private int id;
+	private double kmTotalWalking;
+	private double kmTotalRunning;
 	private double kmPartialWalking;
 	private double kmPartialRunning;
-	private int numberOfWalkings;
-	private int numberOfRunnings;
+	private long totalTime;
+	private long partialRunningTime;
+	private long partialWalkingTime;
 	private boolean completed;
+	private boolean last;
 
 	public Subgoal(){
-		this.kmWalking = 0;
-		this.kmRunning = 0;
+		this.kmTotalWalking = 0;
+		this.kmTotalRunning = 0;
 	}
 
-	public Subgoal(double kmWalking, double kmRunning) {
-		this.kmWalking = kmWalking;
-		this.kmRunning = kmRunning;
+	public Subgoal(double kmTotalWalking, double kmTotalRunning) {
+		this.kmTotalWalking = kmTotalWalking;
+		this.kmTotalRunning = kmTotalRunning;
 	}
 
-	public double getKmWalking() {
-		return kmWalking;
+	public Subgoal(int id, double kmTotalWalking, double kmTotalRunning) {
+		this.kmTotalWalking = kmTotalWalking;
+		this.kmTotalRunning = kmTotalRunning;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
-	public void setKmWalking(double kmWalking) {
-		this.kmWalking = kmWalking;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public double getKmRunning() {
-		return kmRunning;
+	public double getKmTotalWalking() {
+		return kmTotalWalking;
 	}
 
-	public void setKmRunning(double kmRunning) {
-		this.kmRunning = kmRunning;
+	public void setKmTotalWalking(double kmTotalWalking) {
+		this.kmTotalWalking = kmTotalWalking;
+	}
+
+	public double getKmTotalRunning() {
+		return kmTotalRunning;
+	}
+
+	public void setKmTotalRunning(double kmTotalRunning) {
+		this.kmTotalRunning = kmTotalRunning;
 	}
 
 	public double getKmPartialWalking() {
@@ -59,19 +75,35 @@ public class Subgoal {
 		this.completed = completed;
 	}
 
-	public int getNumberOfWalkings() {
-		return numberOfWalkings;
+	public long getTotalTime() {
+		return totalTime;
 	}
 
-	public void setNumberOfWalkings(int numberOfWalkings) {
-		this.numberOfWalkings = numberOfWalkings;
+	public void setTotalTime(long totalTime) {
+		this.totalTime = totalTime;
 	}
 
-	public int getNumberOfRunnings() {
-		return numberOfRunnings;
+	public long getPartialRunningTime() {
+		return partialRunningTime;
 	}
 
-	public void setNumberOfRunnings(int numberOfRunnings) {
-		this.numberOfRunnings = numberOfRunnings;
+	public void setPartialRunningTime(long runningTime) {
+		this.partialRunningTime = runningTime;
+	}
+
+	public long getPartialWalkingTime() {
+		return partialWalkingTime;
+	}
+
+	public void setPartialWalkingTime(long walkingTime) {
+		this.partialWalkingTime = walkingTime;
+	}
+
+	public boolean isLast() {
+		return last;
+	}
+
+	public void setLast(boolean last) {
+		this.last = last;
 	}
 }

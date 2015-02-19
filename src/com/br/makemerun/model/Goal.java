@@ -1,17 +1,16 @@
 package com.br.makemerun.model;
 
+import java.util.List;
+
 public class Goal {
 	private int id;
 	private double km;
 	private double kmBase;
-	private double progressKm = 0;
-	private double lastSpeedRunning = 0;
-	private long lastTimeRunning = 0;
-	private long lastTotalTimeRunning = 0;
 	private double speedBase = 0;
 	private double speedDeviation = 0;
 	private int progress;
 	private boolean isCurrent;
+	private List<Subgoal> subgoals;
 
 	public Goal(){
 		
@@ -68,43 +67,19 @@ public class Goal {
 		this.progress = progress;
 	}
 
-	public double getProgressKm() {
-		return progressKm;
-	}
-
-	public void setProgressKm(double progressKm) {
-		this.progressKm = progressKm;
-	}
-
-	public double getLastSpeedRunning() {
-		return lastSpeedRunning;
-	}
-
-	public void setLastSpeedRunning(double lastSpeedRunning) {
-		this.lastSpeedRunning = lastSpeedRunning;
-	}
-
-	public long getLastTimeRunning() {
-		return lastTimeRunning;
-	}
-
-	public void setLastTimeRunning(long lastTimeRunning) {
-		this.lastTimeRunning = lastTimeRunning;
-	}
-
-	public long getLastTotalTimeRunning() {
-		return lastTotalTimeRunning;
-	}
-
-	public void setLastTotalTimeRunning(long lastTotalTimeRunning) {
-		this.lastTotalTimeRunning = lastTotalTimeRunning;
-	}
-
 	public boolean isCurrent() {
 		return isCurrent;
 	}
 
 	public void setCurrent(boolean isCurrent) {
 		this.isCurrent = isCurrent;
+	}
+
+	public List<Subgoal> getSubgoals() {
+		return subgoals;
+	}
+
+	public void setSubgoals(List<Subgoal> subgoals) {
+		this.subgoals = subgoals;
 	}
 }

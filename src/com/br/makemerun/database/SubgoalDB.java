@@ -8,42 +8,41 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-import com.br.makemerun.model.Goal;
+import com.br.makemerun.model.Subgoal;
 
-public class SubgoalDB {
+public class SubgoalDB extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "subgoalDB";
 
-    private static final String TABLE_GOAL= "goal";
+    private static final String TABLE_SUBGOAL= "subgoal";
 
     private static final String ID = "id";
-    private static final String KM_GOAL = "km_goal";
-    private static final String RUNNING_KM_BASE = "running_km_base";
-    private static final String LAST_SPEED_RUNNING = "last_speed_running";
-    private static final String LAST_TIME_RUNNING = "last_time_running";
-    private static final String LAST_TOTAL_TIME_RUNNING = "last_total_time_running";   
-    private static final String SPEED_BASE = "speed_base";
-    private static final String SPEED_DEVIATION = "speed_sd_base";
-    private static final String GOAL_PROGRESS_KM = "gal_progress_km";
-    private static final String GOAL_PROGRESS = "gal_progress";
-    private static final String IS_CURRENT = "is_current";
+    private static final String TOTAL_DISTANCE_RUNNING = "total_distance_running";
+    private static final String TOTAL_DISTANCE_WALKING = "total_distance_walking";
+    private static final String PARTIAL_DISTANCE_RUNNING = "partial_distance_running";
+    private static final String PARTIAL_DISTANCE_WALKING = "partial_distance_walking";
+    private static final String TOTAL_TIME = "total_time";   
+    private static final String PARTIAL_TIME_RUNNING = "partial_time_running";
+    private static final String PARTIAL_TIME_WALKING = "partial_time_walking";
+    private static final String IS_COMPLETED = "is_completed";
+    private static final String IS_LAST = "is_last";
 
     private static final String CREATE_TABLE_GOAL = "CREATE TABLE "
-    		+ TABLE_GOAL + "(" +
-    		ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-    		KM_GOAL + " FLOAT," +
-    		RUNNING_KM_BASE + " FLOAT," +
-    		LAST_SPEED_RUNNING + " FLOAT," +
-    		LAST_TIME_RUNNING + " INTEGER," + 
-    		LAST_TOTAL_TIME_RUNNING + " INTEGER," +
-    		SPEED_BASE + " FLOAT," +
-    		SPEED_DEVIATION + " FLOAT," +
-    		GOAL_PROGRESS_KM + " FLOAT," +
-    		GOAL_PROGRESS + " INTEGER," +
-    		IS_CURRENT + " BOOLEAN)";
+    		+ TABLE_SUBGOAL + "(" +
+    		ID + " INTEGER PRIMARY KEY NOT NULL," +
+    		TOTAL_DISTANCE_RUNNING + " FLOAT NOT NULL," +
+    		TOTAL_DISTANCE_WALKING + " FLOAT NOT NULL," +
+    		PARTIAL_DISTANCE_RUNNING + " FLOAT NOT NULL," +
+    		PARTIAL_DISTANCE_WALKING + " FLOAT NOT NULL," + 
+    		TOTAL_TIME + " INTEGER DEFAULT NULL," +
+    		PARTIAL_TIME_RUNNING + " INTEGER DEFAULT NULL," +
+    		PARTIAL_TIME_RUNNING + " INTEGER DEFAULT NULL," +
+    		IS_COMPLETED + " BOOLEAN," +
+    		IS_LAST + " BOOLEAN)";
 
-    public GoalDB (Context context) {
+    public SubgoalDB (Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -62,111 +61,123 @@ public class SubgoalDB {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GOAL);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBGOAL);
 		onCreate(db);
 	}
-	
-	public Goal getCurrentGoal(){
+
+	public List<Subgoal> getSubgoals(){
 		SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_GOAL + " WHERE " + IS_CURRENT + " == " + 1, null);
-
-        if(!cursor.moveToNext())
-        	return null;
-
-    	Goal goal = new Goal();
-    	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-    	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
-    	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
-    	goal.setLastSpeedRunning(cursor.getDouble(cursor.getColumnIndex(LAST_SPEED_RUNNING)));
-    	goal.setLastTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TIME_RUNNING)));
-    	goal.setLastTotalTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TOTAL_TIME_RUNNING)));
-    	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
-    	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
-    	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
-    	goal.setProgressKm(cursor.getDouble(cursor.getColumnIndex(GOAL_PROGRESS_KM)));
-    	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
-        cursor.close();
+    	List<Subgoal> subgoalList = new LinkedList<Subgoal>();
  
-        db.close();
-        return goal;
-    }
-	
-	public List<Goal> getGoals(){
-		SQLiteDatabase db = this.getReadableDatabase();
-    	List<Goal> goalList = new LinkedList<Goal>();
- 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_GOAL, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_SUBGOAL, null);
 
         while(cursor.moveToNext()){
-        	Goal goal = new Goal();
-         	goal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-        	goal.setKm(cursor.getDouble(cursor.getColumnIndex(KM_GOAL)));
-        	goal.setKmBase(cursor.getDouble(cursor.getColumnIndex(RUNNING_KM_BASE)));
-        	goal.setLastSpeedRunning(cursor.getDouble(cursor.getColumnIndex(LAST_SPEED_RUNNING)));
-        	goal.setLastTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TIME_RUNNING)));
-        	goal.setLastTotalTimeRunning(cursor.getLong(cursor.getColumnIndex(LAST_TOTAL_TIME_RUNNING)));
-        	goal.setSpeedBase(cursor.getDouble(cursor.getColumnIndex(SPEED_BASE)));
-        	goal.setSpeedDeviation(cursor.getDouble(cursor.getColumnIndex(SPEED_DEVIATION)));
-        	goal.setProgress(cursor.getInt(cursor.getColumnIndex(GOAL_PROGRESS)));
-        	goal.setProgressKm(cursor.getDouble(cursor.getColumnIndex(GOAL_PROGRESS_KM)));
-        	goal.setCurrent(cursor.getInt(cursor.getColumnIndex(IS_CURRENT)) == 1);
-	    	goalList.add(goal);
+        	Subgoal subgoal = new Subgoal();
+        	subgoal.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+
+         	subgoal.setKmTotalRunning(cursor.getDouble(cursor.getColumnIndex(TOTAL_DISTANCE_RUNNING)));
+         	subgoal.setKmTotalWalking(cursor.getDouble(cursor.getColumnIndex(TOTAL_DISTANCE_WALKING)));
+
+        	subgoal.setKmPartialRunning(cursor.getDouble(cursor.getColumnIndex(PARTIAL_DISTANCE_RUNNING)));
+        	subgoal.setKmPartialWalking(cursor.getDouble(cursor.getColumnIndex(PARTIAL_DISTANCE_WALKING)));
+
+        	subgoal.setTotalTime(cursor.getLong(cursor.getColumnIndex(TOTAL_TIME)));
+        	subgoal.setPartialRunningTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_RUNNING)));
+        	subgoal.setPartialWalkingTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_WALKING)));
+
+        	subgoal.setCompleted(cursor.getInt(cursor.getColumnIndex(IS_COMPLETED)) == 1);
+        	subgoal.setLast(cursor.getInt(cursor.getColumnIndex(IS_LAST)) == 1);
+
+        	subgoalList.add(subgoal);
         }
- 
+
         cursor.close();
- 
+
         db.close();
-        return goalList;
+        return subgoalList;
     }
 
-	public void insertGoal(Goal goal) {
+//    private static final String ID = "id";
+//    private static final String TOTAL_DISTANCE_RUNNING = "total_distance_running";
+//    private static final String TOTAL_DISTANCE_WALKING = "total_distance_walking";
+//    private static final String PARTIAL_DISTANCE_RUNNING = "partial_distance_running";
+//    private static final String PARTIAL_DISTANCE_WALKING = "partial_distance_walking";
+//    private static final String TOTAL_TIME = "total_time";   
+//    private static final String PARTIAL_TIME_RUNNING = "partial_time_running";
+//    private static final String PARTIAL_TIME_WALKING = "partial_time_walking";
+//    private static final String IS_COMPLETED = "is_completed";
+//    private static final String IS_LAST = "is_last";
+
+	public void insertSubgoal(Subgoal subgoal) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KM_GOAL, goal.getKm());
-		values.put(RUNNING_KM_BASE, goal.getKmBase());
-		values.put(LAST_SPEED_RUNNING, goal.getLastSpeedRunning());
-		values.put(LAST_TIME_RUNNING, goal.getLastTimeRunning());
-		values.put(LAST_TOTAL_TIME_RUNNING, goal.getLastTotalTimeRunning());
-		values.put(SPEED_BASE, goal.getSpeedBase());
-		values.put(SPEED_DEVIATION, goal.getSpeedDeviation());
-		values.put(GOAL_PROGRESS_KM, goal.getProgressKm());
-		values.put(GOAL_PROGRESS, goal.getProgress());
-		if(goal.isCurrent())
-			values.put(IS_CURRENT, 1);
+		values.put(ID, subgoal.getId());
+		values.put(TOTAL_DISTANCE_RUNNING, subgoal.getKmTotalRunning());
+		values.put(TOTAL_DISTANCE_WALKING, subgoal.getKmTotalWalking());
+		values.put(PARTIAL_DISTANCE_RUNNING, subgoal.getKmPartialRunning());
+		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
+		values.put(TOTAL_TIME, subgoal.getTotalTime());
+		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
+		values.put(PARTIAL_TIME_WALKING, subgoal.getPartialWalkingTime());
+		values.put(IS_COMPLETED, subgoal.isCompleted());
+		values.put(IS_LAST, subgoal.isLast());
+
+		if(subgoal.isCompleted())
+			values.put(IS_COMPLETED, 1);
 		else
-			values.put(IS_CURRENT, 0);
-		db.insert(TABLE_GOAL, null, values);
+			values.put(IS_COMPLETED, 0);
+
+		if(subgoal.isLast())
+			values.put(IS_LAST, 1);
+		else
+			values.put(IS_LAST, 0);
+
+		db.insert(TABLE_SUBGOAL, null, values);
 
 		db.close();
 	}
 	
-	public void updateGoal(Goal goal) {
+	public void updateSubgoal(Subgoal subgoal) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KM_GOAL, goal.getKm());
-		values.put(RUNNING_KM_BASE, goal.getKmBase());
-		values.put(LAST_SPEED_RUNNING, goal.getLastSpeedRunning());
-		values.put(LAST_TIME_RUNNING, goal.getLastTimeRunning());
-		values.put(LAST_TOTAL_TIME_RUNNING, goal.getLastTotalTimeRunning());
-		values.put(SPEED_BASE, goal.getSpeedBase());
-		values.put(SPEED_DEVIATION, goal.getSpeedDeviation());
-		values.put(GOAL_PROGRESS_KM, goal.getProgressKm());
-		values.put(GOAL_PROGRESS, goal.getProgress());
-		if(goal.isCurrent())
-			values.put(IS_CURRENT, 1);
+		values.put(ID, subgoal.getId());
+		values.put(TOTAL_DISTANCE_RUNNING, subgoal.getKmTotalRunning());
+		values.put(TOTAL_DISTANCE_WALKING, subgoal.getKmTotalWalking());
+		values.put(PARTIAL_DISTANCE_RUNNING, subgoal.getKmPartialRunning());
+		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
+		values.put(TOTAL_TIME, subgoal.getTotalTime());
+		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
+		values.put(PARTIAL_TIME_WALKING, subgoal.getPartialWalkingTime());
+		values.put(IS_COMPLETED, subgoal.isCompleted());
+		values.put(IS_LAST, subgoal.isLast());
+
+		if(subgoal.isCompleted())
+			values.put(IS_COMPLETED, 1);
 		else
-			values.put(IS_CURRENT, 0);
-		db.update(TABLE_GOAL, values, ID + " == " + goal.getId(), null);
+			values.put(IS_COMPLETED, 0);
+
+		if(subgoal.isLast())
+			values.put(IS_LAST, 1);
+		else
+			values.put(IS_LAST, 0);
+
+		db.update(TABLE_SUBGOAL, values, ID + " == " + subgoal.getId(), null);
 		db.close();
 	}
 	
-	public void deleteGoal(Goal goal){
+	public void deleteSubgoal(Subgoal subgoal){
 		SQLiteDatabase db = this.getWritableDatabase();
 		
-		db.delete(TABLE_GOAL, ID + " == " + goal.getId(), null);
+		db.delete(TABLE_SUBGOAL, ID + " == " + subgoal.getId(), null);
+		db.close();
+	}
+	
+	public void deleteAll(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		db.delete(TABLE_SUBGOAL, null, null);
 		db.close();
 	}
 }

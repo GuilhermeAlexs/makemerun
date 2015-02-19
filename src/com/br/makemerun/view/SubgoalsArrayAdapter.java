@@ -36,15 +36,15 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		TextView walkingPartialText = (TextView) rowView.findViewById(R.id.txPartialWalking);
 		TextView runningPartialText = (TextView) rowView.findViewById(R.id.txPartialRunning);
 
-		if(values[position].getKmWalking() < 10)
-			walkingText.setText(String.format("%.2f", values[position].getKmWalking()) + "km");
+		if(values[position].getKmTotalWalking() < 10)
+			walkingText.setText(String.format("%.2f", values[position].getKmTotalWalking()) + "km");
 		else
-			walkingText.setText(String.format("%.1f", values[position].getKmWalking()) + "km");
+			walkingText.setText(String.format("%.1f", values[position].getKmTotalWalking()) + "km");
 
-		if(values[position].getKmRunning() < 10)
-			runningText.setText(String.format("%.2f", values[position].getKmRunning()) + "km");
+		if(values[position].getKmTotalRunning() < 10)
+			runningText.setText(String.format("%.2f", values[position].getKmTotalRunning()) + "km");
 		else
-			runningText.setText(String.format("%.1f", values[position].getKmRunning()) + "km");
+			runningText.setText(String.format("%.1f", values[position].getKmTotalRunning()) + "km");
 
 		walkingPartialText.setText("" + String.format("%.2f", values[position].getKmPartialWalking()) + "km");
 		runningPartialText.setText("" + String.format("%.2f", values[position].getKmPartialRunning()) + "km");
