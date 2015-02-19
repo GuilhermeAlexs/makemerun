@@ -45,20 +45,20 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	private GestureDetector gestureDetector;
 	private ViewSwitcher lastStatsSwitcher;
 
-	private final int PROGRESS_KM_RUNNING = 0;
-	private final int PROGRESS_KM_WALKING = 1;
-	private final int PROGRESS_KM_TOTAL = 2;
+	private static final int PROGRESS_KM_RUNNING = 0;
+	private static final int PROGRESS_KM_WALKING = 1;
+	private static final int PROGRESS_KM_TOTAL = 2;
 
-	private final int PROGRESS_SPEED_RUNNING = 3;
-	private final int PROGRESS_SPEED_WALKING = 4;
+	private static final int PROGRESS_SPEED_RUNNING = 3;
+	private static final int PROGRESS_SPEED_WALKING = 4;
 
-	private final int PROGRESS_TIME_RUNNING = 5;
-	private final int PROGRESS_TIME_WALKING = 6;
-	private final int PROGRESS_TIME_TOTAL = 7;
+	private static final int PROGRESS_TIME_RUNNING = 5;
+	private static final int PROGRESS_TIME_WALKING = 6;
+	private static final int PROGRESS_TIME_TOTAL = 7;
 
-	private int currKmStatsView = PROGRESS_KM_RUNNING;
-	private int currTimeStatsView = PROGRESS_TIME_RUNNING;
-	private int currSpeedStatsView = PROGRESS_SPEED_RUNNING;
+	public static int currKmStatsView = PROGRESS_KM_RUNNING;
+	public static int currTimeStatsView = PROGRESS_TIME_RUNNING;
+	public static int currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 
 	public static void updateStatsView(int id){
 		selectedSubgoal = subgoals.get(id);
@@ -66,6 +66,7 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
 		kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 		kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currKmStatsView = PROGRESS_KM_RUNNING;
 		
 		double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
 		long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
@@ -74,12 +75,14 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
 		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currTimeStatsView = PROGRESS_TIME_RUNNING;
 		
 		timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
 		timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
 		timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
 		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 	}
 	
 	@Override
