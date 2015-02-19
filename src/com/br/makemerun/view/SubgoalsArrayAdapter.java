@@ -1,7 +1,6 @@
 package com.br.makemerun.view;
 
-import com.br.makemerun.R;
-import com.br.makemerun.model.Subgoal;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.br.makemerun.R;
+import com.br.makemerun.model.Subgoal;
  
 public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 	private final Context context;
-	private final Subgoal[] values;
+	private final List<Subgoal> values;
 
-	public SubgoalsArrayAdapter(Context context, Subgoal[] values) {
+	public SubgoalsArrayAdapter(Context context, List<Subgoal> values) {
 		super(context, R.layout.subgoals_item, values);
 		this.context = context;
 		this.values = values;
@@ -36,25 +38,26 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		TextView walkingPartialText = (TextView) rowView.findViewById(R.id.txPartialWalking);
 		TextView runningPartialText = (TextView) rowView.findViewById(R.id.txPartialRunning);
 
-		if(values[position].getKmTotalWalking() < 10)
-			walkingText.setText(String.format("%.2f", values[position].getKmTotalWalking()) + "km");
+		if(values.get(position).getKmTotalWalking() < 10)
+			walkingText.setText(String.format("%.2f", values.get(position).getKmTotalWalking()) + "km");
 		else
-			walkingText.setText(String.format("%.1f", values[position].getKmTotalWalking()) + "km");
+			walkingText.setText(String.format("%.1f", values.get(position).getKmTotalWalking()) + "km");
 
-		if(values[position].getKmTotalRunning() < 10)
-			runningText.setText(String.format("%.2f", values[position].getKmTotalRunning()) + "km");
+		if(values.get(position).getKmTotalRunning() < 10)
+			runningText.setText(String.format("%.2f", values.get(position).getKmTotalRunning()) + "km");
 		else
-			runningText.setText(String.format("%.1f", values[position].getKmTotalRunning()) + "km");
+			runningText.setText(String.format("%.1f", values.get(position).getKmTotalRunning()) + "km");
 
-		walkingPartialText.setText("" + String.format("%.2f", values[position].getKmPartialWalking()) + "km");
-		runningPartialText.setText("" + String.format("%.2f", values[position].getKmPartialRunning()) + "km");
+		walkingPartialText.setText("" + String.format("%.2f", values.get(position).getKmPartialWalking()) + "km");
+		runningPartialText.setText("" + String.format("%.2f", values.get(position).getKmPartialRunning()) + "km");
 
-		if(values[position].isCompleted()){
+		if(values.get(position).isCompleted()){
 			ImageView icStats = (ImageView) rowView.findViewById(R.id.icStats);
 			icStats.setVisibility(View.VISIBLE);
 			final int subgoal = position;
 			icStats.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
+					SubgoalsList.updateStatsView(subgoal);
 					Intent intent = new Intent(context,Statistics.class);
 					intent.putExtra("subgoal", subgoal);
 					context.startActivity(intent);

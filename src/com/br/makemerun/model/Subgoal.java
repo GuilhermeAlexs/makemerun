@@ -7,8 +7,8 @@ public class Subgoal {
 	private double kmPartialWalking;
 	private double kmPartialRunning;
 	private long totalTime;
-	private long partialRunningTime;
-	private long partialWalkingTime;
+	private long totalRunningTime;
+	private long totalWalkingTime;
 	private boolean completed;
 	private boolean last;
 
@@ -84,19 +84,27 @@ public class Subgoal {
 	}
 
 	public long getPartialRunningTime() {
-		return partialRunningTime;
+		return totalRunningTime;
 	}
 
 	public void setPartialRunningTime(long runningTime) {
-		this.partialRunningTime = runningTime;
+		this.totalRunningTime = runningTime;
 	}
 
-	public long getPartialWalkingTime() {
-		return partialWalkingTime;
+	public long getTotalRunningTime() {
+		return totalRunningTime;
 	}
 
-	public void setPartialWalkingTime(long walkingTime) {
-		this.partialWalkingTime = walkingTime;
+	public void setTotalRunningTime(long totalRunningTime) {
+		this.totalRunningTime = totalRunningTime;
+	}
+
+	public long getTotalWalkingTime() {
+		return totalWalkingTime;
+	}
+
+	public void setTotalWalkingTime(long totalWalkingTime) {
+		this.totalWalkingTime = totalWalkingTime;
 	}
 
 	public boolean isLast() {

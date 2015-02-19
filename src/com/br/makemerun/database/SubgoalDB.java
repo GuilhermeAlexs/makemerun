@@ -14,7 +14,7 @@ import com.br.makemerun.model.Subgoal;
 
 public class SubgoalDB extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_NAME = "subgoalDB";
+    private static final String DATABASE_NAME = "goalDB";
 
     private static final String TABLE_SUBGOAL= "subgoal";
 
@@ -29,7 +29,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
     private static final String IS_COMPLETED = "is_completed";
     private static final String IS_LAST = "is_last";
 
-    private static final String CREATE_TABLE_GOAL = "CREATE TABLE "
+    private static final String CREATE_TABLE_SUBGOAL = "CREATE TABLE "
     		+ TABLE_SUBGOAL + "(" +
     		ID + " INTEGER PRIMARY KEY NOT NULL," +
     		TOTAL_DISTANCE_RUNNING + " FLOAT NOT NULL," +
@@ -38,7 +38,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
     		PARTIAL_DISTANCE_WALKING + " FLOAT NOT NULL," + 
     		TOTAL_TIME + " INTEGER DEFAULT NULL," +
     		PARTIAL_TIME_RUNNING + " INTEGER DEFAULT NULL," +
-    		PARTIAL_TIME_RUNNING + " INTEGER DEFAULT NULL," +
+    		PARTIAL_TIME_WALKING + " INTEGER DEFAULT NULL," +
     		IS_COMPLETED + " BOOLEAN," +
     		IS_LAST + " BOOLEAN)";
 
@@ -53,7 +53,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		try{
-			db.execSQL(CREATE_TABLE_GOAL);
+			db.execSQL(CREATE_TABLE_SUBGOAL);
 		}catch(SQLException e){
 			
 		}
@@ -83,7 +83,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 
         	subgoal.setTotalTime(cursor.getLong(cursor.getColumnIndex(TOTAL_TIME)));
         	subgoal.setPartialRunningTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_RUNNING)));
-        	subgoal.setPartialWalkingTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_WALKING)));
+        	subgoal.setTotalWalkingTime(cursor.getLong(cursor.getColumnIndex(PARTIAL_TIME_WALKING)));
 
         	subgoal.setCompleted(cursor.getInt(cursor.getColumnIndex(IS_COMPLETED)) == 1);
         	subgoal.setLast(cursor.getInt(cursor.getColumnIndex(IS_LAST)) == 1);
@@ -119,7 +119,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
 		values.put(TOTAL_TIME, subgoal.getTotalTime());
 		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
-		values.put(PARTIAL_TIME_WALKING, subgoal.getPartialWalkingTime());
+		values.put(PARTIAL_TIME_WALKING, subgoal.getTotalWalkingTime());
 		values.put(IS_COMPLETED, subgoal.isCompleted());
 		values.put(IS_LAST, subgoal.isLast());
 
@@ -149,7 +149,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 		values.put(PARTIAL_DISTANCE_WALKING, subgoal.getKmPartialWalking());
 		values.put(TOTAL_TIME, subgoal.getTotalTime());
 		values.put(PARTIAL_TIME_RUNNING, subgoal.getPartialRunningTime());
-		values.put(PARTIAL_TIME_WALKING, subgoal.getPartialWalkingTime());
+		values.put(PARTIAL_TIME_WALKING, subgoal.getTotalWalkingTime());
 		values.put(IS_COMPLETED, subgoal.isCompleted());
 		values.put(IS_LAST, subgoal.isLast());
 
