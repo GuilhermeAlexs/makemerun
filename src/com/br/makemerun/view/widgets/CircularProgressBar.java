@@ -269,6 +269,16 @@ public class CircularProgressBar extends ProgressBar{
 		mTitlePaint.setColor(color);
 		invalidate();
 	}
+	
+	public synchronized void setProgressBackgroundColor(int color){
+		mBackgroundColorPaint.setColor(color);
+		invalidate();
+	}
+	
+	public synchronized void setProgressColor(int color){
+		mProgressColorPaint.setColor(color);
+		invalidate();
+	}
 
 	public synchronized void setHasShadow(boolean flag){
 		this.mHasShadow = flag;

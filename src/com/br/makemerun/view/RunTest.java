@@ -50,6 +50,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 	private int km;
 
 	private boolean started = false;
+	private long totalTime = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 					intent.putExtra("time", timerValue.getText());
 					intent.putExtra("kmGoal", km);
 					intent.putExtra("kmRunning", runDistance);
-					intent.putExtra("avgSpeed", getAvgSpeed());
+					intent.putExtra("avgSpeed", runDistance/((double)totalTime/(double)3600));
 					intent.putExtra("sdSpeed", getSpeedStandardDeviation());
 					startActivity(intent);
 				}
@@ -183,6 +184,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 	@Override
 	public void onChangeTime(long mili) {
 		int secs = (int) (mili / 1000);
+		totalTime = secs;
 		int mins = secs / 60;
 		secs = secs % 60;
 		int hours = mins / 60;
