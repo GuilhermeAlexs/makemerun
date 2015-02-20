@@ -234,9 +234,9 @@ public class SubgoalsList extends Activity{
                 intent.putExtra("totalDistanceRunning", subgoal.getKmTotalRunning());
                 intent.putExtra("partialDistanceWalking", subgoal.getKmPartialWalking());
                 if(choosenSubgoal == 4)
-                	intent.putExtra("partialDistanceRunning", subgoal.getKmPartialRunning());
-                else
                 	intent.putExtra("partialDistanceRunning", goal.getKm());
+                else
+                	intent.putExtra("partialDistanceRunning", subgoal.getKmPartialRunning());
                 startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
             }
         });
