@@ -8,16 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
@@ -27,12 +23,11 @@ import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.model.Subgoal;
 import com.br.makemerun.view.widgets.CircularProgressBar;
 
-public class SubgoalsList extends Activity implements OnGestureListener{
+public class SubgoalsList extends Activity{
 	private ListView listSubgoals;
 	private SubgoalsArrayAdapter listAdapter;
 	private GoalDB db;
 	private int choosenSubgoal;
-	private final int N_SUBGOALS = 4;
 	public static List<Subgoal> subgoals;
 	public static Subgoal selectedSubgoal;
 
@@ -42,19 +37,15 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	public static CircularProgressBar speedRunningProgress;
 	public static CircularProgressBar timeRunningProgress;
 
-	private GestureDetector gestureDetector;
-	private ViewSwitcher lastStatsSwitcher;
 
 	private static final int PROGRESS_KM_RUNNING = 0;
 	private static final int PROGRESS_KM_WALKING = 1;
-	private static final int PROGRESS_KM_TOTAL = 2;
 
 	private static final int PROGRESS_SPEED_RUNNING = 3;
 	private static final int PROGRESS_SPEED_WALKING = 4;
 
 	private static final int PROGRESS_TIME_RUNNING = 5;
 	private static final int PROGRESS_TIME_WALKING = 6;
-	private static final int PROGRESS_TIME_TOTAL = 7;
 
 	public static int currKmStatsView = PROGRESS_KM_RUNNING;
 	public static int currTimeStatsView = PROGRESS_TIME_RUNNING;
@@ -80,8 +71,8 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
 		timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
 		timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
-		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
-		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		timeRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 		currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 	}
 	
@@ -95,11 +86,6 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 		//SubgoalDB subgoalDB = new SubgoalDB(this);
 		subgoals = goal.getSubgoals();
 
-		lastStatsSwitcher = (ViewSwitcher) findViewById(R.id.lastStatsSwitcher);
-		lastStatsSwitcher.setInAnimation(this, android.R.anim.fade_in);
-		lastStatsSwitcher.setOutAnimation(this, android.R.anim.fade_out);
-		gestureDetector = new GestureDetector(this, this);
-		
 		kmRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningGoal);
 		speedRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningSpeed);
 		timeRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningTime);
@@ -182,7 +168,7 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 			}
 		});
 
-    	timeRunningProgress.setSubTitle("tempo");
+    	timeRunningProgress.setSubTitle(getString(R.string.description_time));
 		timeRunningProgress.setIndeterminate(false);
 		timeRunningProgress.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -240,13 +226,17 @@ public class SubgoalsList extends Activity implements OnGestureListener{
             public void onItemClick(AdapterView<?> parent, View view, int position,
                     long id) {
             	choosenSubgoal = position;
+            	Subgoal subgoal = subgoals.get(position);
                 Intent intent = new Intent(SubgoalsList.this, StartRun.class);
                 intent.putExtra("subgoal",  position);
                 intent.putExtra("totalDistance",  goal.getKm());
-                intent.putExtra("totalDistanceWalking", subgoals.get(position).getKmTotalWalking());
-                intent.putExtra("totalDistanceRunning", subgoals.get(position).getKmTotalRunning());
-                intent.putExtra("partialDistanceWalking", subgoals.get(position).getKmPartialWalking());
-                intent.putExtra("partialDistanceRunning", subgoals.get(position).getKmPartialRunning());
+                intent.putExtra("totalDistanceWalking", subgoal.getKmTotalWalking());
+                intent.putExtra("totalDistanceRunning", subgoal.getKmTotalRunning());
+                intent.putExtra("partialDistanceWalking", subgoal.getKmPartialWalking());
+                if(choosenSubgoal == 4)
+                	intent.putExtra("partialDistanceRunning", subgoal.getKmPartialRunning());
+                else
+                	intent.putExtra("partialDistanceRunning", goal.getKm());
                 startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
             }
         });
@@ -334,62 +324,5 @@ public class SubgoalsList extends Activity implements OnGestureListener{
 	@Override
 	public void onBackPressed() {
 		this.moveTaskToBack(true);
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		gestureDetector.onTouchEvent(event);
-		return super.onTouchEvent(event);
-	}
-	
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
-
-	private boolean isViewContains(View view, int rx, int ry) {
-	    int[] l = new int[2];
-	    view.getLocationOnScreen(l);
-	    int x = l[0];
-	    int y = l[1];
-	    int w = view.getWidth();
-	    int h = view.getHeight();
-
-	    if (rx < x || rx > x + w || ry < y || ry > y + h) {
-	        return false;
-	    }
-	    return true;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float arg2,
-			float arg3) {
-		
-		if(isViewContains(lastStatsSwitcher,(int)e1.getRawX(),(int)e1.getRawY()) &&
-		   isViewContains(lastStatsSwitcher,(int)e2.getRawX(),(int)e2.getRawY()) &&
-		   Math.abs(e2.getRawX() - e1.getRawX()) > 50){
-			lastStatsSwitcher.showNext();
-		}
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float arg2,
-			float arg3) {
-
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
 	}
 }

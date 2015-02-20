@@ -39,7 +39,7 @@ public class PostRun extends Activity{
 		txKmPartialWalking.setText(String.format("%.2f",partialDistanceWalking) + "km");
 
 		TextView btnSkip = (TextView) findViewById(R.id.btnSkip);
-		TextView btnStats = (TextView) findViewById(R.id.btnStats);
+		//TextView btnStats = (TextView) findViewById(R.id.btnStats);
 
 		btnSkip.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -49,13 +49,13 @@ public class PostRun extends Activity{
 			}
 		});
 
-		btnStats.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				Intent intent = new Intent(PostRun.this,Statistics.class);
-				intent.putExtra("subgoal", subgoal);
-				startActivityForResult(intent, STATISTICS_REQUEST);
-			}
-		});		 
+//		btnStats.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//				Intent intent = new Intent(PostRun.this,Statistics.class);
+//				intent.putExtra("subgoal", subgoal);
+//				startActivityForResult(intent, STATISTICS_REQUEST);
+//			}
+//		});		 
 	}
 	
 	@Override

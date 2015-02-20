@@ -28,7 +28,7 @@ public class PostTest extends Activity{
 		Bundle bundle = this.getIntent().getExtras();
 
 		String time = bundle.getString("time");
-		final int kmGoal = bundle.getInt("kmGoal");
+		final double kmGoal = (double)bundle.getInt("kmGoal");
 		final double kmTest = bundle.getDouble("kmRunning");
 		final double avgSpeed = bundle.getDouble("avgSpeed");
 		final double sdSpeed = bundle.getDouble("sdSpeed");
@@ -40,7 +40,7 @@ public class PostTest extends Activity{
 
 		String msg = null;
 
-		if(kmTest >= kmGoal){
+		if(kmTest >= (kmGoal - 0.1)){
 			msg = getString(R.string.description_test_results_goal_completed);
 			result = TEST_RESULT_GOAL_COMPLETED;
 		}else if(kmTest < 0.1){
@@ -81,8 +81,8 @@ public class PostTest extends Activity{
 	
 	private List<Subgoal> makePlan(double kmGoal, double kmTest){
 		final double tax = (double)1 / (double)N_SUBGOALS;
-		final double nSprints = kmGoal/kmTest;		
-		final double kmTotalRunning = Math.ceil(nSprints / 2) * kmTest;
+		final int nSprints = (int) Math.floor(kmGoal/kmTest);		
+		final double kmTotalRunning = Math.ceil((double)nSprints / (double)2) * kmTest;
 		final double kmTotalWalking = (kmGoal - kmTotalRunning);
 
 		final double increaseTax = kmTotalWalking * tax;

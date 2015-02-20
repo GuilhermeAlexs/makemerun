@@ -39,6 +39,7 @@
    	<string name="description_speed">speed</string>
    	<string name="description_distance">distance</string>
 	<string name="description_of">of</string>
+	<string name="description_time">time</string>
 	
 	<string name="voice_start_running">Start Running!</string>
 	<string name="voice_start_walking">Start Walking!</string>

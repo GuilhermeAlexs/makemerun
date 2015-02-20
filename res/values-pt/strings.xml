@@ -39,6 +39,7 @@
    	<string name="description_speed">velocidade</string>
    	<string name="description_distance">distância</string>
 	<string name="description_of">de</string>
+	<string name="description_time">tempo</string>
 
 	<string name="voice_start_running">Começe a correr!</string>
 	<string name="voice_start_walking">Começe a caminhada!</string>
@@ -47,4 +48,6 @@
 	<string name="loading_current_goal">Carregando o objetivo atual...</string>
 	<string name="loading_first_fix">Conectando com o GPS...</string>
 	<string name="loading_voice_system">Carregando sistema de áudio...</string>
+	
+	<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

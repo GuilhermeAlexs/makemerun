@@ -52,7 +52,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	public Boolean isStart = true;
 	private boolean mBound = false;
 	private MapService mapService;
-	
+
 	private int VIBRATION_TIME_CHANGE = 500;
 	private int VIBRATION_TIME_END = 1000;
 
@@ -93,6 +93,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	private int mode_index = 1;
 
 	private final int POST_RUN_REQUEST = 2;
+	private Vibrator v;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +185,8 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 				}
 			}
 		});
+		
+		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	@Override
@@ -307,7 +310,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	//Faz tudo o que é necessário para informar o usuário que tá na hora de trocar de exercicio,
 	//ou seja, muda o ícone, tocar um alarme vibratório ou então volta para a SubgoalList.
 	private void changeViewState(){
-		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		
 
 		if(currState == END_STATE){
 			mapService.stopMapping();

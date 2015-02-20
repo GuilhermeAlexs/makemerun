@@ -176,7 +176,7 @@ public class SubgoalDB extends SQLiteOpenHelper{
 	
 	public void deleteAll(){
 		SQLiteDatabase db = this.getWritableDatabase();
-		
+
 		db.delete(TABLE_SUBGOAL, null, null);
 		db.close();
 	}

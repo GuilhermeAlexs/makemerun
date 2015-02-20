@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,8 @@ import com.br.makemerun.model.Subgoal;
 public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 	private final Context context;
 	private final List<Subgoal> values;
+	private ImageView icStats;
+	private ImageView lastSelectedIcStats = null;
 
 	public SubgoalsArrayAdapter(Context context, List<Subgoal> values) {
 		super(context, R.layout.subgoals_item, values);
@@ -52,19 +53,29 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		runningPartialText.setText("" + String.format("%.2f", values.get(position).getKmPartialRunning()) + "km");
 
 		if(values.get(position).isCompleted()){
-			ImageView icStats;
 			icStats = (ImageView) rowView.findViewById(R.id.icStats);
+
 			if(SubgoalsList.selectedSubgoal.getId() == position){
+				lastSelectedIcStats = icStats;
 				icStats.setImageResource(R.drawable.meteron);
-			}else{
-				icStats.setImageResource(R.drawable.meter);
+				icStats.setBackgroundResource(R.drawable.button_pressed);
 			}
 
 			icStats.setVisibility(View.VISIBLE);
+
 			final int subgoal = position;
 			icStats.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
+					if(lastSelectedIcStats != null){
+						lastSelectedIcStats.setImageResource(R.drawable.meter);
+						lastSelectedIcStats.setBackgroundResource(R.drawable.button);
+					}
+					ImageView ic = (ImageView) view;
+					ic.setImageResource(R.drawable.meteron);
+					ic.setBackgroundResource(R.drawable.button_pressed);
+					lastSelectedIcStats = ic;
 					SubgoalsList.updateStatsView(subgoal);
+					SubgoalsArrayAdapter.this.notifyDataSetChanged();
 //					Intent intent = new Intent(context,Statistics.class);
 //					intent.putExtra("subgoal", subgoal);
 //					context.startActivity(intent);
@@ -75,10 +86,11 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		if(position % 2 == 0){
 			int back = Color.rgb(25, 25, 25);
 			rowView.setBackgroundColor(back);
-			walkingText.setBackgroundColor(back);
-			runningText.setBackgroundColor(back);
-			walkingPartialText.setBackgroundColor(back);
-			runningPartialText.setBackgroundColor(back);
+			walkingText.setBackgroundColor(Color.TRANSPARENT);
+			runningText.setBackgroundColor(Color.TRANSPARENT);
+			walkingPartialText.setBackgroundColor(Color.TRANSPARENT);
+			runningPartialText.setBackgroundColor(Color.TRANSPARENT);
+			
 		}
 		return rowView;
 	}
