@@ -1,7 +1,5 @@
 package com.br.makemerun.view;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.br.makemerun.R;
 
 import android.app.Activity;
@@ -25,10 +23,6 @@ public class ChooseGoal extends Activity{
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_choose_goal);
-		
-		AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 		
 		btnOk = (TextView) findViewById(R.id.btnOk);
 		btnUp = (ImageView) findViewById(R.id.btnUp);

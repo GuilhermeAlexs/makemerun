@@ -58,7 +58,6 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 			if(SubgoalsList.selectedSubgoal.getId() == position){
 				lastSelectedIcStats = icStats;
 				icStats.setImageResource(R.drawable.meteron);
-				icStats.setBackgroundResource(R.drawable.button_pressed);
 			}
 
 			icStats.setVisibility(View.VISIBLE);
@@ -68,11 +67,9 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 				public void onClick(View view) {
 					if(lastSelectedIcStats != null){
 						lastSelectedIcStats.setImageResource(R.drawable.meter);
-						lastSelectedIcStats.setBackgroundResource(R.drawable.button);
 					}
 					ImageView ic = (ImageView) view;
 					ic.setImageResource(R.drawable.meteron);
-					ic.setBackgroundResource(R.drawable.button_pressed);
 					lastSelectedIcStats = ic;
 					SubgoalsList.updateStatsView(subgoal);
 					SubgoalsArrayAdapter.this.notifyDataSetChanged();

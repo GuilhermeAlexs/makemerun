@@ -63,7 +63,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int backgroundColor=0x7f010027;
+        public static final int backgroundColor=0x7f010025;
         /**  The appearance of the buy button 
          <p>Must be one of the following constant values.</p>
 <table>
@@ -223,7 +223,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int hasShadow=0x7f010025;
+        public static final int hasShadow=0x7f010027;
         /** 
         The fixed aspect ratio to use in aspect ratio adjustments.
         
@@ -331,7 +331,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int progressColor=0x7f010026;
+        public static final int progressColor=0x7f010028;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int runSectionColor=0x7f01002f;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -339,7 +347,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int strokeWidth=0x7f01002c;
+        public static final int strokeWidth=0x7f010026;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -355,7 +363,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int subtitle=0x7f01002a;
+        public static final int subtitle=0x7f01002b;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -363,7 +371,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int subtitleColor=0x7f01002b;
+        public static final int subtitleColor=0x7f01002c;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -371,7 +379,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int title=0x7f010028;
+        public static final int title=0x7f010029;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -379,7 +387,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int titleColor=0x7f010029;
+        public static final int titleColor=0x7f01002a;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -452,6 +460,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int useViewLifecycle=0x7f010013;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int walkSectionColor=0x7f010030;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -517,43 +533,43 @@ containing a value of this type.
         public static final int activity_back_out=0x7f020001;
         public static final int activity_in=0x7f020002;
         public static final int activity_out=0x7f020003;
-        public static final int button=0x7f020004;
-        public static final int button_pressed=0x7f020005;
-        public static final int common_full_open_on_phone=0x7f020006;
-        public static final int common_ic_googleplayservices=0x7f020007;
-        public static final int common_signin_btn_icon_dark=0x7f020008;
-        public static final int common_signin_btn_icon_disabled_dark=0x7f020009;
-        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f02000a;
-        public static final int common_signin_btn_icon_disabled_focus_light=0x7f02000b;
-        public static final int common_signin_btn_icon_disabled_light=0x7f02000c;
-        public static final int common_signin_btn_icon_focus_dark=0x7f02000d;
-        public static final int common_signin_btn_icon_focus_light=0x7f02000e;
-        public static final int common_signin_btn_icon_light=0x7f02000f;
-        public static final int common_signin_btn_icon_normal_dark=0x7f020010;
-        public static final int common_signin_btn_icon_normal_light=0x7f020011;
-        public static final int common_signin_btn_icon_pressed_dark=0x7f020012;
-        public static final int common_signin_btn_icon_pressed_light=0x7f020013;
-        public static final int common_signin_btn_text_dark=0x7f020014;
-        public static final int common_signin_btn_text_disabled_dark=0x7f020015;
-        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020016;
-        public static final int common_signin_btn_text_disabled_focus_light=0x7f020017;
-        public static final int common_signin_btn_text_disabled_light=0x7f020018;
-        public static final int common_signin_btn_text_focus_dark=0x7f020019;
-        public static final int common_signin_btn_text_focus_light=0x7f02001a;
-        public static final int common_signin_btn_text_light=0x7f02001b;
-        public static final int common_signin_btn_text_normal_dark=0x7f02001c;
-        public static final int common_signin_btn_text_normal_light=0x7f02001d;
-        public static final int common_signin_btn_text_pressed_dark=0x7f02001e;
-        public static final int common_signin_btn_text_pressed_light=0x7f02001f;
-        public static final int ic_expand_less_black_48dp=0x7f020020;
-        public static final int ic_expand_more_black_48dp=0x7f020021;
-        public static final int ic_launcher=0x7f020022;
-        public static final int ic_plusone_medium_off_client=0x7f020023;
-        public static final int ic_plusone_small_off_client=0x7f020024;
-        public static final int ic_plusone_standard_off_client=0x7f020025;
-        public static final int ic_plusone_tall_off_client=0x7f020026;
-        public static final int logo=0x7f020027;
-        public static final int logoicon=0x7f020028;
+        public static final int appicon=0x7f020004;
+        public static final int button=0x7f020005;
+        public static final int button_pressed=0x7f020006;
+        public static final int common_full_open_on_phone=0x7f020007;
+        public static final int common_ic_googleplayservices=0x7f020008;
+        public static final int common_signin_btn_icon_dark=0x7f020009;
+        public static final int common_signin_btn_icon_disabled_dark=0x7f02000a;
+        public static final int common_signin_btn_icon_disabled_focus_dark=0x7f02000b;
+        public static final int common_signin_btn_icon_disabled_focus_light=0x7f02000c;
+        public static final int common_signin_btn_icon_disabled_light=0x7f02000d;
+        public static final int common_signin_btn_icon_focus_dark=0x7f02000e;
+        public static final int common_signin_btn_icon_focus_light=0x7f02000f;
+        public static final int common_signin_btn_icon_light=0x7f020010;
+        public static final int common_signin_btn_icon_normal_dark=0x7f020011;
+        public static final int common_signin_btn_icon_normal_light=0x7f020012;
+        public static final int common_signin_btn_icon_pressed_dark=0x7f020013;
+        public static final int common_signin_btn_icon_pressed_light=0x7f020014;
+        public static final int common_signin_btn_text_dark=0x7f020015;
+        public static final int common_signin_btn_text_disabled_dark=0x7f020016;
+        public static final int common_signin_btn_text_disabled_focus_dark=0x7f020017;
+        public static final int common_signin_btn_text_disabled_focus_light=0x7f020018;
+        public static final int common_signin_btn_text_disabled_light=0x7f020019;
+        public static final int common_signin_btn_text_focus_dark=0x7f02001a;
+        public static final int common_signin_btn_text_focus_light=0x7f02001b;
+        public static final int common_signin_btn_text_light=0x7f02001c;
+        public static final int common_signin_btn_text_normal_dark=0x7f02001d;
+        public static final int common_signin_btn_text_normal_light=0x7f02001e;
+        public static final int common_signin_btn_text_pressed_dark=0x7f02001f;
+        public static final int common_signin_btn_text_pressed_light=0x7f020020;
+        public static final int ic_expand_less_black_48dp=0x7f020021;
+        public static final int ic_expand_more_black_48dp=0x7f020022;
+        public static final int ic_launcher=0x7f020023;
+        public static final int ic_plusone_medium_off_client=0x7f020024;
+        public static final int ic_plusone_small_off_client=0x7f020025;
+        public static final int ic_plusone_standard_off_client=0x7f020026;
+        public static final int ic_plusone_tall_off_client=0x7f020027;
+        public static final int logo=0x7f020028;
         public static final int meter=0x7f020029;
         public static final int meteron=0x7f02002a;
         public static final int powered_by_google_dark=0x7f02002b;
@@ -566,83 +582,91 @@ containing a value of this type.
         public static final int window=0x7f020032;
     }
     public static final class id {
-        public static final int action_settings=0x7f07004d;
-        public static final int adView=0x7f07001a;
+        public static final int action_settings=0x7f070055;
         public static final int adjust_height=0x7f070002;
         public static final int adjust_width=0x7f070001;
         public static final int book_now=0x7f070012;
-        public static final int btnAction=0x7f07002c;
-        public static final int btnDown=0x7f07001c;
-        public static final int btnOk=0x7f07001b;
+        public static final int btnAction=0x7f07002b;
+        public static final int btnDown=0x7f07001b;
+        public static final int btnOk=0x7f07001a;
         public static final int btnSkip=0x7f07001e;
-        public static final int btnSound=0x7f07003a;
-        public static final int btnStartStop=0x7f070033;
+        public static final int btnSound=0x7f070039;
+        public static final int btnStartStop=0x7f070032;
         public static final int btnUp=0x7f070017;
         public static final int buyButton=0x7f07000c;
         public static final int buy_now=0x7f070011;
         public static final int buy_with_google=0x7f070010;
+        public static final int circle=0x7f070045;
         public static final int classic=0x7f070014;
         public static final int donate_with_google=0x7f070013;
         public static final int grayscale=0x7f070015;
         public static final int holo_dark=0x7f070007;
         public static final int holo_light=0x7f070008;
         public static final int hybrid=0x7f070006;
-        public static final int icLogo=0x7f070035;
-        public static final int icRunning=0x7f07002a;
-        public static final int icState=0x7f07002f;
-        public static final int icStats=0x7f070048;
-        public static final int icWatch=0x7f070021;
-        public static final int iconRunning=0x7f07004c;
-        public static final int iconWalking=0x7f070044;
-        public static final int imageView2=0x7f070022;
-        public static final int imageView3=0x7f070020;
-        public static final int lastStatsSwitcher=0x7f07003d;
-        public static final int layGraph=0x7f07003b;
-        public static final int layRunning=0x7f070049;
-        public static final int layStateIcon=0x7f07002e;
-        public static final int layWalking=0x7f070045;
-        public static final int listSubgoals=0x7f070042;
+        public static final int icLogo=0x7f070034;
+        public static final int icRun=0x7f07001f;
+        public static final int icRunning=0x7f070029;
+        public static final int icState=0x7f07002e;
+        public static final int icStats=0x7f070050;
+        public static final int icWalk=0x7f070022;
+        public static final int icWatch=0x7f07001d;
+        public static final int iconRunning=0x7f070054;
+        public static final int iconWalking=0x7f07004c;
+        public static final int lastStatsSwitcher=0x7f07003c;
+        public static final int layGraph=0x7f07003a;
+        public static final int layRunInfo=0x7f070046;
+        public static final int layRunning=0x7f070051;
+        public static final int layStateIcon=0x7f07002d;
+        public static final int layWalkInfo=0x7f070049;
+        public static final int layWalking=0x7f07004d;
+        public static final int listSubgoals=0x7f070041;
         public static final int match_parent=0x7f07000e;
         public static final int monochrome=0x7f070016;
         public static final int none=0x7f070000;
         public static final int normal=0x7f070003;
+        public static final int panelSwitcher=0x7f070044;
         public static final int production=0x7f070009;
-        public static final int progressKmPartial=0x7f07002d;
-        public static final int progressKmTotal=0x7f070038;
-        public static final int progressLoading=0x7f070034;
-        public static final int progressRunningGoal=0x7f07003f;
-        public static final int progressRunningSpeed=0x7f070040;
-        public static final int progressRunningTime=0x7f070041;
-        public static final int runningStatsFrame=0x7f07003e;
+        public static final int progressKmPartial=0x7f07002c;
+        public static final int progressKmTotal=0x7f070037;
+        public static final int progressLoading=0x7f070033;
+        public static final int progressRunningGoal=0x7f07003e;
+        public static final int progressRunningSpeed=0x7f07003f;
+        public static final int progressRunningTime=0x7f070040;
+        public static final int runningStatsFrame=0x7f07003d;
         public static final int sandbox=0x7f07000a;
         public static final int satellite=0x7f070004;
         public static final int selectionDetails=0x7f07000d;
         public static final int strict_sandbox=0x7f07000b;
         public static final int terrain=0x7f070005;
-        public static final int txDistance=0x7f070031;
-        public static final int txExplain=0x7f070027;
-        public static final int txGiveUp=0x7f070043;
+        public static final int test_draw=0x7f070043;
+        public static final int txDistance=0x7f070030;
+        public static final int txExplain=0x7f070026;
+        public static final int txGiveUp=0x7f070042;
         public static final int txGoal=0x7f070019;
-        public static final int txInfo=0x7f070032;
+        public static final int txInfo=0x7f070031;
         public static final int txKmPartialRunning=0x7f070023;
-        public static final int txKmPartialWalking=0x7f070026;
-        public static final int txKmRunning=0x7f07002b;
-        public static final int txKmTotalRunning=0x7f070024;
-        public static final int txKmTotalWalking=0x7f070025;
-        public static final int txLoading=0x7f070036;
-        public static final int txLogo=0x7f070037;
-        public static final int txPartial=0x7f070039;
-        public static final int txPartialRunning=0x7f07004b;
-        public static final int txPartialWalking=0x7f070047;
-        public static final int txResults=0x7f070028;
-        public static final int txRunning=0x7f07004a;
-        public static final int txRunningTime=0x7f070029;
-        public static final int txSkip=0x7f07003c;
-        public static final int txTime=0x7f07001f;
-        public static final int txTimerValue=0x7f070030;
+        public static final int txKmPartialWalking=0x7f070025;
+        public static final int txKmRunning=0x7f07002a;
+        public static final int txKmTotalRunning=0x7f070021;
+        public static final int txKmTotalWalking=0x7f070024;
+        public static final int txLoading=0x7f070035;
+        public static final int txLogo=0x7f070036;
+        public static final int txPartial=0x7f070038;
+        public static final int txPartialRun=0x7f070048;
+        public static final int txPartialRunning=0x7f070053;
+        public static final int txPartialWalk=0x7f07004b;
+        public static final int txPartialWalking=0x7f07004f;
+        public static final int txResults=0x7f070027;
+        public static final int txRunning=0x7f070052;
+        public static final int txRunningTime=0x7f070028;
+        public static final int txSkip=0x7f07003b;
+        public static final int txTime=0x7f070020;
+        public static final int txTimerValue=0x7f07002f;
         public static final int txTitleChooseGoal=0x7f070018;
-        public static final int txTitleNiceJob=0x7f07001d;
-        public static final int txWalking=0x7f070046;
+        public static final int txTitleNiceJob=0x7f07001c;
+        public static final int txTotalRun=0x7f070047;
+        public static final int txTotalWalk=0x7f07004a;
+        public static final int txWalking=0x7f07004e;
         public static final int wrap_content=0x7f07000f;
     }
     public static final class integer {
@@ -657,7 +681,8 @@ containing a value of this type.
         public static final int activity_start_run=0x7f030005;
         public static final int activity_statistics=0x7f030006;
         public static final int activity_subgoals_list=0x7f030007;
-        public static final int subgoals_item=0x7f030008;
+        public static final int activity_testdraw=0x7f030008;
+        public static final int subgoals_item=0x7f030009;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -671,7 +696,7 @@ containing a value of this type.
         public static final int action_settings=0x7f060025;
         public static final int app_name=0x7f060023;
         public static final int app_title=0x7f060024;
-        public static final int banner_ad_unit_id=0x7f06004d;
+        public static final int banner_ad_unit_id=0x7f06004e;
         public static final int button_choose_goal=0x7f060034;
         public static final int button_next_step=0x7f06002f;
         public static final int button_no=0x7f060033;
@@ -792,6 +817,7 @@ containing a value of this type.
         public static final int description_of=0x7f060045;
         public static final int description_run_test=0x7f06003c;
         public static final int description_speed=0x7f060043;
+        public static final int description_subgoal=0x7f06004d;
         public static final int description_test_results_goal_completed=0x7f06003e;
         public static final int description_test_results_ok=0x7f06003d;
         public static final int description_test_results_under_recommended=0x7f06003f;
@@ -920,6 +946,81 @@ containing a value of this type.
           @attr name com.br.makemerun:adUnitId
         */
         public static final int AdsAttrs_adUnitId = 2;
+        /** Attributes that can be used with a AlternatedCircle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #AlternatedCircle_backgroundColor com.br.makemerun:backgroundColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #AlternatedCircle_runSectionColor com.br.makemerun:runSectionColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #AlternatedCircle_strokeWidth com.br.makemerun:strokeWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #AlternatedCircle_walkSectionColor com.br.makemerun:walkSectionColor}</code></td><td></td></tr>
+           </table>
+           @see #AlternatedCircle_backgroundColor
+           @see #AlternatedCircle_runSectionColor
+           @see #AlternatedCircle_strokeWidth
+           @see #AlternatedCircle_walkSectionColor
+         */
+        public static final int[] AlternatedCircle = {
+            0x7f010025, 0x7f010026, 0x7f01002f, 0x7f010030
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#backgroundColor}
+          attribute's value can be found in the {@link #AlternatedCircle} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:backgroundColor
+        */
+        public static final int AlternatedCircle_backgroundColor = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#runSectionColor}
+          attribute's value can be found in the {@link #AlternatedCircle} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:runSectionColor
+        */
+        public static final int AlternatedCircle_runSectionColor = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#strokeWidth}
+          attribute's value can be found in the {@link #AlternatedCircle} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:strokeWidth
+        */
+        public static final int AlternatedCircle_strokeWidth = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#walkSectionColor}
+          attribute's value can be found in the {@link #AlternatedCircle} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.br.makemerun:walkSectionColor
+        */
+        public static final int AlternatedCircle_walkSectionColor = 3;
         /** Attributes that can be used with a CircularProgressBar.
            <p>Includes the following attributes:</p>
            <table>
@@ -966,7 +1067,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:backgroundColor
         */
-        public static final int CircularProgressBar_backgroundColor = 2;
+        public static final int CircularProgressBar_backgroundColor = 0;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#hasShadow}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -980,7 +1081,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:hasShadow
         */
-        public static final int CircularProgressBar_hasShadow = 0;
+        public static final int CircularProgressBar_hasShadow = 2;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#progressColor}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -994,7 +1095,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:progressColor
         */
-        public static final int CircularProgressBar_progressColor = 1;
+        public static final int CircularProgressBar_progressColor = 3;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#strokeWidth}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -1008,7 +1109,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:strokeWidth
         */
-        public static final int CircularProgressBar_strokeWidth = 7;
+        public static final int CircularProgressBar_strokeWidth = 1;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#subTitleTextSize}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -1036,7 +1137,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:subtitle
         */
-        public static final int CircularProgressBar_subtitle = 5;
+        public static final int CircularProgressBar_subtitle = 6;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#subtitleColor}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -1050,7 +1151,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:subtitleColor
         */
-        public static final int CircularProgressBar_subtitleColor = 6;
+        public static final int CircularProgressBar_subtitleColor = 7;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#title}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -1064,7 +1165,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:title
         */
-        public static final int CircularProgressBar_title = 3;
+        public static final int CircularProgressBar_title = 4;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#titleColor}
           attribute's value can be found in the {@link #CircularProgressBar} array.
@@ -1078,7 +1179,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.br.makemerun:titleColor
         */
-        public static final int CircularProgressBar_titleColor = 4;
+        public static final int CircularProgressBar_titleColor = 5;
         /**
           <p>This symbol is the offset where the {@link com.br.makemerun.R.attr#titleTextSize}
           attribute's value can be found in the {@link #CircularProgressBar} array.

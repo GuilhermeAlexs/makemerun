@@ -16,13 +16,23 @@
         android:textColor="#ffffff"
         android:textSize="65sp" />
 
+    <ImageView
+        android:id="@+id/icWatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txTitleNiceJob"
+        android:layout_marginLeft="24dp"
+        android:layout_below="@id/txTitleNiceJob"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/watch" />
+        
     <TextView
         android:id="@+id/btnSkip"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTitleNiceJob"
+        android:layout_alignLeft="@id/txTitleNiceJob"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/txTitleNiceJob"
+        android:layout_alignRight="@id/txTitleNiceJob"
         android:layout_marginBottom="20dp"
         android:background="@drawable/window"
         android:fontFamily="sans-serif-light"
@@ -36,51 +46,56 @@
         android:textSize="26sp"
         android:textStyle="bold" />
 
-    <TextView
+    <ImageView
+        android:id="@+id/icRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/icWatch"
+        android:layout_below="@id/icWatch"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/runicon" />
+    
+   <TextView
         android:id="@+id/txTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView3"
+        android:layout_alignBottom="@id/icWatch"
         android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/imageView3"
+        android:layout_toRightOf="@id/icWatch"
+        android:textColor="#bbbbbb"
+        android:textSize="24sp" 
+        android:text="@string/default_time"/>
+
+    <TextView
+        android:id="@+id/txKmTotalRunning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txTime"
+        android:layout_alignTop="@id/icRun"
+        android:layout_toRightOf="@id/icRun"
+        android:text="2.00km"
         android:textColor="#bbbbbb"
         android:textSize="24sp" />
 
-    <ImageView
-        android:id="@+id/icWatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTitleNiceJob"
-        android:layout_below="@+id/imageView3"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/runicon" />
+
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/icWalk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/icWatch"
+        android:layout_alignLeft="@id/icRun"
+        android:layout_below="@id/icRun"
         android:layout_marginTop="28dp"
-        android:layout_toLeftOf="@+id/txTime"
+        android:layout_toLeftOf="@id/txTime"
         android:src="@drawable/walkicon" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/icWatch"
-        android:layout_below="@+id/txTitleNiceJob"
-        android:layout_marginTop="44dp"
-        android:src="@drawable/watch" />
 
     <TextView
         android:id="@+id/txKmPartialRunning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/icWatch"
-        android:layout_alignLeft="@+id/txKmTotalRunning"
-        android:layout_marginTop="6dp"
+        android:layout_alignLeft="@id/txKmTotalRunning"
+        android:layout_below="@id/txKmTotalRunning"
+        android:layout_marginTop="1dp"
         android:textColor="#bbbbbb"
         android:textSize="16sp"
         android:text="2.00km" />
@@ -89,29 +104,22 @@
         android:id="@+id/txKmTotalWalking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txKmPartialRunning"
-        android:layout_alignTop="@+id/imageView2"
+        android:layout_toRightOf="@id/icWalk"
+        android:layout_alignLeft="@id/txKmPartialRunning"
+        android:layout_alignTop="@id/icWalk"
         android:text="2.00km"
         android:textColor="#bbbbbb"
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txKmTotalRunning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txTime"
-        android:layout_alignTop="@+id/icWatch"
-        android:text="2.00km"
-        android:textColor="#bbbbbb"
-        android:textSize="24sp" />
+
 
     <TextView
         android:id="@+id/txKmPartialWalking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_alignLeft="@+id/txKmTotalWalking"
-        android:layout_marginTop="6dp"
+        android:layout_below="@id/txKmTotalWalking"
+        android:layout_alignLeft="@id/txKmTotalWalking"
+        android:layout_marginTop="1dp"
         android:text="2.00km"
         android:textColor="#bbbbbb"
         android:textSize="16sp" />

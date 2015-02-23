@@ -18,7 +18,7 @@ public class PostRun extends Activity{
 
 		Bundle bundle = this.getIntent().getExtras();
 
-		final int subgoal = bundle.getInt("subgoal");
+		//final int subgoal = bundle.getInt("subgoal");
 		final double totalDistanceRunning = bundle.getDouble("totalDistanceRunning");
 		final double totalDistanceWalking = bundle.getDouble("totalDistanceWalking");
 		final double partialDistanceRunning = bundle.getDouble("partialDistanceRunning");

@@ -29,6 +29,8 @@ import com.br.makemerun.service.ChangeLocationListener;
 import com.br.makemerun.service.MapService;
 import com.br.makemerun.service.MapService.LocalBinder;
 import com.br.makemerun.view.widgets.CircularProgressBar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class RunTest extends Activity implements ChangeLocationListener,
 		ChangeTimeListener {
@@ -51,11 +53,21 @@ public class RunTest extends Activity implements ChangeLocationListener,
 
 	private boolean started = false;
 	private long totalTime = 0;
+	
+	private InterstitialAd interstitial;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_run_test);
+
+	    interstitial = new InterstitialAd(this);
+	    interstitial.setAdUnitId(MarketingConfig.adUnitId);
+
+	    AdRequest adRequest = new AdRequest.Builder().build();
+
+	    // Begin loading your interstitial.
+	    interstitial.loadAd(adRequest);
 
 		km = getIntent().getIntExtra("goal", 0);
 
@@ -73,7 +85,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 		setProviderPopup();
 		setGpsSignalPopup();
 		startStopButton.setText(getString(R.string.button_start));
-		
+
 		startStopButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(!started){
@@ -102,6 +114,12 @@ public class RunTest extends Activity implements ChangeLocationListener,
 			}
 		});
 	}
+
+    public void displayInterstitial() {
+      if (interstitial.isLoaded()) {
+        interstitial.show();
+      }
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

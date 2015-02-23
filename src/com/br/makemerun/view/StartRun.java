@@ -54,7 +54,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	private MapService mapService;
 
 	private int VIBRATION_TIME_CHANGE = 500;
-	private int VIBRATION_TIME_END = 1000;
+	private int VIBRATION_TIME_END = 700;
 
 	private final int END_STATE = 0;
 	private final int RUNNING_STATE = 1;
@@ -99,7 +99,9 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start_run);
-
+		
+		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		
 		Bundle bundle = this.getIntent().getExtras();
 
 		subgoal = bundle.getInt("subgoal");
@@ -185,10 +187,8 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 				}
 			}
 		});
-		
-		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -203,6 +203,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	@Override
 	protected void onStart() {
 		super.onStart();
+
 		Intent intent = new Intent(this, MapService.class);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 	}
@@ -314,7 +315,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 
 		if(currState == END_STATE){
 			mapService.stopMapping();
-			v.vibrate(VIBRATION_TIME_END);
+			v.vibrate(new long[]{0,VIBRATION_TIME_END,300,VIBRATION_TIME_END}, -1);
 
 			if(soundOn)
 				Splash.voice.speak(getString(R.string.voice_end_training), TextToSpeech.QUEUE_FLUSH, null);

@@ -1,5 +1,6 @@
 package com.br.makemerun.view;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -22,6 +23,9 @@ import com.br.makemerun.model.Goal;
 import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.model.Subgoal;
 import com.br.makemerun.view.widgets.CircularProgressBar;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class SubgoalsList extends Activity{
 	private ListView listSubgoals;
@@ -37,7 +41,6 @@ public class SubgoalsList extends Activity{
 	public static CircularProgressBar speedRunningProgress;
 	public static CircularProgressBar timeRunningProgress;
 
-
 	private static final int PROGRESS_KM_RUNNING = 0;
 	private static final int PROGRESS_KM_WALKING = 1;
 
@@ -51,6 +54,11 @@ public class SubgoalsList extends Activity{
 	public static int currTimeStatsView = PROGRESS_TIME_RUNNING;
 	public static int currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 
+	private InterstitialAd interstitial;
+	private double lastTimeAd = -1d;
+
+	private AdRequest adRequest;
+	
 	public static void updateStatsView(int id){
 		selectedSubgoal = subgoals.get(id);
 		kmRunningProgress.setProgress((int) (selectedSubgoal.getKmTotalRunning()*1000));
@@ -75,12 +83,14 @@ public class SubgoalsList extends Activity{
 		timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
 		currSpeedStatsView = PROGRESS_SPEED_RUNNING;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_subgoals_list);
 
+		initAdMob();
+		
 		db = new GoalDB(this.getApplicationContext());
 		final Goal goal = db.getCurrentGoal();
 		//SubgoalDB subgoalDB = new SubgoalDB(this);
@@ -274,6 +284,24 @@ public class SubgoalsList extends Activity{
         });
 	}
 
+	private void initAdMob(){
+	    interstitial = new InterstitialAd(this);
+	    interstitial.setAdUnitId(MarketingConfig.adUnitId);
+
+	    adRequest = new AdRequest.Builder().build();
+
+	    interstitial.setAdListener(new AdListener() {
+			public void onAdLoaded() {
+				displayInterstitial();
+			}
+		});
+	}
+	
+    public void displayInterstitial() {
+        if(interstitial.isLoaded())
+          interstitial.show();
+     }
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -288,6 +316,12 @@ public class SubgoalsList extends Activity{
 	@Override
 	protected void onStart() {
 		super.onStart();
+		
+	    double timeNow = (Calendar.getInstance().getTimeInMillis()/60000);
+	    if(lastTimeAd == -1 || (timeNow - lastTimeAd) >= 10){
+	    	interstitial.loadAd(adRequest);
+	    	lastTimeAd = timeNow;
+	    }
 	}
 
 	@Override

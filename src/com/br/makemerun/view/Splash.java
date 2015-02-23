@@ -146,9 +146,9 @@ public class Splash extends Activity {
 
 				Thread.sleep(1000);
 				publishProgress(getString(R.string.loading_voice_system));
-				Thread.sleep(1000);
+				Thread.sleep(800);
 				publishProgress(getString(R.string.loading_first_fix));
-				Thread.sleep(2000);
+				Thread.sleep(500);
 				publishProgress(getString(R.string.loading_first_fix));
 				Thread.sleep(600);
 			} catch (InterruptedException e) {

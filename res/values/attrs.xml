@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="backgroundColor" format="string"/>
+    <attr name="strokeWidth" format="integer"/>
+
     <declare-styleable name="CircularProgressBar">
         <attr name="hasShadow" format="boolean"/>
         <attr name="progressColor" format="string"/>
-        <attr name="backgroundColor" format="string"/>
+		<attr name="backgroundColor"/>
         <attr name="title" format="string"/>
         <attr name="titleColor" format="string"/>
         <attr name="subtitle" format="string"/>
         <attr name="subtitleColor" format="string"/>
-        <attr name="strokeWidth" format="integer"/>
+        <attr name="strokeWidth"/>
         <attr name="titleTextSize" format="float"/>
         <attr name="subTitleTextSize" format="float"/>
+    </declare-styleable>
+    
+    <declare-styleable name="AlternatedCircle">
+        <attr name="runSectionColor" format="string"/>
+        <attr name="walkSectionColor" format="string"/>
+        <attr name="backgroundColor"/>
+        <attr name="strokeWidth"/>
     </declare-styleable>
 </resources>
