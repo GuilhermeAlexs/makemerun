@@ -16,12 +16,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
@@ -41,6 +43,7 @@ public class SubgoalsList extends Activity{
 	private AlternatedCircle circle;
 	private ImageView btnLeft;
 	private ImageView btnRight;
+	private ViewSwitcher sw;
 
 	private TextView walkingText;
 	private TextView runningText;
@@ -326,8 +329,19 @@ public class SubgoalsList extends Activity{
 		txExplain = (TextView) findViewById(R.id.txExplain);
 		btnLeft = (ImageView) findViewById(R.id.btnLeft);
 		btnRight = (ImageView) findViewById(R.id.btnRight);
-		btnRun = (ImageView) findViewById(R.id.btnRun);
-
+//		btnRun = (ImageView) findViewById(R.id.btnRun);
+		ImageView btnHelp = (ImageView) findViewById(R.id.btnHelp);
+		sw = (ViewSwitcher) findViewById(R.id.subgoalSwitcher);
+		btnHelp.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				if(txExplain.getVisibility() != View.GONE)
+					txExplain.setVisibility(View.GONE);
+				else
+					txExplain.setVisibility(View.VISIBLE);
+			}
+		});
+		
+		
 		btnLeft.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				leftClick();
@@ -341,9 +355,27 @@ public class SubgoalsList extends Activity{
 		});
 		
 
-		btnRun.setOnClickListener(new View.OnClickListener() {
+//		btnRun.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//               Intent intent = new Intent(SubgoalsList.this, StartRun.class);
+//              intent.putExtra("subgoal",  choosenSubgoal);
+//              intent.putExtra("totalDistance",  goal.getKm());
+//              intent.putExtra("totalDistanceWalking", selectedSubgoal.getKmTotalWalking());
+//              intent.putExtra("totalDistanceRunning", selectedSubgoal.getKmTotalRunning());
+//              intent.putExtra("partialDistanceWalking", selectedSubgoal.getKmPartialWalking());
+//              if(choosenSubgoal == subgoals.size())
+//              	intent.putExtra("partialDistanceRunning", goal.getKm());
+//              else
+//              	intent.putExtra("partialDistanceRunning", selectedSubgoal.getKmPartialRunning());
+//              startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
+//			}
+//		});
+
+		RelativeLayout cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+
+		cardLayout.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-               Intent intent = new Intent(SubgoalsList.this, StartRun.class);
+              Intent intent = new Intent(SubgoalsList.this, StartRun.class);
               intent.putExtra("subgoal",  choosenSubgoal);
               intent.putExtra("totalDistance",  goal.getKm());
               intent.putExtra("totalDistanceWalking", selectedSubgoal.getKmTotalWalking());
@@ -356,15 +388,20 @@ public class SubgoalsList extends Activity{
               startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
 			}
 		});
-		
-		RelativeLayout cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+
 		final GestureDetector gestureDetector = new GestureDetector(this,new SwipeGestureDetector());
 		cardLayout.setOnTouchListener(new OnTouchListener() {
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(final View view, final MotionEvent event) {
-				gestureDetector.onTouchEvent(event);
-				return true;
+				view.setBackgroundColor(Color.parseColor("#000000"));
+
+				if(gestureDetector.onTouchEvent(event)){
+					return true;
+				}
+
+				view.setBackgroundResource(R.drawable.invisiblebutton);
+				return false;
 			}
 		});
 
@@ -501,9 +538,6 @@ public class SubgoalsList extends Activity{
 		if(choosenSubgoal < 0)
 			choosenSubgoal = 0;
 
-		updateStatsView(choosenSubgoal);
-		updateCard();
-
 		if(choosenSubgoal == 0){
 			btnLeft.setVisibility(View.INVISIBLE);
 			btnRight.setVisibility(View.VISIBLE);
@@ -519,9 +553,6 @@ public class SubgoalsList extends Activity{
 		if(choosenSubgoal > subgoals.size() - 1)
 			choosenSubgoal = subgoals.size() - 1;
 
-		updateStatsView(choosenSubgoal);
-		updateCard();
-
 		if(choosenSubgoal == (subgoals.size() - 1)){
 			btnRight.setVisibility(View.INVISIBLE);
 			btnLeft.setVisibility(View.VISIBLE);
@@ -536,8 +567,60 @@ public class SubgoalsList extends Activity{
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {       	
 			if((e1.getRawX() - e2.getRawX()) > 10){
 				rightClick();
+				sw.setInAnimation(SubgoalsList.this, R.animator.slide_out_left);
+				sw.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
+					
+					@Override
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						updateStatsView(choosenSubgoal);
+						updateCard();
+					}
+				});
+
+				sw.setOutAnimation(SubgoalsList.this, R.animator.slide_in_right);
+				sw.showNext();
+				sw.setDisplayedChild(0);
+				return true;
 			}else if((e2.getRawX() - e1.getRawX()) > 10){
 				leftClick();
+				sw.setInAnimation(SubgoalsList.this, android.R.anim.slide_out_right);
+				sw.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
+					
+					@Override
+					public void onAnimationStart(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationRepeat(Animation animation) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						updateStatsView(choosenSubgoal);
+						updateCard();
+					}
+				});
+
+				sw.setOutAnimation(SubgoalsList.this, android.R.anim.slide_in_left);
+				sw.showPrevious();
+				sw.setDisplayedChild(0);
+				return true;
 			}
 
 			return false;

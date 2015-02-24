@@ -9,15 +9,16 @@
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:padding="20dp"
-       android:layout_centerHorizontal="true">
+       android:layout_centerHorizontal="true"
+       android:background="#000000">
           <RelativeLayout
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_centerHorizontal="true">
 			<com.br.makemerun.view.widgets.AlternatedCircle 
 			    android:id="@+id/circle"
-			    android:layout_width="120dp"
-			    android:layout_height="120dp"
+			    android:layout_width="140dp"
+			    android:layout_height="140dp"
 		  		android:layout_alignParentTop="true"
 		        android:layout_alignParentLeft="true"
 		        alternated:strokeWidth="15"
@@ -30,7 +31,7 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_alignTop="@id/circle"
-			    android:layout_marginLeft="35dp"
+			    android:layout_marginLeft="25dp"
 			    android:layout_toRightOf="@id/circle"
 			    android:src="@drawable/runicon" />
 		
@@ -103,21 +104,7 @@
 			    android:textColor="#bbbbbb"
 			    android:textSize="14sp"
 			    android:textStyle="italic" />
-			
-			<ImageView
-	           android:id="@+id/btnRun"
-	           android:layout_width="wrap_content"
-	           android:layout_height="wrap_content"
-	           android:layout_below="@id/txExplain"
-	           android:layout_alignRight="@id/txExplain"
-	           android:gravity="center"
-	           android:background="@drawable/greenbutton"
-	           android:layout_marginTop="10dp"
-	           android:paddingBottom="5dp"
-	           android:paddingTop="5dp"
-	           android:paddingLeft="30dp"
-	           android:paddingRight="30dp"
-	           android:src="@drawable/play" />
+
 			</RelativeLayout>
 	</RelativeLayout>
 	
