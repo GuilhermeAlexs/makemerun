@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:alternated="http://schemas.android.com/apk/res/com.br.makemerun"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#000000">
+
+   <RelativeLayout
+       android:id="@+id/cardLayout"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:padding="20dp"
+       android:layout_centerHorizontal="true">
+          <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerHorizontal="true">
+			<com.br.makemerun.view.widgets.AlternatedCircle 
+			    android:id="@+id/circle"
+			    android:layout_width="120dp"
+			    android:layout_height="120dp"
+		  		android:layout_alignParentTop="true"
+		        android:layout_alignParentLeft="true"
+		        alternated:strokeWidth="15"
+		        alternated:runSectionColor="#ff9900"
+		        alternated:walkSectionColor="#222222"
+		        alternated:backgroundColor="#000000"/>
+		
+			<ImageView
+			    android:id="@+id/icRun"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignTop="@id/circle"
+			    android:layout_marginLeft="35dp"
+			    android:layout_toRightOf="@id/circle"
+			    android:src="@drawable/runicon" />
+		
+			<LinearLayout 
+			    android:id="@+id/layRunInfo"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+		    	android:layout_alignTop="@id/icRun"
+			    android:layout_toRightOf="@id/icRun"
+			    android:layout_marginLeft="10dp"
+			    android:orientation="vertical">
+				<TextView
+				    android:id="@+id/txRunning"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+					android:textColor="#bbbbbb"
+				    android:textSize="21sp"
+				    android:text="2.00km" />
+		
+				<TextView
+				    android:id="@+id/txPartialRunning"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="0.5km"
+				    android:textColor="#bbbbbb" />
+			</LinearLayout>
+		
+			<ImageView
+			    android:id="@+id/icWalk"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignLeft="@id/icRun"
+			    android:layout_marginTop="30dp"
+			    android:layout_below="@id/icRun"
+			    android:src="@drawable/walkicon" />
+		
+			<LinearLayout 
+			    android:id="@+id/layWalkInfo"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+		    	android:layout_alignTop="@id/icWalk"
+			    android:layout_toRightOf="@id/icWalk"
+			    android:layout_marginLeft="10dp"
+			    android:orientation="vertical">
+				<TextView
+				    android:id="@+id/txWalking"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+					android:textColor="#bbbbbb"
+				    android:textSize="21sp"
+				    android:text="2.00km" />
+		
+				<TextView
+				    android:id="@+id/txPartialWalking"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="0.5km"
+				    android:textColor="#bbbbbb"/>
+			</LinearLayout>
+		
+			<TextView
+			    android:id="@+id/txExplain"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignLeft="@id/circle"
+				android:layout_alignRight="@id/layWalkInfo"
+			    android:layout_below="@id/circle"
+			    android:layout_marginTop="20dp"
+			    android:text="@string/description_subgoal"
+			    android:textColor="#bbbbbb"
+			    android:textSize="14sp"
+			    android:textStyle="italic" />
+			
+			<ImageView
+	           android:id="@+id/btnRun"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_below="@id/txExplain"
+	           android:layout_alignRight="@id/txExplain"
+	           android:gravity="center"
+	           android:background="@drawable/greenbutton"
+	           android:layout_marginTop="10dp"
+	           android:paddingBottom="5dp"
+	           android:paddingTop="5dp"
+	           android:paddingLeft="30dp"
+	           android:paddingRight="30dp"
+	           android:src="@drawable/play" />
+			</RelativeLayout>
+	</RelativeLayout>
+	
+   		<ImageView 
+		    android:id="@+id/btnRight"
+   			android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignParentEnd="true"
+    		android:layout_centerVertical="true"
+    		android:paddingTop="30dp"
+    		android:paddingBottom="30dp"
+    		android:src="@drawable/right"/>
+   		
+   		<ImageView 
+		    android:id="@+id/btnLeft"
+   			android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignParentStart="true"
+    		android:layout_centerVertical="true"
+    		android:paddingTop="30dp"
+    		android:paddingBottom="30dp"
+    		android:src="@drawable/left"/>
+</RelativeLayout>

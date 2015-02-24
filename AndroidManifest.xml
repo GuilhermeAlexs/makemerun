@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="com.br.makemerun.view.TestDraw"
+            android:name="com.br.makemerun.view.Splash"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_title" >

@@ -24,12 +24,12 @@ public class TestDraw extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_testdraw);
+        //setContentView(R.layout.activity_subgoal_card);
         altCircle = (AlternatedCircle) findViewById(R.id.circle);
         altCircle.setTotalDistance(4000);
         altCircle.setRunDistance(run);
         altCircle.setWalkDistance(walk);
-        RelativeLayout lay = (RelativeLayout) findViewById(R.id.test_draw);
+        RelativeLayout lay = (RelativeLayout) findViewById(R.id.cardLayout);
         myG = new GestureDetector(this,new SwipeGestureDetector());
         lay.setOnTouchListener(new OnTouchListener() {
 			@Override
