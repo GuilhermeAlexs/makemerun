@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.br.makemerun"
+    package="br.com.makemerun"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="com.br.makemerun.view.Splash"
+            android:name="br.com.makemerun.view.Splash"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_title" >
@@ -31,49 +31,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.br.makemerun.view.ChooseGoal"
+            android:name="br.com.makemerun.view.ChooseGoal"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.RunTest"
+            android:name="br.com.makemerun.view.RunTest"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.StartRun"
+            android:name="br.com.makemerun.view.StartRun"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_run_test" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.SubgoalsList"
+            android:name="br.com.makemerun.view.SubgoalsList"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.Statistics"
+            android:name="br.com.makemerun.view.Statistics"
             android:screenOrientation="landscape"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.PostRun"
+            android:name="br.com.makemerun.view.PostRun"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
         <activity
-            android:name="com.br.makemerun.view.PostTest"
+            android:name="br.com.makemerun.view.PostTest"
             android:screenOrientation="portrait"
 			android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_subgoals" >
         </activity>
         <service
-            android:name=".service.MapService"
+            android:name="br.com.makemerun.service.MapService"
             android:label="@string/mappingService" >
         </service>
         <!--Include the AdActivity configChanges and theme. -->

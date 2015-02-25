@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:alternated="http://schemas.android.com/apk/res/com.br.makemerun"
+    xmlns:alternated="http://schemas.android.com/apk/res/br.com.makemerun"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#000000">
@@ -15,7 +15,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_centerHorizontal="true">
-			<com.br.makemerun.view.widgets.AlternatedCircle 
+			<br.com.makemerun.view.widgets.AlternatedCircle 
 			    android:id="@+id/circle"
 			    android:layout_width="140dp"
 			    android:layout_height="140dp"

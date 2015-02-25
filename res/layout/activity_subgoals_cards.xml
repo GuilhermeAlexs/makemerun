@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
+    xmlns:circular="http://schemas.android.com/apk/res/br.com.makemerun"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLay"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:background="@drawable/backpattern"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.br.makemerun.view.SubgoalsList" >
+    tools:context="br.com.makemerun.view.SubgoalsList" >
 	
 		<RelativeLayout android:id="@+id/runningStatsFrame"     
 		    android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 		        android:layout_marginBottom="5dp"
     		android:background="#000000ff">
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		        android:id="@+id/progressRunningGoal"
 		        style="@style/Widget.ProgressBar.CircularProgressBar"
 		        android:layout_width="120dip"
@@ -33,7 +33,7 @@
 		        circular:subtitleColor="#bbbbbb"
 		        circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		           android:id="@+id/progressRunningSpeed"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="92dip"
@@ -48,7 +48,7 @@
 		           circular:subtitleColor="#bbbbbb"
 		           circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		           android:id="@+id/progressRunningTime"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="92dip"
@@ -72,7 +72,7 @@
     android:layout_below="@id/runningStatsFrame"
     android:background="@drawable/button" />
 
-	<com.br.makemerun.view.widgets.CustomViewPager
+	<br.com.makemerun.view.widgets.CustomViewPager
            android:id="@+id/subgoalPager"
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"

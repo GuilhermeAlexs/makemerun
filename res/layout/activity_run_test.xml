@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
+    xmlns:circular="http://schemas.android.com/apk/res/br.com.makemerun"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000" >
 
-    <com.br.makemerun.view.widgets.CircularProgressBar
+    <br.com.makemerun.view.widgets.CircularProgressBar
         android:id="@+id/progressKmPartial"
         style="@style/Widget.ProgressBar.CircularProgressBar"
         android:layout_width="130dip"
