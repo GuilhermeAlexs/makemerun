@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.achartengine.model.XYSeries;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -88,8 +85,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	private int runningSpeedSamples = 0;
 	private List<Double> runningSpeedList = new ArrayList<Double>();
 	private List<Double> walkingSpeedList = new ArrayList<Double>();
-	private XYSeries runningSpeedSeries;
-	private XYSeries walkingSpeedSeries;
 	private int mode_index = 1;
 
 	private final int POST_RUN_REQUEST = 2;
@@ -110,9 +105,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		totalDistanceWalking = bundle.getDouble("totalDistanceWalking");
 		partialDistanceRunning = bundle.getDouble("partialDistanceRunning");
 		partialDistanceWalking = bundle.getDouble("partialDistanceWalking");
-
-		runningSpeedSeries = new XYSeries(getString(R.string.description_speed) + "running");
-		walkingSpeedSeries = new XYSeries(getString(R.string.description_speed) + "walking");
 
 		startStopButton = (TextView) findViewById(R.id.btnStartStop);
 		timerValue = (TextView) findViewById(R.id.txTimerValue);
@@ -330,8 +322,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
             intent.putExtra("time", this.timerValue.getText());
 			StatsDB statsDB = new StatsDB(this);
 			statsDB.deleteStats(subgoal); //Mais rápido deletar do que fazer um update...
-			statsDB.insertStats(subgoal, StatsDB.RUNNING_SPRINT, runningSpeedSeries);
-			statsDB.insertStats(subgoal, StatsDB.WALKING_SPRINT, walkingSpeedSeries);
 			startActivityForResult(intent,POST_RUN_REQUEST);
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);
@@ -389,7 +379,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		if(distance >= totalDistance){
 		   if(currState == RUNNING_STATE){
 			   speedAvg = getAvgSpeed(runningSpeedList);
-			   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 			   runningSpeedSum = runningSpeedSum + speedAvg;
 			   runningSpeedSamples++;
 			   
@@ -397,14 +386,12 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 			   runningStarted = false;
 		   }else{
 			   speedAvg = getAvgSpeed(walkingSpeedList);
-			   walkingSpeedSeries.add(mode_index, speedAvg);
 		   }
 
 		   currState = END_STATE;
 		   changeViewState();
 		}else if(currState == RUNNING_STATE && partialDistance >= this.partialDistanceRunning){
 		   speedAvg = getAvgSpeed(runningSpeedList);
-		   runningSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 		   runningSpeedSum = runningSpeedSum + speedAvg;
 		   runningSpeedSamples++;
 		   runningSpeedList.clear();
@@ -418,7 +405,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		   changeViewState();
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
 		   speedAvg = getAvgSpeed(walkingSpeedList);
-		   walkingSpeedSeries.add(mode_index, MetricUtils.convertToPace(speedAvg));
 		   walkingSpeedList.clear();
 		   mode_index++;
 		   lastChangeKm = distance;

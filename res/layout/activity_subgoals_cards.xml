@@ -101,20 +101,6 @@
          android:src="@drawable/question" />
 
        <ImageView
-           android:id="@+id/btnInfo"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignTop="@+id/btnGiveUp"
-           android:layout_marginLeft="10dp"
-           android:layout_toRightOf="@+id/btnGiveUp"
-           android:background="@drawable/defaultbutton"
-           android:paddingBottom="10dp"
-           android:paddingLeft="18dp"
-           android:paddingRight="18dp"
-           android:paddingTop="10dp"
-           android:src="@drawable/info" />
-
-       <ImageView
            android:id="@+id/btnGiveUp"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
