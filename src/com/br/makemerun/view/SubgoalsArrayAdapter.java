@@ -26,7 +26,7 @@ public class SubgoalsArrayAdapter extends ArrayAdapter<Subgoal> {
 		this.context = context;
 		this.values = values;
 	}
- 
+
 	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

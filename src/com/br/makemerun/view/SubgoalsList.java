@@ -1,29 +1,24 @@
 package com.br.makemerun.view;
 
-import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.GestureDetector;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.br.makemerun.R;
 import com.br.makemerun.database.GoalDB;
@@ -31,19 +26,18 @@ import com.br.makemerun.database.StatsDB;
 import com.br.makemerun.model.Goal;
 import com.br.makemerun.model.MetricUtils;
 import com.br.makemerun.model.Subgoal;
-import com.br.makemerun.view.TestDraw.SwipeGestureDetector;
 import com.br.makemerun.view.widgets.AlternatedCircle;
 import com.br.makemerun.view.widgets.CircularProgressBar;
+import com.br.makemerun.view.widgets.CustomViewPager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 public class SubgoalsList extends Activity{
-	private ListView listSubgoals;
 	private AlternatedCircle circle;
 	private ImageView btnLeft;
 	private ImageView btnRight;
-	private ViewSwitcher sw;
+	private ImageView btnHelp;
 
 	private TextView walkingText;
 	private TextView runningText;
@@ -51,9 +45,7 @@ public class SubgoalsList extends Activity{
 	private TextView runningPartialText;
 	private TextView txExplain;
 
-	private SubgoalsArrayAdapter listAdapter;
 	private GoalDB db;
-	private int choosenSubgoal;
 	public static List<Subgoal> subgoals;
 	public static Subgoal selectedSubgoal;
 
@@ -80,49 +72,9 @@ public class SubgoalsList extends Activity{
 	private double lastTimeAd = -1d;
 
 	private AdRequest adRequest;
-	private ImageView btnRun;
-	
-	public static void updateStatsView(int id){
-		selectedSubgoal = subgoals.get(id);
-		
-		if(!selectedSubgoal.isCompleted()){
-			kmRunningProgress.setProgress(0);
-			kmRunningProgress.setTitle("0,00");
-		}else{
-			kmRunningProgress.setProgress((int) (selectedSubgoal.getKmTotalRunning()*1000));
-			kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
-		}
-		kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
-		kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
-		currKmStatsView = PROGRESS_KM_RUNNING;
-		
-		double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
-		long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
-		double speedRunning = selectedSubgoal.getKmTotalRunning() / timeRunning;
-		if(!selectedSubgoal.isCompleted()){
-			speedRunningProgress.setProgress(0);
-			speedRunningProgress.setTitle("--:--");
-		}else{
-			speedRunningProgress.setProgress((int)Math.round( speedRunning * 10));
-			speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
-		}
-		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
-		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
-		currTimeStatsView = PROGRESS_TIME_RUNNING;
-
-		timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
-
-		if(!selectedSubgoal.isCompleted()){
-			timeRunningProgress.setProgress(0);
-			timeRunningProgress.setTitle("--:--");
-		}else{
-			timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
-			timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
-		}
-		timeRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
-		timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
-		currSpeedStatsView = PROGRESS_SPEED_RUNNING;
-	}
+	private ViewPager subgoalPager;
+	private MyPagerAdapter subgoalPagerAdapter;
+	private Goal goal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,20 +84,20 @@ public class SubgoalsList extends Activity{
 		//initAdMob();
 		
 		db = new GoalDB(this.getApplicationContext());
-		final Goal goal = db.getCurrentGoal();
-		//SubgoalDB subgoalDB = new SubgoalDB(this);
+		goal = db.getCurrentGoal();
 		subgoals = goal.getSubgoals();
 
 		kmRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningGoal);
 		speedRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningSpeed);
 		timeRunningProgress = (CircularProgressBar) findViewById(R.id.progressRunningTime);
-		
+
 		kmRunningProgress.setMax((int)Math.round(goal.getKm()*1000));
 		kmRunningProgress.setSubTitle(getString(R.string.description_of) + " " + goal.getKm() + "km");
 		kmRunningProgress.setIndeterminate(false);
-		
+
 		kmRunningProgress.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
+				selectedSubgoal = subgoals.get(subgoalPager.getCurrentItem());
 				switch(currKmStatsView){
 					case PROGRESS_KM_WALKING:
 						if(selectedSubgoal != null){
@@ -157,7 +109,7 @@ public class SubgoalsList extends Activity{
 								kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
 							}
 						}
-						
+
 						kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						kmRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
 						kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
@@ -204,7 +156,7 @@ public class SubgoalsList extends Activity{
 								speedRunningProgress.setProgress((int)Math.round(speedRunning*10));							
 							}
 						}
-						
+
 						speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						speedRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
 						speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
@@ -223,7 +175,7 @@ public class SubgoalsList extends Activity{
 								speedRunningProgress.setProgress((int)Math.round(speedWalking*10));					
 							}
 						}
-						
+
 						speedRunningProgress.setProgressColor(Color.parseColor("#3299bb"));
 						speedRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
 						speedRunningProgress.setTitleColor(Color.parseColor("#3299bb"));
@@ -249,7 +201,7 @@ public class SubgoalsList extends Activity{
 								timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
 							}
 						}
-						
+
 						timeRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
 						timeRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
 						timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
@@ -270,7 +222,7 @@ public class SubgoalsList extends Activity{
 						timeRunningProgress.setProgressColor(Color.parseColor("#3299bb"));
 						timeRunningProgress.setProgressBackgroundColor(Color.parseColor("#444444"));
 						timeRunningProgress.setTitleColor(Color.parseColor("#3299bb"));
-						
+
 						currTimeStatsView = PROGRESS_TIME_WALKING; 
 						break;
 				}
@@ -290,120 +242,33 @@ public class SubgoalsList extends Activity{
 			timeRunningProgress.setTitle("--:--");
 		}
 
-//		listSubgoals = (ListView) findViewById(R.id.listSubgoals);
-//
-//		listSubgoals = (ListView) findViewById(R.id.listSubgoals);
-//		listAdapter = new SubgoalsArrayAdapter(this, subgoals);
-//		listSubgoals.setAdapter(listAdapter);
-//		listSubgoals.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position,
-//                    long id) {
-//            	choosenSubgoal = position;
-//            	Subgoal subgoal = subgoals.get(position);
-//                Intent intent = new Intent(SubgoalsList.this, StartRun.class);
-//                intent.putExtra("subgoal",  position);
-//                intent.putExtra("totalDistance",  goal.getKm());
-//                intent.putExtra("totalDistanceWalking", subgoal.getKmTotalWalking());
-//                intent.putExtra("totalDistanceRunning", subgoal.getKmTotalRunning());
-//                intent.putExtra("partialDistanceWalking", subgoal.getKmPartialWalking());
-//                if(choosenSubgoal == 4)
-//                	intent.putExtra("partialDistanceRunning", goal.getKm());
-//                else
-//                	intent.putExtra("partialDistanceRunning", subgoal.getKmPartialRunning());
-//                startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
-//            }
-//        });
-
 		selectedSubgoal = subgoals.get(0);
 		for(Subgoal sg: subgoals){
 			if(sg.isLast())
 				selectedSubgoal = sg;
 		}
 
-		circle = (AlternatedCircle) findViewById(R.id.circle);
-		walkingText = (TextView) findViewById(R.id.txWalking);
-		runningText = (TextView) findViewById(R.id.txRunning);
-		walkingPartialText = (TextView) findViewById(R.id.txPartialWalking);
-		runningPartialText = (TextView) findViewById(R.id.txPartialRunning);
-		txExplain = (TextView) findViewById(R.id.txExplain);
-		btnLeft = (ImageView) findViewById(R.id.btnLeft);
-		btnRight = (ImageView) findViewById(R.id.btnRight);
-//		btnRun = (ImageView) findViewById(R.id.btnRun);
-		ImageView btnHelp = (ImageView) findViewById(R.id.btnHelp);
-		sw = (ViewSwitcher) findViewById(R.id.subgoalSwitcher);
-		btnHelp.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				if(txExplain.getVisibility() != View.GONE)
-					txExplain.setVisibility(View.GONE);
-				else
-					txExplain.setVisibility(View.VISIBLE);
-			}
-		});
-		
-		
-		btnLeft.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				leftClick();
-			}
-		});
-		
-		btnRight.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				rightClick();
-			}
-		});
-		
+		subgoalPager = (CustomViewPager)findViewById(R.id.subgoalPager);
 
-//		btnRun.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View view) {
-//               Intent intent = new Intent(SubgoalsList.this, StartRun.class);
-//              intent.putExtra("subgoal",  choosenSubgoal);
-//              intent.putExtra("totalDistance",  goal.getKm());
-//              intent.putExtra("totalDistanceWalking", selectedSubgoal.getKmTotalWalking());
-//              intent.putExtra("totalDistanceRunning", selectedSubgoal.getKmTotalRunning());
-//              intent.putExtra("partialDistanceWalking", selectedSubgoal.getKmPartialWalking());
-//              if(choosenSubgoal == subgoals.size())
-//              	intent.putExtra("partialDistanceRunning", goal.getKm());
-//              else
-//              	intent.putExtra("partialDistanceRunning", selectedSubgoal.getKmPartialRunning());
-//              startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
-//			}
-//		});
+		subgoalPagerAdapter = new MyPagerAdapter();
+		subgoalPager.setAdapter(subgoalPagerAdapter);
+		subgoalPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+	        @Override
+	        public void onPageSelected(int position) {
+	        	  Log.d("OPA","POSITION = " + position);
+	        	  selectedSubgoal = subgoals.get(position);
+				  updateStatsView(position);
+	        }
 
-		RelativeLayout cardLayout = (RelativeLayout) findViewById(R.id.cardLayout);
+	        @Override
+	        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+	        }
 
-		cardLayout.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-              Intent intent = new Intent(SubgoalsList.this, StartRun.class);
-              intent.putExtra("subgoal",  choosenSubgoal);
-              intent.putExtra("totalDistance",  goal.getKm());
-              intent.putExtra("totalDistanceWalking", selectedSubgoal.getKmTotalWalking());
-              intent.putExtra("totalDistanceRunning", selectedSubgoal.getKmTotalRunning());
-              intent.putExtra("partialDistanceWalking", selectedSubgoal.getKmPartialWalking());
-              if(choosenSubgoal == subgoals.size())
-              	intent.putExtra("partialDistanceRunning", goal.getKm());
-              else
-              	intent.putExtra("partialDistanceRunning", selectedSubgoal.getKmPartialRunning());
-              startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
-			}
-		});
-
-		final GestureDetector gestureDetector = new GestureDetector(this,new SwipeGestureDetector());
-		cardLayout.setOnTouchListener(new OnTouchListener() {
-			@SuppressLint("ClickableViewAccessibility")
-			@Override
-			public boolean onTouch(final View view, final MotionEvent event) {
-				view.setBackgroundColor(Color.parseColor("#000000"));
-
-				if(gestureDetector.onTouchEvent(event)){
-					return true;
-				}
-
-				view.setBackgroundResource(R.drawable.invisiblebutton);
-				return false;
-			}
-		});
+	        @Override
+	        public void onPageScrollStateChanged(int state) {
+	        }
+	    });
+		btnHelp = (ImageView) findViewById(R.id.btnHelp);
 
 		ImageView txGiveUp = (ImageView) findViewById(R.id.btnGiveUp);
 		txGiveUp.setOnClickListener(new View.OnClickListener() {
@@ -436,24 +301,65 @@ public class SubgoalsList extends Activity{
         	    alert.show();
 			}
         });
-	
-		circle.setTotalDistance((float)goal.getKm());
-		updateCard();
 	}
 
-	private void updateCard(){
-		walkingText.setText(String.format("%.2f",selectedSubgoal.getKmTotalWalking()) + "km");
-		runningText.setText(String.format("%.2f",selectedSubgoal.getKmTotalRunning()) + "km");
+	public static void updateStatsView(int id){
+		selectedSubgoal = subgoals.get(id);
+		
+		if(!selectedSubgoal.isCompleted()){
+			kmRunningProgress.setProgress(0);
+			kmRunningProgress.setTitle("0,00");
+		}else{
+			kmRunningProgress.setProgress((int) (selectedSubgoal.getKmTotalRunning()*1000));
+			kmRunningProgress.setTitle(String.format("%.2f",selectedSubgoal.getKmTotalRunning()));
+		}
+		kmRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		kmRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currKmStatsView = PROGRESS_KM_RUNNING;
+		
+		double timeRunning = (selectedSubgoal.getTotalRunningTime() / (double) 3600); //horas
+		long paceRunning = (long) (MetricUtils.convertToPace(selectedSubgoal.getKmTotalRunning() / timeRunning ) * 60); //segundos
+		double speedRunning = selectedSubgoal.getKmTotalRunning() / timeRunning;
+		if(!selectedSubgoal.isCompleted()){
+			speedRunningProgress.setProgress(0);
+			speedRunningProgress.setTitle("--:--");
+		}else{
+			speedRunningProgress.setProgress((int)Math.round( speedRunning * 10));
+			speedRunningProgress.setTitle("" + MetricUtils.formatTime(paceRunning));
+		}
+		speedRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		speedRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currTimeStatsView = PROGRESS_TIME_RUNNING;
 
-		walkingPartialText.setText(String.format("%.2f",selectedSubgoal.getKmPartialWalking()) + "km");
-		runningPartialText.setText(String.format("%.2f",selectedSubgoal.getKmPartialRunning()) + "km");
+		timeRunningProgress.setMax((int) selectedSubgoal.getTotalTime());
+
+		if(!selectedSubgoal.isCompleted()){
+			timeRunningProgress.setProgress(0);
+			timeRunningProgress.setTitle("--:--");
+		}else{
+			timeRunningProgress.setProgress((int)selectedSubgoal.getTotalRunningTime());
+			timeRunningProgress.setTitle("" + MetricUtils.formatTime(selectedSubgoal.getTotalRunningTime()));
+		}
+		timeRunningProgress.setProgressColor(Color.parseColor("#ff9900"));
+		timeRunningProgress.setTitleColor(Color.parseColor("#ff9900"));
+		currSpeedStatsView = PROGRESS_SPEED_RUNNING;
+	}
+
+	private void updateCard(int position){
+		Subgoal sb = subgoals.get(position);
+		walkingText.setText(String.format("%.2f",sb.getKmTotalWalking()) + "km");
+		runningText.setText(String.format("%.2f",sb.getKmTotalRunning()) + "km");
+
+		walkingPartialText.setText(String.format("%.2f",sb.getKmPartialWalking()) + "km");
+		runningPartialText.setText(String.format("%.2f",sb.getKmPartialRunning()) + "km");
 
 		txExplain.setText(getString(R.string.description_subgoal,
-				String.format("%.2f",selectedSubgoal.getKmPartialRunning()) + "km",
-				String.format("%.2f",selectedSubgoal.getKmPartialWalking()) + "km"));
+				String.format("%.2f",sb.getKmPartialRunning()) + "km",
+				String.format("%.2f",sb.getKmPartialWalking()) + "km"));
 		
-		circle.setRunDistance((float) selectedSubgoal.getKmPartialRunning());
-		circle.setWalkDistance((float) selectedSubgoal.getKmPartialWalking());
+		circle.setTotalDistance((float) goal.getKm());
+		circle.setRunDistance((float) sb.getKmPartialRunning());
+		circle.setWalkDistance((float) sb.getKmPartialWalking());
 	}
 
 	private void initAdMob(){
@@ -509,10 +415,10 @@ public class SubgoalsList extends Activity{
 	        	long runningTime = bundle.getLong("runningTime");
 	        	long totalTime = bundle.getLong("totalTime");
 
-	        	Goal goal = db.getCurrentGoal();
-	        	Subgoal subgoal = subgoals.get(choosenSubgoal);
+	        	goal = db.getCurrentGoal();
+	        	Subgoal subgoal = subgoals.get(subgoalPager.getCurrentItem());
 
-	        	goal.setProgress(choosenSubgoal);
+	        	goal.setProgress(subgoalPager.getCurrentItem());
 	        	subgoal.setTotalRunningTime(runningTime);
 	        	subgoal.setTotalWalkingTime(totalTime - runningTime);
 	        	subgoal.setTotalTime(totalTime);
@@ -520,9 +426,7 @@ public class SubgoalsList extends Activity{
 	        	goal.setSubgoals(subgoals);
 	        	db.updateGoal(goal);
 
-	        	updateStatsView(choosenSubgoal);
-	        	
-	        	listAdapter.notifyDataSetChanged();
+	        	updateStatsView(subgoalPager.getCurrentItem());
 	        }
 	    }
 	}
@@ -532,98 +436,86 @@ public class SubgoalsList extends Activity{
 		this.moveTaskToBack(true);
 	}
 	
-	private void leftClick(){
-		choosenSubgoal--;
+	private class MyPagerAdapter extends PagerAdapter{
+		  int NumberOfPages = 5;
+		  private int explainVisibility = View.VISIBLE;
 
-		if(choosenSubgoal < 0)
-			choosenSubgoal = 0;
+		  @Override
+		  public int getCount() {
+		   return NumberOfPages;
+		  }
 
-		if(choosenSubgoal == 0){
-			btnLeft.setVisibility(View.INVISIBLE);
-			btnRight.setVisibility(View.VISIBLE);
-		}else{
-			btnLeft.setVisibility(View.VISIBLE);
-			btnRight.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	private void rightClick(){
-		choosenSubgoal++;
+		  @Override
+		  public boolean isViewFromObject(View view, Object object) {
+		   return view == object;
+		  }
 
-		if(choosenSubgoal > subgoals.size() - 1)
-			choosenSubgoal = subgoals.size() - 1;
+		  @Override
+		  public Object instantiateItem(ViewGroup parent, int position) {
+				LayoutInflater inflater = (LayoutInflater) SubgoalsList.this.getApplicationContext()
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		if(choosenSubgoal == (subgoals.size() - 1)){
-			btnRight.setVisibility(View.INVISIBLE);
-			btnLeft.setVisibility(View.VISIBLE);
-		}else{
-			btnRight.setVisibility(View.VISIBLE);
-			btnLeft.setVisibility(View.VISIBLE);
-		}
-	}
+				View rootView = inflater.inflate(R.layout.subgoal_card, parent, false);
+		        circle = (AlternatedCircle) rootView.findViewById(R.id.circle);
+		        walkingText = (TextView) rootView.findViewById(R.id.txWalking);
+		        runningText = (TextView) rootView.findViewById(R.id.txRunning);
+		        walkingPartialText = (TextView) rootView.findViewById(R.id.txPartialWalking);
+		        runningPartialText = (TextView) rootView.findViewById(R.id.txPartialRunning);
+		        txExplain = (TextView) rootView.findViewById(R.id.txExplain);
+		        btnLeft = (ImageView) rootView.findViewById(R.id.btnLeft);
+		        btnRight = (ImageView) rootView.findViewById(R.id.btnRight);
 
-	class SwipeGestureDetector extends SimpleOnGestureListener {
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {       	
-			if((e1.getRawX() - e2.getRawX()) > 10){
-				rightClick();
-				sw.setInAnimation(SubgoalsList.this, R.animator.slide_out_left);
-				sw.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
-					
-					@Override
-					public void onAnimationStart(Animation animation) {
-						// TODO Auto-generated method stub
+		        txExplain.setVisibility(explainVisibility);
+				btnHelp.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View view) {
+						if(txExplain.getVisibility() != View.GONE)
+							txExplain.setVisibility(View.GONE);
+						else
+							txExplain.setVisibility(View.VISIBLE);
 						
-					}
-					
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						updateStatsView(choosenSubgoal);
-						updateCard();
+						explainVisibility = txExplain.getVisibility();
+						subgoalPager.requestLayout();
+					//	subgoalPager.invalidate();
 					}
 				});
 
-				sw.setOutAnimation(SubgoalsList.this, R.animator.slide_in_right);
-				sw.showNext();
-				sw.setDisplayedChild(0);
-				return true;
-			}else if((e2.getRawX() - e1.getRawX()) > 10){
-				leftClick();
-				sw.setInAnimation(SubgoalsList.this, android.R.anim.slide_out_right);
-				sw.getInAnimation().setAnimationListener(new Animation.AnimationListener() {
-					
-					@Override
-					public void onAnimationStart(Animation animation) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						updateStatsView(choosenSubgoal);
-						updateCard();
+				RelativeLayout cardLayout = (RelativeLayout) rootView.findViewById(R.id.cardLayout);
+				final Goal goal = db.getCurrentGoal();
+				cardLayout.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View view) {
+		              Intent intent = new Intent(SubgoalsList.this, StartRun.class);
+		              intent.putExtra("subgoal",  selectedSubgoal.getId());
+		              intent.putExtra("totalDistance",  goal.getKm());
+		              intent.putExtra("totalDistanceWalking", selectedSubgoal.getKmTotalWalking());
+		              intent.putExtra("totalDistanceRunning", selectedSubgoal.getKmTotalRunning());
+		              intent.putExtra("partialDistanceWalking", selectedSubgoal.getKmPartialWalking());
+		              if(selectedSubgoal.getId() == (subgoals.size() - 1))
+		              	intent.putExtra("partialDistanceRunning", goal.getKm());
+		              else
+		              	intent.putExtra("partialDistanceRunning", selectedSubgoal.getKmPartialRunning());
+		              startActivityForResult(intent,RUNNING_RESULTS_REQUEST);
 					}
 				});
 
-				sw.setOutAnimation(SubgoalsList.this, android.R.anim.slide_in_left);
-				sw.showPrevious();
-				sw.setDisplayedChild(0);
-				return true;
-			}
+			  if(position == (subgoals.size() - 1)){
+				btnRight.setVisibility(View.INVISIBLE);
+			  }else if(position == 0){
+				btnLeft.setVisibility(View.INVISIBLE);
+			  }else{
+				btnRight.setVisibility(View.VISIBLE);
+				btnLeft.setVisibility(View.VISIBLE);
+			  }
 
-			return false;
-		}
+			  updateStatsView(subgoalPager.getCurrentItem());
+			  updateCard(position);
+
+			  parent.addView(rootView);
+		      return rootView;
+		  }
+
+		  @Override
+		  public void destroyItem(ViewGroup container, int position, Object object) {
+		      container.removeView((View)object);
+		  }
 	}
 }

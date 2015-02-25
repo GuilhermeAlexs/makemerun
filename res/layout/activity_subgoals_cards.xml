@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backpattern"
@@ -70,31 +71,18 @@
     android:layout_marginTop="10dp"
     android:layout_below="@id/runningStatsFrame"
     android:background="@drawable/button" />
-    
-    <ViewSwitcher
-        android:id="@+id/subgoalSwitcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topline">
-		<include  
-           layout="@layout/subgoal_card" 
-           android:id="@+id/subgoalCard1"
-           android:layout_width="wrap_content"
+
+	<com.br.makemerun.view.widgets.CustomViewPager
+           android:id="@+id/subgoalPager"
+           android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:padding="20dp"/>
-		
-		<include  
-           layout="@layout/subgoal_card" 
-           android:id="@+id/subgoalCard2"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:padding="20dp"/>
-	</ViewSwitcher>
+           android:layout_below="@id/topline"/>
+
     <View
     android:id="@+id/bottomline"
     android:layout_width="fill_parent"
     android:layout_height="2dp"
-    android:layout_below="@id/subgoalSwitcher"
+    android:layout_below="@id/subgoalPager"
     android:background="@drawable/linebottom" />
 
 	<ImageView
@@ -109,6 +97,7 @@
          android:paddingLeft="18dp"
          android:paddingRight="18dp"
          android:paddingTop="10dp"
+         android:visibility="gone"
          android:src="@drawable/question" />
 
        <ImageView

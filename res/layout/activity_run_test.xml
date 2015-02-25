@@ -60,7 +60,7 @@
         android:layout_alignLeft="@+id/txTimerValue"
         android:layout_alignRight="@+id/txTimerValue"
         android:layout_below="@+id/progressKmPartial"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/description_run_test"
         android:textColor="#ffffff"
