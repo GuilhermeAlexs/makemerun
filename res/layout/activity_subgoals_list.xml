@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
+    xmlns:circular="http://schemas.android.com/apk/res/br.com.makemerun"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.br.makemerun.view.SubgoalsList" >
+    tools:context="br.com.makemerun.view.SubgoalsList" >
 
 	<ViewSwitcher android:id="@+id/lastStatsSwitcher"
 		android:layout_width="fill_parent"
@@ -21,7 +21,7 @@
     		android:layout_height="match_parent"
     		android:background="#000000">
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
 		        android:id="@+id/progressRunningGoal"
 		        style="@style/Widget.ProgressBar.CircularProgressBar"
 		        android:layout_width="120dip"
@@ -37,7 +37,7 @@
 		        circular:subtitleColor="#bbbbbb"
 		        circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
 		           android:id="@+id/progressRunningSpeed"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="82dip"
@@ -52,7 +52,7 @@
 		           circular:subtitleColor="#bbbbbb"
 		           circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
+		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
 		           android:id="@+id/progressRunningTime"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="82dip"

@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:circular="http://schemas.android.com/apk/res/com.br.makemerun"
+    xmlns:circular="http://schemas.android.com/apk/res/br.com.makemerun"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLay"
     android:layout_width="match_parent"
@@ -7,83 +7,80 @@
     android:background="@drawable/backpattern"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.br.makemerun.view.SubgoalsList" >
+    tools:context="br.com.makemerun.view.SubgoalsList" >
 	
-		<RelativeLayout android:id="@+id/runningStatsFrame"     
-		    android:layout_width="match_parent"
-    		android:layout_height="wrap_content"
-    		
-		        android:layout_marginTop="5dp"
-		        
-		        android:layout_marginBottom="5dp"
-    		android:background="#000000ff">
+	<RelativeLayout android:id="@+id/runningStatsFrame"     
+	    android:layout_width="match_parent"
+   		android:layout_height="wrap_content"
+	    android:layout_marginTop="5dp"
+	    android:layout_marginBottom="5dp"
+   		android:background="#000000ff">
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
-		        android:id="@+id/progressRunningGoal"
-		        style="@style/Widget.ProgressBar.CircularProgressBar"
-		        android:layout_width="120dip"
-		        android:layout_height="120dip"
-		        android:layout_alignParentTop="true"
-		        android:layout_centerHorizontal="true"
-		        circular:strokeWidth="15"
-		        circular:backgroundColor="#444444"
-		        circular:progressColor="#FF9900"
-		        circular:titleColor="#FF9900"
-		        circular:titleTextSize="60"
-		        circular:subtitleColor="#bbbbbb"
-		        circular:subTitleTextSize="20"/>
+	  <br.com.makemerun.view.widgets.CircularProgressBar
+	              android:id="@+id/progressRunningGoal"
+	        style="@style/Widget.ProgressBar.CircularProgressBar"
+	        android:layout_width="120dip"
+	        android:layout_height="120dip"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        circular:strokeWidth="15"
+	        circular:backgroundColor="#444444"
+	        circular:progressColor="#FF9900"
+	        circular:titleColor="#FF9900"
+	        circular:titleTextSize="60"
+	        circular:subtitleColor="#bbbbbb"
+	        circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
-		           android:id="@+id/progressRunningSpeed"
-		           style="@style/Widget.ProgressBar.CircularProgressBar"
-		           android:layout_width="92dip"
-		       	   android:layout_height="92dip"
-		           android:layout_alignBaseline="@+id/progressRunningGoal"
-		           android:layout_alignParentLeft="true"
-		           circular:strokeWidth="10"
-		           circular:backgroundColor="#444444"
-		           circular:progressColor="#FF9900"
-		           circular:titleColor="#FF9900"
-		           circular:titleTextSize="30"
-		           circular:subtitleColor="#bbbbbb"
-		           circular:subTitleTextSize="20"/>
+	  <br.com.makemerun.view.widgets.CircularProgressBar
+	                 android:id="@+id/progressRunningSpeed"
+	           style="@style/Widget.ProgressBar.CircularProgressBar"
+	           android:layout_width="92dip"
+	       	   android:layout_height="92dip"
+	           android:layout_alignBaseline="@+id/progressRunningGoal"
+	           android:layout_alignParentLeft="true"
+	           circular:strokeWidth="10"
+	           circular:backgroundColor="#444444"
+	           circular:progressColor="#FF9900"
+	           circular:titleColor="#FF9900"
+	           circular:titleTextSize="30"
+	           circular:subtitleColor="#bbbbbb"
+	           circular:subTitleTextSize="20"/>
 
-		    <com.br.makemerun.view.widgets.CircularProgressBar
-		           android:id="@+id/progressRunningTime"
-		           style="@style/Widget.ProgressBar.CircularProgressBar"
-		           android:layout_width="92dip"
-		       	   android:layout_height="92dip"
-		           android:layout_alignBaseline="@+id/progressRunningGoal"
-		           android:layout_alignParentRight="true"
-		           circular:strokeWidth="10"
-		           circular:backgroundColor="#444444"
-		           circular:progressColor="#FF9900"
-		           circular:titleColor="#FF9900"
-		           circular:titleTextSize="30"
-		           circular:subtitleColor="#bbbbbb"
-		           circular:subTitleTextSize="20"/>
-	    </RelativeLayout>
+	  <br.com.makemerun.view.widgets.CircularProgressBar
+	                 android:id="@+id/progressRunningTime"
+	           style="@style/Widget.ProgressBar.CircularProgressBar"
+	           android:layout_width="92dip"
+	       	   android:layout_height="92dip"
+	           android:layout_alignBaseline="@+id/progressRunningGoal"
+	           android:layout_alignParentRight="true"
+	           circular:strokeWidth="10"
+	           circular:backgroundColor="#444444"
+	           circular:progressColor="#FF9900"
+	           circular:titleColor="#FF9900"
+	           circular:titleTextSize="30"
+	           circular:subtitleColor="#bbbbbb"
+	           circular:subTitleTextSize="20"/>
+    </RelativeLayout>
 
     <View
-    android:id="@+id/topline"
-    android:layout_width="fill_parent"
-    android:layout_height="2dp"
-    android:layout_marginTop="10dp"
-    android:layout_below="@id/runningStatsFrame"
-    android:background="@drawable/button" />
-
-	<com.br.makemerun.view.widgets.CustomViewPager
-           android:id="@+id/subgoalPager"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_below="@id/topline"/>
+	    android:id="@+id/topline"
+	    android:layout_width="fill_parent"
+	    android:layout_height="2dp"
+	    android:layout_marginTop="20dp"
+	    android:layout_below="@id/runningStatsFrame"
+	    android:background="@drawable/button" />
+<br.com.makemerun.view.widgets.CustomViewPager       
+       android:id="@+id/subgoalPager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topline"/>
 
     <View
-    android:id="@+id/bottomline"
-    android:layout_width="fill_parent"
-    android:layout_height="2dp"
-    android:layout_below="@id/subgoalPager"
-    android:background="@drawable/linebottom" />
+	    android:id="@+id/bottomline"
+	    android:layout_width="fill_parent"
+	    android:layout_height="2dp"
+	    android:layout_below="@id/subgoalPager"
+	    android:background="@drawable/linebottom" />
 
 	<ImageView
 	     android:id="@+id/btnHelp"
@@ -100,17 +97,16 @@
          android:visibility="gone"
          android:src="@drawable/question" />
 
-       <ImageView
-           android:id="@+id/btnGiveUp"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignParentBottom="true"
-           android:layout_alignParentLeft="true"
-           android:background="@drawable/defaultbutton"
-           android:paddingBottom="10dp"
-           android:paddingLeft="18dp"
-           android:paddingRight="18dp"
-           android:paddingTop="10dp"
-           android:src="@drawable/exit" />
-
+    <ImageView
+         android:id="@+id/btnGiveUp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:background="@drawable/defaultbutton"
+         android:paddingBottom="10dp"
+         android:paddingLeft="18dp"
+         android:paddingRight="18dp"
+         android:paddingTop="10dp"
+         android:src="@drawable/exit" />
 </RelativeLayout>

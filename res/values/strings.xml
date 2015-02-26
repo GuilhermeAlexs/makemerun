@@ -34,6 +34,7 @@
     <string name="description_test_results_goal_completed">You have reached you goal. Choose another one!</string>
     <string name="description_test_results_under_recommended">You need to run at least 100 meters. Try again!</string>
    	<string name="description_are_you_sure">Are you sure?</string>
+   	<string name="description_are_you_sure_loose_data">You will lose all data of this training set. Are you sure?</string>
 	<string name="description_turn_on">Turn it back on</string>
 	<string name="description_almost_there">Almost there...</string>
    	<string name="description_speed">speed</string>
@@ -41,7 +42,7 @@
 	<string name="description_of">of</string>
 	<string name="description_time">time</string>
 	<string name="description_subgoal">Sprints of %1$s at an intense pace, alternated with sprints of %2$s at slow/moderate pace."</string>
-	
+
 	<string name="voice_start_running">Start Running!</string>
 	<string name="voice_start_walking">Start Walking!</string>
 	<string name="voice_end_training">Nice job! See you next training!</string>
