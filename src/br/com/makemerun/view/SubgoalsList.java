@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import br.com.makemerun.R;
 import br.com.makemerun.database.GoalDB;
-import br.com.makemerun.database.StatsDB;
 import br.com.makemerun.model.Goal;
 import br.com.makemerun.model.MetricUtils;
 import br.com.makemerun.model.Subgoal;
@@ -282,8 +281,6 @@ public class SubgoalsList extends Activity{
         	    builder.setPositiveButton(SubgoalsList.this.getString(R.string.button_yes), new DialogInterface.OnClickListener() {
         	        public void onClick(DialogInterface dialog, int which) {
         	        	db.deleteGoal(goal);
-        	        	StatsDB statsDB = new StatsDB(SubgoalsList.this);
-        	        	statsDB.deleteAll();
                         Intent intent = new Intent(SubgoalsList.this, ChooseGoal.class);
                         startActivity(intent);
         	            dialog.dismiss();

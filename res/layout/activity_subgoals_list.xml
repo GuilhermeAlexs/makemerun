@@ -21,7 +21,7 @@
     		android:layout_height="match_parent"
     		android:background="#000000">
 
-		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		        android:id="@+id/progressRunningGoal"
 		        style="@style/Widget.ProgressBar.CircularProgressBar"
 		        android:layout_width="120dip"
@@ -37,7 +37,8 @@
 		        circular:subtitleColor="#bbbbbb"
 		        circular:subTitleTextSize="20"/>
 
-		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
+
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		           android:id="@+id/progressRunningSpeed"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="82dip"
@@ -52,7 +53,7 @@
 		           circular:subtitleColor="#bbbbbb"
 		           circular:subTitleTextSize="20"/>
 
-		  com.br.makemerunapp.view.widgets.CircularProgressBarBar
+		    <br.com.makemerun.view.widgets.CircularProgressBar
 		           android:id="@+id/progressRunningTime"
 		           style="@style/Widget.ProgressBar.CircularProgressBar"
 		           android:layout_width="82dip"

@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.makemerun.R;
-import br.com.makemerun.database.StatsDB;
 import br.com.makemerun.model.ChangeTimeListener;
 import br.com.makemerun.service.ChangeLocationListener;
 import br.com.makemerun.service.MapService;
@@ -319,8 +318,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
             intent.putExtra("partialDistanceWalking", partialDistanceWalking);
             intent.putExtra("partialDistanceRunning", partialDistanceRunning);
             intent.putExtra("time", this.timerValue.getText());
-			StatsDB statsDB = new StatsDB(this);
-			statsDB.deleteStats(subgoal); //Mais rápido deletar do que fazer um update...
 			startActivityForResult(intent,POST_RUN_REQUEST);
 		}else if(currState == WALKING_STATE){
 			v.vibrate(VIBRATION_TIME_CHANGE);

@@ -33,6 +33,7 @@ import br.com.makemerun.view.widgets.CircularProgressBar;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+
 public class RunTest extends Activity implements ChangeLocationListener,
 		ChangeTimeListener {
 

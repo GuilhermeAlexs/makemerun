@@ -16,7 +16,6 @@ package br.com.makemerun.view.widgets;
  * limitations under the License.
  */
 
-
 import br.com.makemerun.R;
 
 import android.animation.Animator;
