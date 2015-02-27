@@ -42,6 +42,7 @@
 	<string name="description_of">de</string>
 	<string name="description_time">tempo</string>
 	<string name="description_subgoal">Sprints de %1$s em ritmo intenso, alternados com sprints de %2$s em ritmo lento/moderado."</string>
+	<string name="description_check_do_test">Não sei o quanto consigo correr. Quero fazer o teste!</string>
 
 	<string name="voice_start_running">Começe a correr!</string>
 	<string name="voice_start_walking">Começe a caminhada!</string>
@@ -50,6 +51,13 @@
 	<string name="loading_current_goal">Carregando o objetivo atual...</string>
 	<string name="loading_first_fix">Conectando com o GPS...</string>
 	<string name="loading_voice_system">Carregando sistema de áudio...</string>
-	
+
+	<string name="field_label_distance">Distância (km)</string>
+	<string name="field_label_pace">Ritmo (min/km)</string>
+
+	<string name="field_error_distance_required">*Campo obrigatório</string>
+	<string name="field_error_distance_low_value">*Distância mínima: 0.1km (100 metros)</string>
+	<string name="field_error_invalid_pace">*Ritmo invalido. Ex.: 05:30</string>
+
 	<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

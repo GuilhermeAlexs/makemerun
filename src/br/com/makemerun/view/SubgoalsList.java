@@ -80,6 +80,7 @@ public class SubgoalsList extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_subgoals_cards);
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
 
 		initAdMob();
 		
@@ -348,9 +349,18 @@ public class SubgoalsList extends Activity{
 		runningText.setText(String.format("%.2f",sb.getKmTotalRunning()) + "km");
 
 		walkingPartialText.setText(String.format("%.2f",sb.getKmPartialWalking()) + "km");
-		runningPartialText.setText(String.format("%.2f",sb.getKmPartialRunning()) + "km");
+		
+		if(position == subgoals.size() - 1)
+			runningPartialText.setText(String.format("%.2f",goal.getKm()) + "km");
+		else
+			runningPartialText.setText(String.format("%.2f",sb.getKmPartialRunning()) + "km");
 
-		txExplain.setText(getString(R.string.description_subgoal,
+		if(position == subgoals.size() - 1)
+			txExplain.setText(getString(R.string.description_subgoal,
+				String.format("%.2f",goal.getKm()) + "km",
+				String.format("%.2f",sb.getKmPartialWalking()) + "km"));
+		else
+			txExplain.setText(getString(R.string.description_subgoal,
 				String.format("%.2f",sb.getKmPartialRunning()) + "km",
 				String.format("%.2f",sb.getKmPartialWalking()) + "km"));
 

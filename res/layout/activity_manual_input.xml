@@ -1,0 +1,131 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="br.com.makemerun.view.ManualTestInput" >
+
+    <TextView
+        android:id="@+id/btnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="@drawable/window"
+        android:text="@string/button_next_step"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="bold"
+        android:textColor="#bbbbbb"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/txTitleManualInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Quanto você consegue correr?"
+        android:textColor="#ffffff"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/txInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txTitleManualInput"
+        android:layout_below="@+id/txTitleManualInput"
+        android:layout_marginTop="22dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Precisamos saber a distância que você consegue correr sem parar e em qual ritmo você o faz ou deseja fazer. Se você não tem interesse em monitorar o ritmo, deixe-o em branco."
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:textStyle="italic" />
+
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txInfo"
+        android:layout_marginTop="31dp"
+        android:layout_alignLeft="@id/txInfo">
+	    <TextView
+	        android:id="@+id/txLabelDistance"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:textColor="#bbbbbb"
+	        android:textSize="18sp"
+	        android:text="@string/field_label_distance" />
+
+	    <EditText
+	        android:id="@+id/inputDistanceTest"
+	        android:layout_width="180dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@id/txLabelDistance"
+	        android:layout_below="@id/txLabelDistance"
+	        android:background="#222222"
+	        android:ems="10"
+	        android:inputType="numberDecimal"
+	        android:textSize="22sp"
+	        android:textColor="#ff9900" />
+
+	    <TextView
+	        android:id="@+id/txWrongDistance"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/inputDistanceTest"
+	        android:layout_alignLeft="@id/inputDistanceTest"
+	        android:layout_marginTop="2dp"
+	        android:textColor="#ff0000"
+	        android:textSize="14sp"
+	        android:textStyle="italic"
+	        android:visibility="invisible"/>
+
+	    <TextView
+	        android:id="@+id/txLabelPace"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/inputDistanceTest"
+	        android:layout_alignLeft="@id/inputDistanceTest"
+	        android:layout_marginTop="40dp"
+	        android:textColor="#bbbbbb"
+	        android:textSize="18sp"
+	        android:text="@string/field_label_pace" />
+
+	    <EditText
+	        android:id="@+id/inputPaceTest"
+	        android:layout_width="180dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@id/txLabelPace"
+	        android:layout_below="@id/txLabelPace"
+	        android:background="#222222"
+	        android:ems="10"
+	        android:inputType="time"
+	        android:textSize="22sp"
+	        android:textColor="#ff9900" />
+
+	   <TextView
+	        android:id="@+id/txWrongPace"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/inputPaceTest"
+	        android:layout_alignLeft="@id/inputPaceTest"
+	        android:layout_marginTop="2dp"
+	        android:textColor="#ff0000"
+	        android:textStyle="italic"
+	        android:textSize="14sp"
+	        android:visibility="invisible"/>
+	</RelativeLayout>
+</RelativeLayout>

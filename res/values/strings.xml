@@ -42,6 +42,7 @@
 	<string name="description_of">of</string>
 	<string name="description_time">time</string>
 	<string name="description_subgoal">Sprints of %1$s at an intense pace, alternated with sprints of %2$s at slow/moderate pace."</string>
+	<string name="description_check_do_test">I don\'t know how much I can run. Take a test!</string>
 
 	<string name="voice_start_running">Start Running!</string>
 	<string name="voice_start_walking">Start Walking!</string>
@@ -50,6 +51,13 @@
 	<string name="loading_current_goal">Loading current goal...</string>
 	<string name="loading_first_fix">Getting GPS first fix...</string>
 	<string name="loading_voice_system">Loading voice system...</string>
-	
+
+	<string name="field_label_distance">Distance (km)</string>
+	<string name="field_label_pace">Pace (min/km)</string>
+
+	<string name="field_error_distance_required">*Required</string>
+	<string name="field_error_distance_low_value">*Minimum Distance: 0.1km (100 meters)</string>
+	<string name="field_error_invalid_pace">*Invalida pace. Ex.: 05:30</string>
+
 	<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

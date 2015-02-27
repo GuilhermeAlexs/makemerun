@@ -78,12 +78,11 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	private AlertDialog gpsSignalAlertDialog;
 
 	private boolean soundOn = true;
-	
+
 	private double runningSpeedSum = 0;
 	private int runningSpeedSamples = 0;
 	private List<Double> runningSpeedList = new ArrayList<Double>();
 	private List<Double> walkingSpeedList = new ArrayList<Double>();
-	private int mode_index = 1;
 
 	private final int POST_RUN_REQUEST = 2;
 	private Vibrator v;
@@ -92,7 +91,8 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start_run);
-		
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
+
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		
 		Bundle bundle = this.getIntent().getExtras();
@@ -391,7 +391,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		   runningSpeedSum = runningSpeedSum + speedAvg;
 		   runningSpeedSamples++;
 		   runningSpeedList.clear();
-		   mode_index++;
 		   lastChangeKm = distance;
 
 		   if(partialDistanceWalking > 0.01f){
@@ -402,7 +401,6 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		}else if(currState == WALKING_STATE && partialDistance >= this.partialDistanceWalking){
 		   speedAvg = getAvgSpeed(walkingSpeedList);
 		   walkingSpeedList.clear();
-		   mode_index++;
 		   lastChangeKm = distance;
 		   currState = RUNNING_STATE;
 		   kmPartialProgress.setMax((int)(Math.round(partialDistanceRunning*1000)));

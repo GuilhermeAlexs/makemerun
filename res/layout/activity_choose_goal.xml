@@ -9,30 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.com.makemerun.view.ChooseGoal" >
 
-    <ImageView
-        android:id="@+id/btnUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txTitleChooseGoal"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/ic_expand_less_black_48dp" />
-
-    <TextView
-        android:id="@+id/txGoal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnUp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="#000000"
-        android:text="10km"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#ff9900"
-        android:textSize="60sp" />
-
-
     <TextView
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
@@ -53,25 +29,60 @@
         android:textColor="#bbbbbb"
         android:textSize="26sp" />
 
-    
-    <ImageView
-        android:id="@+id/btnDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnUp"
-        android:layout_below="@+id/txGoal"
-        android:src="@drawable/ic_expand_more_black_48dp" />
-
-    <TextView
+   <TextView
         android:id="@+id/txTitleChooseGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/title_choose_goal"
         android:textColor="#ffffff"
         android:fontFamily="sans-serif-light"
         android:textSize="35sp" />
 
+    <ImageView
+        android:id="@+id/btnUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txTitleChooseGoal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_expand_less_black_48dp" />
+    
+        <TextView
+        android:id="@+id/txGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#000000"
+        android:text="10km"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#ff9900"
+        android:textSize="60sp" />
+
+    <ImageView
+        android:id="@+id/btnDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/btnUp"
+        android:layout_below="@id/txGoal"
+        android:src="@drawable/ic_expand_more_black_48dp" />
+
+    <CheckBox
+        android:id="@+id/checkDoTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txTitleChooseGoal"
+        android:layout_alignRight="@id/txTitleChooseGoal"
+        android:layout_above="@id/btnOk"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="10dp"
+        android:checked="true"
+        android:text="@string/description_check_do_test"
+        android:textSize="14sp"
+        android:textColor="#bbbbbb" />
 </RelativeLayout>
