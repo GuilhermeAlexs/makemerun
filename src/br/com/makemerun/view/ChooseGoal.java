@@ -65,6 +65,8 @@ public class ChooseGoal extends Activity{
 		});
 	}
 
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -79,6 +81,11 @@ public class ChooseGoal extends Activity{
 	@Override
 	protected void onStart() {
 		super.onStart();
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
 	}
 
 	@Override

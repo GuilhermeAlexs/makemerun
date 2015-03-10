@@ -40,7 +40,6 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@+id/icState"
 	        android:layout_centerHorizontal="true"
-	        android:fontFamily="sans-serif-light"
 	        android:text="1.5km"
 	        android:textColor="#ffffff"
 	        android:textSize="16sp" />
@@ -61,7 +60,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="35dp"
         android:background="@drawable/window"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
@@ -78,8 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="10dp"
         android:text="@string/default_time"
         android:textColor="#ffffff"
         android:textSize="65sp" />
@@ -90,8 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/txTimerValue"
         android:layout_alignTop="@+id/txTimerValue"
-        android:layout_marginTop="68dp"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="58dp"
         android:text="@string/default_distance"
         android:textColor="#ffffff"
         android:textSize="30sp" />

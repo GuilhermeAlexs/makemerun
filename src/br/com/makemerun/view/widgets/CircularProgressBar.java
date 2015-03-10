@@ -42,7 +42,7 @@ import android.widget.ProgressBar;
 public class CircularProgressBar extends ProgressBar{
 	private static final String TAG = "CircularProgressBar";
 
-	private static final int STROKE_WIDTH = 20;
+	private static final int STROKE_WIDTH = 18;
 
 	private String mTitle = "";		
 	private String mSubTitle = "";

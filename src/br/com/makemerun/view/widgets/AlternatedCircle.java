@@ -14,6 +14,7 @@ import android.view.View;
 public class AlternatedCircle extends View
 {
     private Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint startPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint runSectionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint walkSectionPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float strokeWidth;
@@ -66,6 +67,7 @@ public class AlternatedCircle extends View
 			backgroundPaint.setColor(Color.parseColor(color));
 
 		strokeWidth = a.getInt(R.styleable.AlternatedCircle_strokeWidth, STROKE_WIDTH);
+		startPaint.setColor(Color.parseColor("#bbbbbb"));
 
 		a.recycle();
 	}
@@ -73,17 +75,18 @@ public class AlternatedCircle extends View
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float angleRun = (360*runDistance)/totalDistance;
-        float angleWalk = (360*walkDistance)/totalDistance;
-        float currAngle = -90;
+
+        float angleRun = ((360*runDistance)/totalDistance);
+        float angleWalk = ((360*walkDistance)/totalDistance);
+        float currAngle = 270;
         int type = 0;
 
-        while(currAngle <= 360){
+        while(currAngle < 630){
         	if(type == 0){
         		canvas.drawArc(circleBounds, currAngle, angleRun, true, runSectionPaint);
         		currAngle = angleRun + currAngle;
         		type = 1;
-        	}else{
+        	}else if(type == 1){
         		canvas.drawArc(circleBounds, currAngle, angleWalk, true, walkSectionPaint);
         		currAngle = angleWalk + currAngle;
         		type = 0;
@@ -92,6 +95,7 @@ public class AlternatedCircle extends View
 
         float sectionWidth = ((circleBounds.right - circleBounds.left)/(float)2)*(Math.abs(1 - (strokeWidth/(float)100)));
         canvas.drawCircle(circleBounds.centerX(), circleBounds.centerY(), sectionWidth, backgroundPaint);
+
         super.onDraw(canvas);
     }
 
@@ -124,6 +128,11 @@ public class AlternatedCircle extends View
 	}
 	public void setTotalDistance(float totalDistance) {
 		this.totalDistance = totalDistance;
+		invalidate();
+	}
+	public void setAlternatedDistances(float run, float walk){
+		this.walkDistance = walk;
+		this.runDistance = run;
 		invalidate();
 	}
 }

@@ -32,6 +32,7 @@ import br.com.makemerun.view.widgets.CustomViewPager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 public class SubgoalsList extends Activity{
 	private AlternatedCircle circle;
@@ -365,8 +366,7 @@ public class SubgoalsList extends Activity{
 				String.format("%.2f",sb.getKmPartialWalking()) + "km"));
 
 		circle.setTotalDistance((float) goal.getKm());
-		circle.setRunDistance((float) sb.getKmPartialRunning());
-		circle.setWalkDistance((float) sb.getKmPartialWalking());
+		circle.setAlternatedDistances((float) sb.getKmPartialRunning(), (float) sb.getKmPartialWalking());
 	}
 
 	private void initAdMob(){
@@ -408,10 +408,16 @@ public class SubgoalsList extends Activity{
 	    	lastTimeAd = timeNow;
 	    }
 	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override

@@ -23,11 +23,12 @@
 	<string name="button_try_again">Try Again</string>
 
     <string name="title_choose_goal">Choose Your Goal</string>
-    <string name="title_test_results">Test Results</string>
+    <string name="title_test_results">Are You Ready?</string>
     <string name="title_quit">Quit</string>
     <string name="title_looking_satellites">Looking for available satellites</string>
     <string name="title_gps_off">GPS locations is off</string>
     <string name="title_nice_job">Nice job!</string>
+ 	<string name="title_how_much_can_run">How much can you run?</string>
  
     <string name="description_run_test">Hello, let\'s see how much you can run without stopping. Press \'Start\' and start a run at moderate speed. When you get tired, press \'Stop\'.</string>
     <string name="description_test_results_ok">Hey! At a moderate speed, you can run at most %1$s! This way your trainings will be divided in a series of sprints and walks. In each training we\'ll take some km from the walk and put them on the sprints. </string>
@@ -43,6 +44,7 @@
 	<string name="description_time">time</string>
 	<string name="description_subgoal">Sprints of %1$s at an intense pace, alternated with sprints of %2$s at slow/moderate pace."</string>
 	<string name="description_check_do_test">I don\'t know how much I can run. Take a test!</string>
+	<string name="description_manual_input">We need to know the distance you can run without stopping, and at which pace you wanna do it. Leave the Pace field in blank, if you\'re not interested in monitoring the pace.</string>
 
 	<string name="voice_start_running">Start Running!</string>
 	<string name="voice_start_walking">Start Walking!</string>

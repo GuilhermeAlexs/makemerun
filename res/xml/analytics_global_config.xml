@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+	<string name="ga_appName">Make Me Run</string>
+	<string name="ga_appVersion">Version1.1</string>
+	  	<integer name="ga_sessionTimeout">300</integer>
+	<!--Remember to disable verobse log level for production -->
+	<string name="ga_logLevel">verbose</string>
+	<integer name="ga_dispatchPeriod">1000</integer>
+	<bool name="ga_dryRun">false</bool>
+</resources>

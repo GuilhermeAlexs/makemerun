@@ -24,7 +24,6 @@
         android:paddingTop="5dp"
         android:background="@drawable/window"
         android:text="@string/button_next_step"
-        android:fontFamily="sans-serif-light"
         android:textStyle="bold"
         android:textColor="#bbbbbb"
         android:textSize="26sp" />
@@ -35,9 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Quanto você consegue correr?"
+        android:layout_marginTop="10dp"
+        android:text="@string/title_how_much_can_run"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 
@@ -48,8 +46,7 @@
         android:layout_alignLeft="@+id/txTitleManualInput"
         android:layout_below="@+id/txTitleManualInput"
         android:layout_marginTop="22dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Precisamos saber a distância que você consegue correr sem parar e em qual ritmo você o faz ou deseja fazer. Se você não tem interesse em monitorar o ritmo, deixe-o em branco."
+        android:text="@string/description_manual_input"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="italic" />

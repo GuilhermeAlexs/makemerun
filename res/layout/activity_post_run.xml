@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="30dp"
         android:text="@string/title_nice_job"
         android:textColor="#ffffff"
         android:textSize="65sp" />
@@ -35,7 +34,6 @@
         android:layout_alignRight="@id/txTitleNiceJob"
         android:layout_marginBottom="20dp"
         android:background="@drawable/window"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingLeft="35dp"

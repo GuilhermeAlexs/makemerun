@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="ga_dryRun">true</bool>
+    <integer name="ga_sessionTimeout">-1</integer>
+
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+    
+    <!-- The screen names that will appear in reports -->
+    <screenName name="br.com.makemerun.view.ChooseGoal">
+        Choose Goal
+    </screenName>
+    <screenName name="br.com.makemerun.view.SubgoalsList">
+        Subgoals List
+    </screenName>
+    <screenName name="br.com.makemerun.view.StartRun">
+        StartRun
+    </screenName>
+    <screenName name="br.com.makemerun.view.Splash">
+        Splash
+    </screenName>
+    <screenName name="br.com.makemerun.view.ManualTestInput">
+        Manual Test Input
+    </screenName>
+    <screenName name="br.com.makemerun.view.RunTest">
+        Run Test
+    </screenName>
+    <screenName name="br.com.makemerun.view.PostRun">
+        Post Run
+    </screenName>
+    <screenName name="br.com.makemerun.view.PostTest">
+        Post Test
+    </screenName>
+    <!--  The following value should be replaced with correct property id. -->
+    <string name="ga_trackingId">UA-60129570-1</string>
+</resources>

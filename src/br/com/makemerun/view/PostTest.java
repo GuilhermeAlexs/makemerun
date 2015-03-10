@@ -24,6 +24,7 @@ public class PostTest extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_test);
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
 
 		Bundle bundle = this.getIntent().getExtras();
 
@@ -66,7 +67,7 @@ public class PostTest extends Activity{
 				}else{
 					Goal goal = new Goal(kmGoal, kmTest, avgSpeed, sdSpeed, -1);
 					goal.setCurrent(true);
-					goal.setSubgoals(makePlan(kmGoal, kmTest));
+					goal.setSubgoals(makePlan2(kmGoal, kmTest));
 					GoalDB db = new GoalDB(PostTest.this);
 					db.insertGoal(goal);
 
@@ -76,20 +77,49 @@ public class PostTest extends Activity{
 			}
 		});
 	}
-	
-	private final int N_SUBGOALS = 4;
-	
-	private List<Subgoal> makePlan(double kmGoal, double kmTest){
-		final double tax = (double)1 / (double)N_SUBGOALS;
-		final int nSprints = (int) Math.floor(kmGoal/kmTest);		
-		final double kmTotalRunning = Math.ceil((double)nSprints / (double)2) * kmTest;
-		final double kmTotalWalking = (kmGoal - kmTotalRunning);
 
-		final double increaseTax = kmTotalWalking * tax;
-		final double walkingPartialRef = kmTotalWalking/(Math.ceil(nSprints - Math.ceil(nSprints / 2)));
+	private final int N_SUBGOALS = 4;
+
+	private List<Subgoal> makePlan2(double kmGoal, double kmTest){
+		final double tax = (double)1 / (double)N_SUBGOALS;	
+		double kmTotal = kmGoal;
+		double kmTotalRunning = 0;
+		double kmTotalWalking = 0;
 
 		List<Subgoal> subgoals = new ArrayList<Subgoal>();
-		
+
+		int rSprints = 0;
+		int wSprints = 0;
+		int type = 0;
+
+		while(kmTotal > 0){
+			if(type == 0){
+				rSprints++;
+				if((kmTotal - kmTest) < 0){
+					kmTotalRunning = kmTotalRunning + kmTotal;
+					kmTotal = 0;
+				}else{
+					kmTotalRunning = kmTotalRunning + kmTest;
+					kmTotal = kmTotal - kmTest;
+				}
+				type = 1;
+			}else{
+				wSprints++;
+				if((kmTotal - kmTest) < 0){
+					kmTotalWalking = kmTotalWalking + kmTotal;
+					kmTotal = 0;
+				}else{
+					kmTotalWalking = kmTotalWalking + kmTest;
+					kmTotal = kmTotal - kmTest;
+				}
+				type = 0;
+			}
+		}
+
+		double increaseTax = kmTotalWalking * tax;
+		double kmPartialWalking = kmTotalWalking/(double)wSprints;
+		double kmPartialRunning = kmTotalRunning/(double)rSprints;
+
 		for(int i = 0; i <= N_SUBGOALS; i++){
 			Subgoal subgoal = new Subgoal();
 
@@ -97,8 +127,10 @@ public class PostTest extends Activity{
 			subgoal.setKmTotalWalking(kmTotalWalking - i * increaseTax);
 			subgoal.setKmTotalRunning(kmTotalRunning + i * increaseTax);
 
-			subgoal.setKmPartialRunning(kmTest + walkingPartialRef*i*tax);
-			subgoal.setKmPartialWalking(walkingPartialRef - walkingPartialRef*i*tax);
+			kmPartialWalking = (kmTotalWalking - i * increaseTax)/(double)wSprints;
+			kmPartialRunning = (kmTotalRunning + i * increaseTax)/(double)rSprints;
+			subgoal.setKmPartialRunning(kmPartialRunning);
+			subgoal.setKmPartialWalking(kmPartialWalking);
 
 			subgoal.setCompleted(false);
 			subgoal.setLast(false);
@@ -108,5 +140,35 @@ public class PostTest extends Activity{
 
 		return subgoals;
 	}
+	
+//	private List<Subgoal> makePlan(double kmGoal, double kmTest){
+//		final double tax = (double)1 / (double)N_SUBGOALS;
+//		final int nSprints = (int) Math.floor(kmGoal/kmTest);		
+//		final double kmTotalRunning = Math.ceil((double)nSprints / (double)2) * kmTest;
+//		final double kmTotalWalking = (kmGoal - kmTotalRunning);
+//
+//		final double increaseTax = kmTotalWalking * tax;
+//		final double walkingPartialRef = kmTotalWalking/(Math.ceil(nSprints - Math.ceil(nSprints / 2)));
+//
+//		List<Subgoal> subgoals = new ArrayList<Subgoal>();
+//		
+//		for(int i = 0; i <= N_SUBGOALS; i++){
+//			Subgoal subgoal = new Subgoal();
+//
+//			subgoal.setId(i);
+//			subgoal.setKmTotalWalking(kmTotalWalking - i * increaseTax);
+//			subgoal.setKmTotalRunning(kmTotalRunning + i * increaseTax);
+//
+//			subgoal.setKmPartialRunning(kmTest + walkingPartialRef*i*tax);
+//			subgoal.setKmPartialWalking(walkingPartialRef - walkingPartialRef*i*tax);
+//
+//			subgoal.setCompleted(false);
+//			subgoal.setLast(false);
+//
+//			subgoals.add(subgoal);
+//		}
+//
+//		return subgoals;
+//	}
 
 }

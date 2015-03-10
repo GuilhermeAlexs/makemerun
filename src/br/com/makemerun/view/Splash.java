@@ -1,10 +1,10 @@
 package br.com.makemerun.view;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Map;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import br.com.makemerun.R;
 import br.com.makemerun.database.GoalDB;
@@ -22,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.TextView;
 
 public class Splash extends Activity {
@@ -30,11 +29,14 @@ public class Splash extends Activity {
 	private TextView txLoading;
 	private MapService mapService;
 	public static TextToSpeech voice;
+	private Tracker t;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
+
 		voice = new TextToSpeech(getApplicationContext(), 
 			      new TextToSpeech.OnInitListener() {
 			      @Override
@@ -49,51 +51,40 @@ public class Splash extends Activity {
 		progressLoading.setMax(4);
 		progressLoading.setProgress(0);
 
-		List<Double> speedList = new ArrayList<Double>();
-		speedList.add((double)60);
-		speedList.add((double)0);
-		speedList.add((double)10);
-		speedList.add((double)11);
-		speedList.add((double)10);
-		speedList.add((double)12);
-		speedList.add((double)14);
-		speedList.add((double)10);
-		speedList.add((double)90);
-		speedList.add((double)12);
-		Log.d("Splash", "speed = " + getAvgSpeed(speedList));
 		txLoading = (TextView) this.findViewById(R.id.txLoading);
 		new LoadingTask().execute();
+
+		startSession();
 	}
-	
-	
-	private double getAvgSpeed(List<Double> speedList) {
-		double avgSpeed = 0;
 
-		Collections.sort(speedList, new Comparator<Double>() {
-			@Override
-			public int compare(Double speed1, Double speed2) {
-				if (speed1 > speed2) {
-					return 1;
-				} else if (speed1 == speed2) {
-					return 0;
-				}
-				return -1;
-			}
-		});
-
-		if (speedList.size() == 0) {
-			return 0;
-		} else if (speedList.size() % 2 == 0) {
-			avgSpeed = speedList.get(speedList.size() / 2)
-					+ speedList.get((speedList.size() / 2) - 1);
-			avgSpeed = avgSpeed / 2;
-		} else {
-			avgSpeed = speedList.get((int) Math.floor(speedList.size() / 2));
-		}
-
-		return avgSpeed;
+	private void startSession(){
+		new Thread(new Runnable() 
+        {
+            @Override
+            public void run() 
+            {
+        		t = ((AppTracker) getApplication()).getTracker(AppTracker.TrackerName.APP_TRACKER);
+	       	    Map<String, String> hit = new HitBuilders.ScreenViewBuilder().build();
+	       	    hit.put("&sc", "start");
+	       	    t.send(hit);
+            }
+        }).start();
 	}
-	
+
+	private void stopSession(){
+	   new Thread(new Runnable() 
+       {
+           @Override
+           public void run() 
+           {
+	       		t = ((AppTracker) getApplication()).getTracker(AppTracker.TrackerName.APP_TRACKER);
+	       	    Map<String, String> hit = new HitBuilders.ScreenViewBuilder().build();
+	       	    hit.put("&sc", "end");
+	       	    t.send(hit);
+           }
+       }).start();
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -104,6 +95,12 @@ public class Splash extends Activity {
 		super.onStart();
 		Intent intent = new Intent(this, MapService.class);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		stopSession();
 	}
 
 	@Override

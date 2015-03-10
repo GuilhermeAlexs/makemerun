@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -193,9 +196,15 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		Intent intent = new Intent(this, MapService.class);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override
@@ -205,6 +214,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 			unbindService(mConnection);
 			mBound = false;
 		}
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override
@@ -259,44 +269,44 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 		}
 	};
 
-	private double calculateSpeed(List<Location> path){
-		//DecimalFormat df = new DecimalFormat("0.0");
-		double velMedia = 0;
-
-		if(path.size() > 0 && path.size() % 4 == 0){
-			Location x0 = path.get(path.size() - 4);
-			Location x1 = path.get(path.size() - 3);
-			Location x2 = path.get(path.size() - 2);
-			Location x3 = path.get(path.size() - 1);
-
-			double dist = x0.distanceTo(x1)/1000;
-			double deltat = x1.getElapsedRealtimeNanos() - x0.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-
-			if(deltat > 0)
-				velMedia += dist/deltat;
-
-			dist = x1.distanceTo(x2)/1000;
-			deltat = x2.getElapsedRealtimeNanos() - x1.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-
-			if(deltat > 0)
-				velMedia += dist/deltat;
-
-			dist = x2.distanceTo(x3)/1000;
-			deltat = x3.getElapsedRealtimeNanos() - x2.getElapsedRealtimeNanos();
-			deltat = ((deltat/1000000000)/60)/60;
-
-			if(deltat > 0){
-				velMedia += dist/deltat;
-			}
-
-			velMedia = velMedia / 3;
-
-			//speedText.setText("" + df.format(velMedia) + "km/h");
-		}
-		return velMedia;
-	}
+//	private double calculateSpeed(List<Location> path){
+//		//DecimalFormat df = new DecimalFormat("0.0");
+//		double velMedia = 0;
+//
+//		if(path.size() > 0 && path.size() % 4 == 0){
+//			Location x0 = path.get(path.size() - 4);
+//			Location x1 = path.get(path.size() - 3);
+//			Location x2 = path.get(path.size() - 2);
+//			Location x3 = path.get(path.size() - 1);
+//
+//			double dist = x0.distanceTo(x1)/1000;
+//			double deltat = x1.getElapsedRealtimeNanos() - x0.getElapsedRealtimeNanos();
+//			deltat = ((deltat/1000000000)/60)/60;
+//
+//			if(deltat > 0)
+//				velMedia += dist/deltat;
+//
+//			dist = x1.distanceTo(x2)/1000;
+//			deltat = x2.getElapsedRealtimeNanos() - x1.getElapsedRealtimeNanos();
+//			deltat = ((deltat/1000000000)/60)/60;
+//
+//			if(deltat > 0)
+//				velMedia += dist/deltat;
+//
+//			dist = x2.distanceTo(x3)/1000;
+//			deltat = x3.getElapsedRealtimeNanos() - x2.getElapsedRealtimeNanos();
+//			deltat = ((deltat/1000000000)/60)/60;
+//
+//			if(deltat > 0){
+//				velMedia += dist/deltat;
+//			}
+//
+//			velMedia = velMedia / 3;
+//
+//			//speedText.setText("" + df.format(velMedia) + "km/h");
+//		}
+//		return velMedia;
+//	}
 
 	//Faz tudo o que é necessário para informar o usuário que tá na hora de trocar de exercicio,
 	//ou seja, muda o ícone, tocar um alarme vibratório ou então volta para a SubgoalList.
@@ -349,7 +359,7 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 			oldLoc = loc;
 		}
 
-		double speed = calculateSpeed(path);
+		//double speed = calculateSpeed(path);
 
 		distance = distance / 1000;
 
@@ -361,12 +371,12 @@ public class StartRun extends Activity implements ChangeLocationListener, Change
 
 		//Coletando informações sobre a velocidade de corrida e printando elementos da tela
 		if(currState == RUNNING_STATE){
-			if(speed > 1)
-				runningSpeedList.add(speed);
+//			if(speed > 1)
+//				runningSpeedList.add(speed);
 			partialKmText.setText(String.format("%.2f", partialDistanceRunning - partialDistance) + "km");
 		}else if(currState == WALKING_STATE){
-			if(speed > 1)
-				walkingSpeedList.add(speed);
+//			if(speed > 1)
+//				walkingSpeedList.add(speed);
 			partialKmText.setText(String.format("%.2f", partialDistanceWalking - partialDistance) + "km");
 		}
 

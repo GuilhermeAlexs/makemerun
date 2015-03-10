@@ -62,6 +62,7 @@ public class RunTest extends Activity implements ChangeLocationListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_run_test);
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
 
 	    interstitial = new InterstitialAd(this);
 	    interstitial.setAdUnitId(MarketingConfig.adUnitId);

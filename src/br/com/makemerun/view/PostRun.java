@@ -15,6 +15,7 @@ public class PostRun extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_run);
+		overridePendingTransition(R.drawable.activity_in, R.drawable.activity_out);
 
 		Bundle bundle = this.getIntent().getExtras();
 

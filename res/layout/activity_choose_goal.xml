@@ -24,7 +24,6 @@
         android:paddingTop="5dp"
         android:background="@drawable/window"
         android:text="@string/button_next_step"
-        android:fontFamily="sans-serif-light"
         android:textStyle="bold"
         android:textColor="#bbbbbb"
         android:textSize="26sp" />
@@ -35,10 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/title_choose_goal"
         android:textColor="#ffffff"
-        android:fontFamily="sans-serif-light"
         android:textSize="35sp" />
 
     <ImageView
@@ -60,7 +58,6 @@
         android:layout_marginBottom="5dp"
         android:background="#000000"
         android:text="10km"
-        android:fontFamily="sans-serif-light"
         android:textColor="#ff9900"
         android:textSize="60sp" />
 
